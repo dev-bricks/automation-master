@@ -56,6 +56,12 @@ decay, hysteresis, bounded per-epoch movement, and an exploration floor prevent
 runaway reinforcement. Default weights are provisional implementation defaults
 and must be replaced by a versioned policy after shadow observation.
 
+Receipt projections provide useful-result, `NO_WORK`, and error rates. They
+produce versioned throttle proposals, never direct scheduler mutations.
+Versioned human overrides require an actor and reason and remain in the audit
+ledger. Overdraft events expose bounded warning records for an optional `.SYNC`
+exporter; the core does not write directly into another module's slot.
+
 ## Integration guarantees
 
 - Scheduler adapter: authorization only; no timers or process launch.

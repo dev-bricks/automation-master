@@ -56,6 +56,39 @@ class BudgetState:
         return result
 
 
+@dataclass(frozen=True)
+class ReceiptMetrics:
+    budget_epoch: str
+    scope_id: str
+    total: int
+    useful: int
+    no_work: int
+    errors: int
+
+    @property
+    def useful_rate(self) -> float:
+        return self.useful / self.total if self.total else 0.0
+
+    @property
+    def no_work_rate(self) -> float:
+        return self.no_work / self.total if self.total else 0.0
+
+    @property
+    def error_rate(self) -> float:
+        return self.errors / self.total if self.total else 0.0
+
+    def as_dict(self) -> dict[str, Any]:
+        result = asdict(self)
+        result.update(
+            {
+                "useful_rate": self.useful_rate,
+                "no_work_rate": self.no_work_rate,
+                "error_rate": self.error_rate,
+            }
+        )
+        return result
+
+
 class AutomationMaster:
     """Facade whose durable state consists exclusively of immutable events."""
 
@@ -450,6 +483,126 @@ class AutomationMaster:
             credits=credits,
             transfer_id=f"return:{transfer_id}",
         )
+
+    def record_human_override(
+        self,
+        *,
+        budget_epoch: str,
+        override_id: str,
+        target_type: str,
+        target_id: str,
+        value: dict[str, Any],
+        actor: str,
+        reason: str,
+        version: int,
+    ) -> Event:
+        if not actor.strip() or not reason.strip():
+            raise ValueError("actor and reason are required")
+        return self.store.append(
+            node_id=self.node_id,
+            budget_epoch=budget_epoch,
+            event_type="HUMAN_OVERRIDE",
+            entity_type=target_type,
+            entity_id=target_id,
+            event_version=version,
+            dedupe_key=f"human-override:{override_id}:v{version}",
+            payload={
+                "override_id": override_id,
+                "target_type": target_type,
+                "target_id": target_id,
+                "value": value,
+                "actor": actor,
+                "reason": reason,
+                "version": version,
+            },
+        )
+
+    def receipt_metrics(self, budget_epoch: str, scope_id: str) -> ReceiptMetrics:
+        events = self.store.events(budget_epoch=budget_epoch)
+        run_scopes = {
+            event.entity_id: event.payload["scope_id"]
+            for event in events
+            if event.dedupe_key
+            and event.dedupe_key.startswith("credit-decision:")
+            and "scope_id" in event.payload
+        }
+        receipts = [
+            event
+            for event in events
+            if event.event_type == "RECEIPT_RECORDED"
+            and run_scopes.get(event.entity_id) == scope_id
+        ]
+        error_outcomes = {"ERROR", "FAILED", "ABORTED"}
+        return ReceiptMetrics(
+            budget_epoch=budget_epoch,
+            scope_id=scope_id,
+            total=len(receipts),
+            useful=sum(bool(event.payload["useful"]) for event in receipts),
+            no_work=sum(event.payload["outcome"].upper() == "NO_WORK" for event in receipts),
+            errors=sum(
+                event.payload["outcome"].upper() in error_outcomes for event in receipts
+            ),
+        )
+
+    def propose_throttle(
+        self,
+        *,
+        budget_epoch: str,
+        scope_id: str,
+        policy_version: int,
+    ) -> Event:
+        metrics = self.receipt_metrics(budget_epoch, scope_id)
+        if metrics.total < 3:
+            action = "observe"
+            reason = "insufficient sample"
+        elif metrics.error_rate >= 0.25:
+            action = "pause-review"
+            reason = "error-rate threshold reached"
+        elif metrics.no_work_rate >= 0.75:
+            action = "reduce"
+            reason = "no-work-rate threshold reached"
+        elif metrics.useful_rate >= 0.75:
+            action = "maintain-or-increase"
+            reason = "high useful-result rate"
+        else:
+            action = "maintain"
+            reason = "no threshold reached"
+        return self.store.append(
+            node_id=self.node_id,
+            budget_epoch=budget_epoch,
+            event_type="THROTTLE_PROPOSED",
+            entity_type="budget-scope",
+            entity_id=scope_id,
+            event_version=policy_version,
+            dedupe_key=f"throttle:{budget_epoch}:{scope_id}:v{policy_version}",
+            payload={
+                "scope_id": scope_id,
+                "policy_version": policy_version,
+                "action": action,
+                "reason": reason,
+                "metrics": metrics.as_dict(),
+            },
+        )
+
+    def overdraft_alerts(self, budget_epoch: str) -> list[dict[str, Any]]:
+        """Return bounded warning records for an optional `.SYNC` exporter."""
+
+        return [
+            {
+                "event_id": event.event_id,
+                "node_id": event.node_id,
+                "budget_epoch": event.budget_epoch,
+                "run_id": event.payload["run_id"],
+                "scope_id": event.payload["scope_id"],
+                "deficit": event.payload["deficit"],
+                "mode": event.payload["mode"],
+                "payload_hash": event.payload_hash,
+            }
+            for event in self.store.events(
+                budget_epoch=budget_epoch,
+                event_types=["OVERDRAFT_RECORDED"],
+            )
+        ]
 
     def budget_state(self, budget_epoch: str, scope_id: str) -> BudgetState:
         return self._budget_state(budget_epoch, scope_id)

@@ -281,3 +281,55 @@ def test_receipt_with_different_retry_content_fails(tmp_path):
     master.complete_run(run_id="run", outcome="NO_WORK", useful=False)
     with pytest.raises(ValueError):
         master.complete_run(run_id="run", outcome="SUCCESS", useful=True)
+
+
+def test_receipt_metrics_throttle_override_and_overdraft_alert(tmp_path):
+    master = master_for(tmp_path)
+    for index in range(3):
+        run_id = f"no-work-{index}"
+        master.preflight(
+            run_id=run_id,
+            budget_epoch="e1",
+            scope_id="family",
+            work_item_id=run_id,
+            work_available=False,
+        )
+        master.complete_run(run_id=run_id, outcome="NO_WORK", useful=False)
+    metrics = master.receipt_metrics("e1", "family")
+    assert metrics.total == 3
+    assert metrics.no_work_rate == 1
+    proposal = master.propose_throttle(
+        budget_epoch="e1",
+        scope_id="family",
+        policy_version=1,
+    )
+    assert proposal.payload["action"] == "reduce"
+
+    override = master.record_human_override(
+        budget_epoch="e1",
+        override_id="keep-minimum",
+        target_type="budget-scope",
+        target_id="family",
+        value={"minimum_credits": 1},
+        actor="operator",
+        reason="minimum safety coverage",
+        version=1,
+    )
+    assert override.payload["reason"] == "minimum safety coverage"
+
+    master.preflight(
+        run_id="negative",
+        budget_epoch="e1",
+        scope_id="family",
+        work_item_id="negative",
+        work_available=True,
+    )
+    master.reserve_credit(
+        run_id="negative",
+        budget_epoch="e1",
+        scope_id="family",
+        credits=1,
+        run_class=RunClass.COMPARABLE,
+        policy=CreditPolicy(mode=EnforcementMode.SHADOW),
+    )
+    assert master.overdraft_alerts("e1")[0]["deficit"] == 1

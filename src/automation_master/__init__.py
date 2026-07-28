@@ -9,7 +9,7 @@ from .models import (
     RunClass,
 )
 from .reward import RewardPolicy, RewardResult
-from .service import AutomationMaster, BudgetState, CreditPolicy
+from .service import AutomationMaster, BudgetState, CreditPolicy, ReceiptMetrics
 from .store import EventConflictError, EventStore
 
 __all__ = [
@@ -22,6 +22,7 @@ __all__ = [
     "EventStore",
     "MutationClass",
     "ReservationDecision",
+    "ReceiptMetrics",
     "RewardPolicy",
     "RewardResult",
     "RewardSignals",
