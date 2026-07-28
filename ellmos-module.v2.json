@@ -1,0 +1,73 @@
+{
+  "schema": "ellmos.module.v2",
+  "id": "automation-master",
+  "display_name": "Automation Master",
+  "version": "0.1.0",
+  "category": "control",
+  "kind": "library",
+  "status": "experimental",
+  "visibility": "private",
+  "description": "Local-first registry, reward, budget, credit, receipt, and override governance for scheduled automations.",
+  "package": "automation-master",
+  "entrypoints": {
+    "cli": "python -m automation_master",
+    "python": "automation_master.AutomationMaster"
+  },
+  "provides": [
+    "automation.registry",
+    "automation.family",
+    "automation.reward",
+    "automation.budget",
+    "automation.credit"
+  ],
+  "requires": [],
+  "optional": [
+    "automation.schedule",
+    "sync.files",
+    "sync.database"
+  ],
+  "conflicts": [],
+  "surfaces": [
+    "library",
+    "cli"
+  ],
+  "state": {
+    "ownership": "module",
+    "location": "user-home"
+  },
+  "boundaries": {
+    "network": "none",
+    "data": "application-defined",
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ]
+  },
+  "source_of_truth": {
+    "type": "git-repository",
+    "path": ".",
+    "repository": null
+  },
+  "adapters": [
+    {
+      "id": "ellmos-scheduler-credit-gate",
+      "target": "automation.schedule",
+      "status": "contract",
+      "note": "Narrow preflight and local credit reservation seam; no scheduler logic."
+    },
+    {
+      "id": "system-gap-master-deployment-manifest",
+      "target": "sync.files",
+      "status": "contract",
+      "note": "Discovery and import-plan contract; disabled or shadow by default."
+    },
+    {
+      "id": "sqlite-transit-sync-event-merge",
+      "target": "sync.database",
+      "status": "contract",
+      "note": "Append-only event merge policy for verified closed snapshots."
+    }
+  ]
+}
+

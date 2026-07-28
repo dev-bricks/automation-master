@@ -1,0 +1,17 @@
+# automation-master
+
+Purpose: local-first governance for recurring automation families.
+
+Use `AutomationMaster` for registry, epoch budgets, preflight, reservations,
+receipts, handovers, and projections. Use `RewardPolicy` for deterministic
+reward calculations.
+
+Do not use this module to schedule or launch a process. Do not store the live
+SQLite database in OneDrive. Default to disabled or shadow mode. Require a
+trusted deployment source, local target node, allowed target root, exact
+manifest hash, and matching version before System-Gap import.
+
+Canonical design: ARCHITECTURE.md
+Security boundary: SECURITY.md
+Open activation gates: TODO.md
+Module manifest: ellmos-module.v2.json

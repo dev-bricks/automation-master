@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ellmos.local/schemas/automation-master-deployment-plan-v1.json",
+  "title": "Automation Master Deployment Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "module_id",
+    "module_version",
+    "source_id",
+    "target_node",
+    "target_path",
+    "manifest_hash",
+    "mode",
+    "activate"
+  ],
+  "properties": {
+    "module_id": { "const": "automation-master" },
+    "module_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "source_id": { "type": "string", "minLength": 1 },
+    "target_node": { "type": "string", "minLength": 1 },
+    "target_path": { "type": "string", "minLength": 1 },
+    "manifest_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "mode": { "enum": ["disabled", "shadow", "enforced"] },
+    "activate": { "type": "boolean" }
+  }
+}

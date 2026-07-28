@@ -1,0 +1,25 @@
+{
+  "policy_version": 1,
+  "status": "provisional-shadow-default",
+  "positive_weights": {
+    "current_interest": 22.0,
+    "coverage_gap": 24.0,
+    "deadline_pressure": 16.0,
+    "utility": 28.0,
+    "independent_review_value": 10.0
+  },
+  "negative_weights": {
+    "cost_per_useful_result": 18.0,
+    "no_work_rate": 20.0,
+    "error_rate": 26.0,
+    "redundancy": 16.0
+  },
+  "score_floor": 0.0,
+  "score_cap": 100.0,
+  "exploration_floor": 5.0,
+  "decay_per_stale_epoch": 0.92,
+  "hysteresis_threshold": 3.0,
+  "max_change_per_epoch": 15.0,
+  "min_credits": 0,
+  "max_credits": 20
+}

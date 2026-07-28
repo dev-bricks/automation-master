@@ -1,0 +1,26 @@
+{
+  "pilot": "synthetic-two-family-two-host",
+  "budget_epoch": "2026-W31",
+  "mode": "shadow",
+  "hosts": ["workstation", "laptop"],
+  "families": [
+    {
+      "family_id": "research-refresh",
+      "variants": ["workstation-review", "laptop-review"],
+      "mutation_class": "independent-review",
+      "host_envelopes": { "workstation": 4, "laptop": 2 }
+    },
+    {
+      "family_id": "local-maintenance",
+      "variants": ["workstation-scan", "laptop-scan"],
+      "mutation_class": "read-only-redundant",
+      "host_envelopes": { "workstation": 3, "laptop": 1 }
+    }
+  ],
+  "assertions": [
+    "NO_WORK consumes zero credit",
+    "each host spends only its assigned envelope while offline",
+    "duplicate receipts are idempotent",
+    "reconnected immutable ledgers converge"
+  ]
+}
