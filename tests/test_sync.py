@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 
 from automation_master.adapters.sqlite_transit import AutomationEventMergePolicy
 from automation_master.service import AutomationMaster
@@ -10,6 +11,12 @@ from automation_master.store import EventStore
 @dataclass(frozen=True)
 class Snapshot:
     source_node: str
+
+
+@dataclass(frozen=True)
+class SqliteTransitSnapshotShape:
+    path: Path
+    node_id: str
 
 
 def merge(source: EventStore, target: EventStore, source_node: str):
@@ -59,3 +66,21 @@ def test_merge_is_idempotent(tmp_path):
     assert first.inserted == 1
     assert second.inserted == 0
     assert second.unchanged == 1
+
+
+def test_merge_report_matches_real_sqlite_transit_snapshot_shape(tmp_path):
+    source = EventStore(tmp_path / "source.db")
+    target = EventStore(tmp_path / "target.db")
+    AutomationMaster(source, node_id="workstation").register_family("one", name="One")
+    policy = AutomationEventMergePolicy()
+    snapshot = SqliteTransitSnapshotShape(
+        path=tmp_path / "workstation-20260729.db",
+        node_id="workstation",
+    )
+
+    with target.connect() as local, source.connect() as remote:
+        report = policy.merge(local, remote, snapshot)
+
+    assert report.snapshot == "workstation-20260729.db"
+    assert report.source_node == "workstation"
+    assert report.skipped_tables == []

@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import sqlite3
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 from ..models import canonical_json, content_hash
@@ -13,12 +14,12 @@ from ..store import EventConflictError
 
 @dataclass(frozen=True)
 class LocalMergeReport:
-    snapshot: Any
+    snapshot: str
     source_node: str
     inserted: int
     updated: int
     unchanged: int
-    skipped_tables: tuple[str, ...]
+    skipped_tables: list[str]
     tables: dict[str, dict[str, int]]
 
 
@@ -33,7 +34,15 @@ class AutomationEventMergePolicy:
     ) -> Any:
         local.row_factory = sqlite3.Row
         remote.row_factory = sqlite3.Row
-        source_node = str(getattr(snapshot, "source_node", "unknown"))
+        source_node = str(
+            getattr(snapshot, "node_id", getattr(snapshot, "source_node", "unknown"))
+        )
+        snapshot_value = getattr(snapshot, "path", snapshot)
+        snapshot_name = (
+            Path(snapshot_value).name
+            if isinstance(snapshot_value, (str, Path))
+            else str(snapshot_value)
+        )
         rows = remote.execute("SELECT * FROM events ORDER BY event_id").fetchall()
         inserted = unchanged = 0
         for row in rows:
@@ -62,12 +71,12 @@ class AutomationEventMergePolicy:
             inserted += 1
         report_type = self._report_type()
         return report_type(
-            snapshot=snapshot,
+            snapshot=snapshot_name,
             source_node=source_node,
             inserted=inserted,
             updated=0,
             unchanged=unchanged,
-            skipped_tables=(),
+            skipped_tables=[],
             tables={"events": {"inserted": inserted, "updated": 0, "unchanged": unchanged}},
         )
 

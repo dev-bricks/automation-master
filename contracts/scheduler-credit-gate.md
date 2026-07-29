@@ -12,5 +12,8 @@ The scheduler must:
 2. treat `NO_WORK` and `BUDGET_DENIED` as no-launch outcomes;
 3. submit exactly one receipt for an allowed run;
 4. keep the same run ID across retries.
+5. acquire and retain its own scheduler lease before launching any automation
+   registered as `globally-single-writer`; the credit gate is not a lease and
+   never replaces scheduler claim/heartbeat semantics.
 
 The adapter does not decide when a run should occur and cannot start a process.

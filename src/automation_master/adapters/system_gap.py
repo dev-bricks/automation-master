@@ -66,11 +66,21 @@ class SystemGapAdapter:
             errors.append("activation not allowed")
         if self.manifest_hash(manifest) != plan.manifest_hash:
             errors.append("manifest hash mismatch")
+        manifest_id = str(manifest.get("id", ""))
+        if manifest_id != plan.module_id:
+            errors.append("manifest module_id mismatch")
         manifest_version = str(manifest.get("version", ""))
         if manifest_version != plan.module_version:
             errors.append("manifest version mismatch")
-        if installed_version and self._major(installed_version) > self._major(plan.module_version):
-            errors.append("downgrade blocked")
+        try:
+            plan_version = self._version_tuple(plan.module_version)
+            manifest_version_tuple = self._version_tuple(manifest_version)
+            if plan_version != manifest_version_tuple:
+                errors.append("semantic version mismatch")
+            if installed_version and self._version_tuple(installed_version) > plan_version:
+                errors.append("downgrade blocked")
+        except ValueError as exc:
+            errors.append(str(exc))
         if not self._target_allowed(plan.target_path):
             errors.append("target path outside trusted roots")
         return errors
@@ -107,8 +117,8 @@ class SystemGapAdapter:
         return False
 
     @staticmethod
-    def _major(version: str) -> int:
-        try:
-            return int(version.split(".", 1)[0])
-        except ValueError as exc:
-            raise ValueError(f"invalid semantic version: {version}") from exc
+    def _version_tuple(version: str) -> tuple[int, int, int]:
+        parts = version.split(".")
+        if len(parts) != 3 or any(not part.isdigit() for part in parts):
+            raise ValueError(f"invalid semantic version: {version}")
+        return int(parts[0]), int(parts[1]), int(parts[2])
