@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import sqlite3
+
 import pytest
 
 from automation_master.store import EventConflictError, EventStore
@@ -125,3 +127,41 @@ def test_push_to_inbox_is_hash_verified(tmp_path):
     published, published_digest = push_to_inbox(snapshot, tmp_path / "inbox")
     assert published_digest == digest
     assert published.read_bytes() == snapshot.read_bytes()
+
+
+def test_snapshot_of_live_db_never_mutates_the_source(tmp_path):
+    db_path = tmp_path / "live.db"
+    create_synthetic_db(db_path, build_pilot_events("live", "live"))
+    # Offene Verbindung simuliert die laufende Live-DB (WAL bleibt bestehen)
+    holder = sqlite3.connect(db_path)
+    holder.execute("PRAGMA journal_mode=WAL")
+    holder.execute("BEGIN IMMEDIATE")
+    holder.execute(
+        "INSERT INTO events(event_id,node_id,budget_epoch,event_type,"
+        "entity_type,entity_id,event_version,created_at,tombstone,"
+        "payload_json,payload_hash) VALUES('hold','live','e','t','t','t',"
+        "1,'t',0,'{}','x')"
+    )
+
+    snapshot, digest = snapshot_db(db_path, tmp_path / "snap", seal_source=False)
+
+    # Source unverändert: WAL-Zustand und Journal-Mode bleiben
+    assert (tmp_path / "live.db-wal").exists()
+    assert holder.execute("PRAGMA journal_mode").fetchone()[0] == "wal"
+    holder.rollback()
+    holder.close()
+    # Snapshot ist dennoch versiegelt und vollständig
+    assert len(digest) == 64
+    check = sqlite3.connect(snapshot)
+    assert check.execute("SELECT COUNT(*) FROM events").fetchone()[0] == 6
+    check.close()
+
+
+def test_snapshot_seal_source_default_still_seals(tmp_path):
+    db_path = tmp_path / "sealed.db"
+    create_synthetic_db(db_path, build_pilot_events("sealed", "sealed"))
+    snapshot, _ = snapshot_db(db_path, tmp_path / "snap")
+    assert not (tmp_path / "sealed.db-wal").exists()
+    conn = sqlite3.connect(db_path)
+    assert conn.execute("PRAGMA journal_mode").fetchone()[0] == "delete"
+    conn.close()
