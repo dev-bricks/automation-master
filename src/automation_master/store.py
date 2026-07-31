@@ -86,7 +86,8 @@ class EventStore:
         return conn
 
     def _migrate(self) -> None:
-        with self.connect() as conn:
+        conn = self.connect()
+        try:
             current = int(conn.execute("PRAGMA user_version").fetchone()[0])
             if current > SCHEMA_VERSION:
                 raise RuntimeError(
@@ -124,6 +125,8 @@ class EventStore:
                     COMMIT;
                     """
                 )
+        finally:
+            conn.close()
 
     @contextmanager
     def immediate(self) -> Iterator[sqlite3.Connection]:
@@ -321,9 +324,15 @@ class EventStore:
         return self.count() - inserted_before
 
     def count(self) -> int:
-        with self.connect() as conn:
+        conn = self.connect()
+        try:
             return int(conn.execute("SELECT COUNT(*) FROM events").fetchone()[0])
+        finally:
+            conn.close()
 
     def schema_version(self) -> int:
-        with self.connect() as conn:
+        conn = self.connect()
+        try:
             return int(conn.execute("PRAGMA user_version").fetchone()[0])
+        finally:
+            conn.close()
