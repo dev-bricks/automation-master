@@ -75,17 +75,26 @@ def _seal_db(db_path: Path) -> None:
         conn.close()
 
 
-def snapshot_db(source: Path, snapshot_dir: Path) -> tuple[Path, str]:
+def snapshot_db(
+    source: Path,
+    snapshot_dir: Path,
+    *,
+    seal_source: bool = True,
+) -> tuple[Path, str]:
     """Closed snapshot via the sqlite backup API (never a raw file copy).
 
-    The source is sealed (checkpoint + journal_mode=DELETE) and any remaining
-    WAL/SHM/journal sidecar afterwards fails closed.
+    With the default ``seal_source=True`` the source is sealed (checkpoint +
+    journal_mode=DELETE) and any remaining WAL/SHM/journal sidecar afterwards
+    fails closed. Pass ``seal_source=False`` for **live** databases: the source
+    is never mutated (no journal mode change, no sidecar assertion on it) —
+    the snapshot alone is sealed.
     """
     source = Path(source)
     if not source.is_file():
         raise FileNotFoundError(source)
-    _seal_db(source)
-    _assert_no_sidecars(source)
+    if seal_source:
+        _seal_db(source)
+        _assert_no_sidecars(source)
     snapshot_dir = Path(snapshot_dir)
     snapshot_dir.mkdir(parents=True, exist_ok=True)
     target = snapshot_dir / (source.stem + ".snapshot.db")
