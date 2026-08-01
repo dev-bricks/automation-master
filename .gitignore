@@ -16,4 +16,5 @@ build/
 *-shm
 config.local.json
 .claude/settings.local.json
-
+PRIVATE.txt
+PUBLIC.txt
