@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added high-resolution header banner asset and updated README documentation [G 2026-08-02].
 - Align the immutable event merge adapter with the real
   `sqlite-transit-sync` Snapshot and MergeReport interfaces.
 - Fail closed on foreign manifest identities, malformed semantic versions,

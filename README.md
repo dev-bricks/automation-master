@@ -1,5 +1,7 @@
 # automation-master
 
+<img src="banner.png" width="100%" alt="automation-master banner">
+
 `automation-master` is a private-by-default, local-first control module for
 scheduled automation families. It registers comparable variants, calculates
 explainable reward scores, assigns epoch-scoped credit envelopes, records run

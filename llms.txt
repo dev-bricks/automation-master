@@ -15,3 +15,5 @@ Canonical design: ARCHITECTURE.md
 Security boundary: SECURITY.md
 Open activation gates: TODO.md
 Module manifest: ellmos-module.v2.json
+
+Last-checked: 2026-08-02

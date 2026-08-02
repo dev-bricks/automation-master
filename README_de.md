@@ -1,5 +1,7 @@
 # automation-master
 
+<img src="banner.png" width="100%" alt="automation-master banner">
+
 `automation-master` ist ein standardmäßig privates, lokal betriebenes
 Control-Modul für wiederkehrende Automatisierungen. Es erfasst
 Automatisierungsfamilien und Varianten, berechnet erklärbare Belohnungswerte,
