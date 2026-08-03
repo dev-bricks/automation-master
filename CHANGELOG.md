@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added `pythonpath = ["src"]` to `pyproject.toml` pytest configuration, updated `llms.txt` timestamp (2026-08-03), added Shields.io badges and GFM callouts to `README.md` & `README_de.md` [G 2026-08-03].
 - Added high-resolution header banner asset and updated README documentation [G 2026-08-02].
 - Align the immutable event merge adapter with the real
   `sqlite-transit-sync` Snapshot and MergeReport interfaces.
