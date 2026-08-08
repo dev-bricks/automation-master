@@ -24,6 +24,9 @@ Credit-Gate-Schnittstelle.
   versprochen.
 - System-Gap-Importe prüfen Quelle, Ziel, Manifest-Hash, Version und
   Aktivierungsmodus. Fremde Slots werden abgelehnt.
+- Detaillierte Laufbelege bleiben 30 Tage in der Projektion; danach bleiben
+  Event-Metadaten und der unveränderliche Payload-Hash als Audit-Zusammenfassung
+  erhalten. Das Event-Ledger wird durch Retention nicht umgeschrieben.
 
 Die Standarddatenbank liegt außerhalb synchronisierter Ordner unter
 `%LOCALAPPDATA%\ellmos\automation-master\automation-master.db`.

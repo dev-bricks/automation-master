@@ -1,7 +1,9 @@
-# Provider prompt repair contract v1 (planned)
+# Provider prompt repair contract v1
 
-This is an adapter seam for Automation Health. It is not implemented in the
-0.1.0 core and grants no provider-mutation authority by itself.
+This is an adapter seam for Automation Health. The core now provides a pure
+in-memory verifier in `automation_master.adapters.prompt_repair`; it does not
+open, edit, replace, validate, or activate provider configuration. The
+verifier grants no provider-mutation authority by itself.
 
 ## Preconditions
 
@@ -40,5 +42,6 @@ search-and-replace is not a valid proof.
    validation result, rollback state, and a secret-free diff summary.
 
 Antigravity-style self-healing uses the same transaction through a dedicated
-provider adapter. Unsupported or ambiguous configurations fail closed and
-remain manual.
+contract adapter (`AntigravityPromptRepairContractAdapter`). Unsupported or
+ambiguous configurations fail closed and remain manual. Actual provider
+mutation remains a future, separately authorized capability.

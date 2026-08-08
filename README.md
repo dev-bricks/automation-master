@@ -21,6 +21,9 @@ It does **not** schedule processes, start jobs, replace `task-master`, or replac
 - Local reservations use `BEGIN IMMEDIATE`; cross-host state is eventually
   consistent. The module makes no global hard-atomicity claim.
 - Raw payloads are not included in diagnostic exports.
+- Receipt projections retain detailed fields for 30 days, then keep an audit
+  summary with the immutable event metadata and payload hash; the ledger is
+  never rewritten by retention.
 
 ## Quick start
 
@@ -66,4 +69,6 @@ decision = gate.authorize(
 ```
 
 See [ARCHITECTURE.md](ARCHITECTURE.md), [SECURITY.md](SECURITY.md), and the
-adapter contracts under `contracts/`.
+adapter contracts under `contracts/`, including
+[`contracts/receipt-retention.md`](contracts/receipt-retention.md) and the
+fail-closed prompt-repair verifier contract.

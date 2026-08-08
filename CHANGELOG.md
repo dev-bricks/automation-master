@@ -8,6 +8,10 @@
   and same-major downgrades in System-Gap deployment plans.
 - Clarify that globally-single-writer execution still requires the
   scheduler-owned lease; a credit reservation is not a lease.
+- Add a fail-closed Antigravity-style prompt-repair contract verifier; it
+  performs no provider mutation.
+- Define a read-only 30-day detailed-receipt projection that preserves event
+  metadata and immutable payload hashes in audit summaries.
 
 ## 0.1.0 - 2026-07-28
 

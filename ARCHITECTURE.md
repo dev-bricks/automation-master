@@ -70,7 +70,7 @@ exporter; the core does not write directly into another module's slot.
 - SQLite-Transit adapter: immutable union, conflict detection, no updates.
 - Core runtime has no network dependency.
 
-## Future Automation Health adapter
+## Automation Health adapter contract
 
 Provider prompt repair is a future, separate adapter capability rather than a
 core-ledger responsibility. It may repair a known provider prompt only when a
@@ -79,8 +79,17 @@ The transaction must create a backup, preserve model, thinking level, schedule,
 enabled/status state, target, and working directory, validate and read back the
 provider configuration, roll back on any mismatch, and emit a receipt whose
 diff contains no secret values. Antigravity-style prompt self-healing can use
-the same contract through its own provider adapter.
+the same contract through its own provider adapter. The current core exposes a
+pure in-memory verifier for this contract, including the named Antigravity
+adapter; it performs no provider file mutation or activation.
 
 No generic TOML/text rewrite is safe enough for this path. Unknown providers or
-unverifiable fields remain manual. This 0.1.0 implementation documents the seam
-but does not mutate provider automation configuration.
+unverifiable fields remain manual. Provider mutation remains separately
+authorized work.
+
+## Receipt retention projection
+
+`ReceiptRetentionPolicy` keeps detailed receipt fields in a deterministic
+30-day hot window and emits an audit summary afterward. The projection keeps
+event identity and the immutable `payload_hash`, while the append-only event
+ledger is never updated or deleted. See `contracts/receipt-retention.md`.
