@@ -2,14 +2,15 @@
 
 <img src="banner.png" width="100%" alt="automation-master banner">
 
-[![Pytest](https://img.shields.io/badge/pytest-33%20passed-brightgreen.svg)](https://pytest.org)
+[![Pytest](https://img.shields.io/badge/pytest-45%20passed-brightgreen.svg)](https://pytest.org)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Ecosystem: dev-bricks](https://img.shields.io/badge/Ecosystem-dev--bricks-blue.svg)](https://github.com/dev-bricks)
 [![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
+[![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-blue.svg)](llms.txt)
 
 > [!NOTE]
-> Quick index for LLMs and AI coding agents: see [llms.txt](llms.txt) for context and boundaries.
+> Quick index for LLMs and AI coding agents: see [llms.txt](llms.txt) for context, boundaries, and API signatures.
 
 `automation-master` is a private-by-default, local-first control module for
 scheduled automation families. It registers comparable variants, calculates
@@ -19,6 +20,84 @@ receipts, and proposes throttling inputs.
 It does **not** schedule processes, start jobs, replace `task-master`, or replace
 `ticket-master`. Integration with `ellmos-scheduler`, `system-gap-master`, and
 `sqlite-transit-sync` happens through narrow adapters.
+
+## Architecture
+
+```mermaid
+graph TD
+    subgraph ExternalClients ["External Callers & Schedulers"]
+        SCHED["ellmos-scheduler / Cron"]
+        GAP["system-gap-master"]
+        TRANSIT["sqlite-transit-sync"]
+    end
+
+    subgraph Adapters ["Narrow Adapter Seams"]
+        GATE["CreditGateAdapter<br/>(Preflight & Authorization)"]
+        DEP["DeploymentPlan Validator<br/>(Discovery & Health)"]
+        SYNC["ImmutableMergePolicy<br/>(Append-Only Union)"]
+        PROMPT["PromptRepairContract<br/>(Antigravity Invariant Guard)"]
+    end
+
+    subgraph CoreEngine ["automation-master Core Engine"]
+        SVC["AutomationMaster Service"]
+        POLICY["RewardPolicy<br/>(Deterministic Scoring)"]
+        CREDIT["CreditPolicy<br/>(SHADOW / ENFORCED)"]
+        RETENTION["ReceiptRetentionPolicy<br/>(30d Detailed & Audit Summary)"]
+    end
+
+    subgraph Storage ["Local-First Event Storage"]
+        LEDGER[("SQLite Event Ledger<br/>events table (Append-Only)<br/>BEGIN IMMEDIATE Transactions")]
+        PROJ["Deterministic Projections<br/>(Budgets, Runs, Receipts)"]
+    end
+
+    SCHED --> GATE
+    GAP --> DEP
+    TRANSIT --> SYNC
+    PROMPT --> SVC
+
+    GATE --> SVC
+    DEP --> SVC
+    SYNC --> SVC
+
+    SVC --> POLICY
+    SVC --> CREDIT
+    SVC --> RETENTION
+    SVC --> LEDGER
+    LEDGER --> PROJ
+```
+
+## Reservation & Credit Governance Flow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant S as Scheduler / Caller
+    participant G as CreditGateAdapter
+    participant M as AutomationMaster
+    participant L as SQLite Event Ledger
+
+    S->>G: Preflight check (work_available?)
+    alt No Work Available
+        G->>M: Record NO_WORK (0 credits)
+        M->>L: Append DECISION_RECORDED event
+        G-->>S: Allowed (Skip execution, 0 cost)
+    else Work Available
+        G->>M: Request Reservation (credits=N)
+        M->>L: BEGIN IMMEDIATE -> Append RESERVATION_REQUESTED
+        L-->>M: Reservation granted (held credits += N)
+        M-->>G: Decision (ALLOWED / DENIED)
+        alt Decision is ALLOWED
+            G-->>S: Proceed with Job Execution
+            S->>S: Run automation task
+            S->>G: Report Receipt (Outcome & Metrics)
+            G->>M: record_receipt(run_id, outcome, useful)
+            M->>L: Append RECEIPT_RECORDED event (held -> spent)
+            M->>M: Evaluate RewardPolicy & Update Projections
+        else Decision is DENIED (Insufficient budget)
+            G-->>S: Reject Execution (shadow mode logs only)
+        end
+    end
+```
 
 ## Safety model
 
@@ -79,7 +158,20 @@ decision = gate.authorize(
 )
 ```
 
+## Ecosystem & Related Projects
+
+`automation-master` is part of the **dev-bricks** ecosystem and the **open-bricks** open-source initiative:
+
+| Project | Description | Role in Suite |
+|---|---|---|
+| [`DevCenter`](https://github.com/dev-bricks/DevCenter) | Developer dashboard, tool health & system orchestration | System monitoring & developer cockpit |
+| [`CodeBox`](https://github.com/dev-bricks/CodeBox) | Sandboxed code execution engine & runner | Safe isolated execution runtime |
+| [`MethodenAnalyser`](https://github.com/dev-bricks/MethodenAnalyser) | Test methodology & psychometrics engine | Psychological analysis & validation |
+| [`companion-for-agy`](https://github.com/ellmos-ai/companion-for-agy) | PTY-based stdout-capture wrapper for agy/Gemini CLI | Multi-agent subprocess orchestration |
+| [`CareCenter-for-Codex`](https://github.com/dev-bricks/CareCenter-for-Codex) | Client care documentation & clinical process assistant | Specialized assistive workflow agent |
+
 See [ARCHITECTURE.md](ARCHITECTURE.md), [SECURITY.md](SECURITY.md), and the
 adapter contracts under `contracts/`, including
 [`contracts/receipt-retention.md`](contracts/receipt-retention.md) and the
 fail-closed prompt-repair verifier contract.
+

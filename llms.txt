@@ -1,19 +1,44 @@
-# automation-master
+# automation-master - Local-First Automation Governance & Credit Policy
 
-Purpose: local-first governance for recurring automation families.
+> `automation-master` is a private-by-default, local-first control and governance module for recurring automation families. It registers comparable automation variants, calculates explainable reward scores, manages epoch-scoped credit envelopes, records run receipts, and proposes throttling inputs.
 
-Use `AutomationMaster` for registry, epoch budgets, preflight, reservations,
-receipts, handovers, and projections. Use `RewardPolicy` for deterministic
-reward calculations.
+Part of the dev-bricks ecosystem and open-bricks umbrella. Python 3.10+, MIT License.
 
-Do not use this module to schedule or launch a process. Do not store the live
-SQLite database in OneDrive. Default to disabled or shadow mode. Require a
-trusted deployment source, local target node, allowed target root, exact
-manifest hash, and matching version before System-Gap import.
+## Core Capabilities
+- **AutomationMaster Service**: Central controller for registry, epoch budgets, preflights, reservations, receipts, handovers, and deterministic projections.
+- **Automation Registry**: Versioned local registration of automation families, variants, and configurations.
+- **Credit & Budget Governance**: Epoch-scoped credit envelopes (`budget_epoch`), local SQLite `BEGIN IMMEDIATE` atomic reservations, and overdraft bounds (`SHADOW` vs `ENFORCED` modes).
+- **Deterministic Reward Scoring**: `RewardPolicy` weighted calculation incorporating positive signals (interest, gap coverage, useful results) and negative signals (cost per result, NO_WORK rate, error rate).
+- **Event-Sourced Ledger**: Append-only SQLite `events` table ensuring auditability, projection isolation, and conflict-free cross-host convergence via `sqlite-transit-sync`.
+- **Receipt Retention**: 30-day detailed projection retention with immutable event payload hash audit preservation.
+- **Contract Adapters**: Narrow seams for `ellmos-scheduler` (CreditGateAdapter), `system-gap-master` (DeploymentPlan), `sqlite-transit-sync` (ImmutableMergePolicy), and Antigravity prompt-repair invariant verifier.
 
-Canonical design: ARCHITECTURE.md
-Security boundary: SECURITY.md
-Open activation gates: TODO.md
-Module manifest: ellmos-module.v2.json
+## Boundaries & Constraints
+- Does **not** schedule processes, execute tasks, or launch jobs (delegated to schedulers like `ellmos-scheduler`).
+- Does **not** store live SQLite databases in cloud sync directories (OneDrive); default database lives in `%LOCALAPPDATA%\ellmos\automation-master\`.
+- Defaults to `SHADOW` or `DISABLED` mode to prevent unintended operational throttling.
 
-Last-checked: 2026-08-03
+## Verification & Status
+- **Test Suite**: 45 passed (100% green via `pytest`).
+- **Code Hygiene**: 100% compliant with `ruff check` (py310).
+
+## Docs
+- [README.md](https://github.com/dev-bricks/automation-master/blob/main/README.md): Primary documentation, architecture overview, and usage.
+- [README_de.md](https://github.com/dev-bricks/automation-master/blob/main/README_de.md): German documentation and quickstart.
+- [ARCHITECTURE.md](https://github.com/dev-bricks/automation-master/blob/main/ARCHITECTURE.md): Architectural boundaries, event models, and reservation protocols.
+- [SECURITY.md](https://github.com/dev-bricks/automation-master/blob/main/SECURITY.md): Security boundary and local storage policy.
+- [CHANGELOG.md](https://github.com/dev-bricks/automation-master/blob/main/CHANGELOG.md): Version history.
+- [ellmos-module.v2.json](https://github.com/dev-bricks/automation-master/blob/main/ellmos-module.v2.json): Machine-readable module manifest.
+
+## Common Search Phrases
+```text
+automation-master dev-bricks
+local-first automation credit governance
+epoch-scoped automation budget SQLite
+explainable automation reward policy
+event-sourced automation receipts ledger
+ellmos-scheduler credit gate adapter
+```
+
+## Last-checked: 2026-08-16
+

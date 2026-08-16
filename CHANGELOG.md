@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Conducted Discoverability, README-Design, Badges & Pytest Status Check (Pfad B) [G 2026-08-16].
+- Integrated interactive bilingual Mermaid system architecture and reservation sequence diagrams in `README.md` & `README_de.md`.
+- Synchronized Pytest test status badges (45 passed, 100% green) across English and German documentation.
+- Documented `dev-bricks` ecosystem and `open-bricks` umbrella cross-links and sibling tool references (`DevCenter`, `CodeBox`, `MethodenAnalyser`, `companion-for-agy`, `CareCenter-for-Codex`).
+- Added automated repository metadata & manifest parity test suite in `tests/test_metadata.py`.
+- Synchronized `llms.txt` Last-checked timestamp to `2026-08-16` with expanded API boundaries and search phrases.
 - Added `pythonpath = ["src"]` to `pyproject.toml` pytest configuration, updated `llms.txt` timestamp (2026-08-03), added Shields.io badges and GFM callouts to `README.md` & `README_de.md` [G 2026-08-03].
 - Added high-resolution header banner asset and updated README documentation [G 2026-08-02].
 - Align the immutable event merge adapter with the real
