@@ -1,5 +1,16 @@
 # automation-master
 
+<img src="banner.png" width="100%" alt="automation-master banner">
+
+[![Pytest](https://img.shields.io/badge/pytest-33%20passed-brightgreen.svg)](https://pytest.org)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org)
+[![License: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
+[![Ecosystem: dev-bricks](https://img.shields.io/badge/Ecosystem-dev--bricks-blue.svg)](https://github.com/dev-bricks)
+[![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
+
+> [!NOTE]
+> Schneller Index für LLMs und KI-Agenten: siehe [llms.txt](llms.txt) für Kontext und Grenzen.
+
 `automation-master` ist ein standardmäßig privates, lokal betriebenes
 Control-Modul für wiederkehrende Automatisierungen. Es erfasst
 Automatisierungsfamilien und Varianten, berechnet erklärbare Belohnungswerte,

@@ -1,5 +1,16 @@
 # automation-master
 
+<img src="banner.png" width="100%" alt="automation-master banner">
+
+[![Pytest](https://img.shields.io/badge/pytest-33%20passed-brightgreen.svg)](https://pytest.org)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Ecosystem: dev-bricks](https://img.shields.io/badge/Ecosystem-dev--bricks-blue.svg)](https://github.com/dev-bricks)
+[![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
+
+> [!NOTE]
+> Quick index for LLMs and AI coding agents: see [llms.txt](llms.txt) for context and boundaries.
+
 `automation-master` is a private-by-default, local-first control module for
 scheduled automation families. It registers comparable variants, calculates
 explainable reward scores, assigns epoch-scoped credit envelopes, records run
