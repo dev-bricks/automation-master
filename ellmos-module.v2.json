@@ -7,7 +7,7 @@
   "kind": "library",
   "status": "experimental",
   "visibility": "private",
-  "description": "Local-first registry, reward, budget, credit, receipt, and override governance for scheduled automations.",
+  "description": "Local-first registry, reward policy, budget, credit, receipt, and override governance for scheduled automations.",
   "package": "automation-master",
   "entrypoints": {
     "cli": "python -m automation_master",
@@ -47,7 +47,7 @@
   "source_of_truth": {
     "type": "git-repository",
     "path": ".",
-    "repository": null
+    "repository": "https://github.com/dev-bricks/automation-master.git"
   },
   "adapters": [
     {
@@ -70,4 +70,3 @@
     }
   ]
 }
-

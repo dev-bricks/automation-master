@@ -2,9 +2,14 @@
 
 <img src="banner.png" width="100%" alt="automation-master banner">
 
-[![Pytest](https://img.shields.io/badge/pytest-45%20passed-brightgreen.svg)](https://pytest.org)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org)
-[![License: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
+[![Pytest](https://img.shields.io/badge/pytest-48%20passed-brightgreen.svg)](https://pytest.org)
+[![Version](https://img.shields.io/badge/Version-0.1.0-blue.svg)](pyproject.toml)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org)
+[![Architektur: Event-Sourced](https://img.shields.io/badge/Architektur-Event--Sourced%20SQLite-indigo.svg)](ARCHITECTURE.md)
+[![Plattform](https://img.shields.io/badge/Plattform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](pyproject.toml)
+[![Datenschutz: Offline](https://img.shields.io/badge/Datenschutz-100%25%20Offline%20%7C%20Zero--Egress-success.svg)](SECURITY.md)
+[![Sicherheit: Local-First](https://img.shields.io/badge/Sicherheit-Local--First-blue.svg)](SECURITY.md)
+[![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
 [![Ecosystem: dev-bricks](https://img.shields.io/badge/Ecosystem-dev--bricks-blue.svg)](https://github.com/dev-bricks)
 [![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
 [![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-blue.svg)](llms.txt)
@@ -13,13 +18,15 @@
 > Schneller Index für LLMs und KI-Agenten: siehe [llms.txt](llms.txt) für Kontext, Grenzen und API-Signaturen.
 
 `automation-master` ist ein standardmäßig privates, lokal betriebenes
-Control-Modul für wiederkehrende Automatisierungen. Es erfasst
-Automatisierungsfamilien und Varianten, berechnet erklärbare Belohnungswerte,
-vergibt epochenspezifische Credit-Rahmen und protokolliert Laufbelege.
+Control- und Governance-Modul für wiederkehrende Automatisierungsfamilien. Es erfasst
+Automatisierungsvarianten, berechnet erklärbare Belohnungswerte (Reward Scores),
+vergibt epochenspezifische Credit-Rahmen und protokolliert unveränderliche Laufbelege.
 
-Das Modul plant oder startet keine Prozesse und ersetzt weder `task-master`
-noch `ticket-master`. Der Scheduler erhält nur eine schmale Vorprüfungs- und
-Credit-Gate-Schnittstelle.
+Das Modul plant oder startet **keine** Prozesse und ersetzt weder `task-master`
+noch `ticket-master`. Die Anbindung an externe Scheduler (wie `ellmos-scheduler`), `system-gap-master`
+und `sqlite-transit-sync` erfolgt über schmale, fail-closed Adapter-Schnittstellen.
+
+---
 
 ## Architektur
 
@@ -66,6 +73,8 @@ graph TD
     LEDGER --> PROJ
 ```
 
+---
+
 ## Reservierungs- & Credit-Governance-Ablauf
 
 ```mermaid
@@ -99,47 +108,167 @@ sequenceDiagram
     end
 ```
 
-## Schutzregeln
+---
 
-- Der Startmodus ist `disabled` oder `shadow`; harte Gates sind Opt-in.
-- `NO_WORK` kostet keinen Credit. Wird erst nach der Reservierung `NO_WORK`
-  festgestellt, wird die Reservierung vollständig freigegeben.
-- Normale vergleichbare Läufe können bei fehlendem Guthaben abgelehnt werden.
-- Einzigartige, sicherheitskritische oder fristgebundene Läufe behalten eine
-  Mindestabdeckung.
-- Zustandsänderungen sind unveränderliche Events. Es gibt keine veränderbare
-  Saldo-Tabelle und kein Last-write-wins.
-- `BEGIN IMMEDIATE` schützt Reservierungen innerhalb eines Hosts. Zwischen
-  Hosts gilt Eventual Consistency; globale harte Atomarität wird nicht
-  versprochen.
-- System-Gap-Importe prüfen Quelle, Ziel, Manifest-Hash, Version und
-  Aktivierungsmodus. Fremde Slots werden abgelehnt.
-- Detaillierte Laufbelege bleiben 30 Tage in der Projektion; danach bleiben
-  Event-Metadaten und der unveränderliche Payload-Hash als Audit-Zusammenfassung
-  erhalten. Das Event-Ledger wird durch Retention nicht umgeschrieben.
+## Event-Sourcing & Projektions-Lebenszyklus
+
+```mermaid
+graph LR
+    subgraph Input ["Zustandsmutationen"]
+        EV["Event-Erstellung<br/>(EventId, Epoch, Node, PayloadHash)"]
+    end
+
+    subgraph Ledger ["Append-Only SQLite Ledger"]
+        TX["BEGIN IMMEDIATE Transaktion"]
+        TAB[("events Tabelle<br/>Unveränderliches Protokoll")]
+    end
+
+    subgraph Projections ["Deterministische Projektionen"]
+        BUDGET["Budget- & Envelope-Projektion"]
+        RECEIPTS["Laufbelege & Outcomes"]
+        REWARD["Reward- & Penalty-Score"]
+    end
+
+    subgraph Retention ["30-Tage Retention-Stufen"]
+        DETAILED["Detailliert (&le; 30 Tage)<br/>Vollständige Diagnosefelder"]
+        SUMMARY["Audit-Zusammenfassung (> 30 Tage)<br/>Metadaten & Payload-Hash"]
+    end
+
+    EV --> TX
+    TX --> TAB
+    TAB --> BUDGET
+    TAB --> RECEIPTS
+    TAB --> REWARD
+    RECEIPTS --> DETAILED
+    DETAILED --> SUMMARY
+```
+
+---
+
+## Schutzregeln & Governance-Invarianten
+
+- **Standardmäßig Fail-Closed**: Der Startmodus ist `disabled` oder `shadow`; harte Gates sind Opt-in und erfordern explizite Aktivierung.
+- **Null Kosten für inaktive Läufe**: `NO_WORK` in der Vorprüfung kostet 0 Credits. Wird erst nach der Reservierung `NO_WORK` festgestellt, wird die Reservierung vollständig freigegeben.
+- **Ausnahme-Garantie für Schutzläufe**: Einzigartige, sicherheitskritische oder fristgebundene Läufe behalten eine garantierte Mindestabdeckung.
+- **Unveränderliches Event-Ledger**: Jede dauerhafte Zustandsänderung ist ein unveränderliches Event mit Event-ID, Node-ID, Budget-Epoche, Entity-Version und SHA-256 Payload-Hash.
+- **Transaktions-Isolation**: Lokale Reservierungen nutzen atomare `BEGIN IMMEDIATE` SQLite-Transaktionen; hostübergreifende Synchronisation erfolgt mit Eventual Consistency.
+- **Zero-Egress & Geheimnis-Schutz**: Roh-Payloads und Zugangsdatenmuster werden niemals exportiert oder übertragen.
+- **Beleg-Retention**: Detaillierte Laufbelege bleiben 30 Tage erhalten; danach sichern Audit-Zusammenfassungen mit Hashes die dauerhafte Integrität.
+
+---
 
 ## Schnellstart
 
+### Installation
+
 ```powershell
 python -m pip install -e ".[dev]"
-automation-master --db .\pilot.db --node workstation init
-automation-master --db .\pilot.db --node workstation register-family research "Research"
-automation-master --db .\pilot.db --node workstation allocate 2026-W31 research 8 seed-1
-automation-master --db .\pilot.db --node workstation status --epoch 2026-W31 --scope research
 ```
 
-Die Standarddatenbank liegt außerhalb synchronisierter Ordner unter
-`%LOCALAPPDATA%\ellmos\automation-master\automation-master.db`.
+### CLI-Nutzung
+
+```powershell
+# Lokales Event-Ledger initialisieren
+automation-master --db .\pilot.db --node workstation init
+
+# Automatisierungsfamilie registrieren
+automation-master --db .\pilot.db --node workstation register-family research "Research Pipeline"
+
+# Epochen-Budget zuweisen
+automation-master --db .\pilot.db --node workstation allocate 2026-W34 research 8 seed-1
+
+# Status und Budgetverbrauch abfragen
+automation-master --db .\pilot.db --node workstation status --epoch 2026-W34 --scope research
+```
+
+> [!TIP]
+> Die Produktionsdatenbank liegt isoliert außerhalb synchronisierter Cloud-Ordner:
+> - **Windows**: `%LOCALAPPDATA%\ellmos\automation-master\automation-master.db`
+> - **Linux/macOS**: `$XDG_STATE_HOME/ellmos/automation-master/automation-master.db`
+
+### Python-API-Beispiel
+
+```python
+from automation_master import EnforcementMode, EventStore, RunClass
+from automation_master.adapters import CreditGateAdapter
+from automation_master.service import AutomationMaster, CreditPolicy
+
+# Service und lokalen Event-Store initialisieren
+master = AutomationMaster(EventStore("pilot.db"), node_id="workstation")
+
+# Epochen-Kreditrahmen zuweisen
+master.allocate_budget(
+    budget_epoch="2026-W34",
+    scope_id="research",
+    credits=8,
+    allocation_id="seed-1",
+)
+
+# Credit-Gate-Adapter im Shadow-Modus konfigurieren
+gate = CreditGateAdapter(
+    master,
+    CreditPolicy(mode=EnforcementMode.SHADOW, overdraft_limit=2),
+)
+
+# Eingehenden Automatisierungslauf autorisieren
+decision = gate.authorize(
+    run_id="run-1",
+    budget_epoch="2026-W34",
+    scope_id="research",
+    work_item_id="paper-1",
+    work_available=True,
+    credits=1,
+    run_class=RunClass.COMPARABLE,
+)
+```
+
+---
 
 ## Ökosystem & Verwandte Werkzeuge
 
 `automation-master` ist Teil des **dev-bricks** Ökosystems und der **open-bricks** Open-Source-Initiative:
 
-| Projekt | Beschreibung | Rolle in der Suite |
-|---|---|---|
-| [`DevCenter`](https://github.com/dev-bricks/DevCenter) | Entwickler-Dashboard, Tool-Health & Systemorchestrierung | Systemmonitoring & Entwickler-Cockpit |
-| [`CodeBox`](https://github.com/dev-bricks/CodeBox) | Sandbox-Codeausführung & Skript-Runner | Sichere isolierte Laufzeitumgebung |
-| [`MethodenAnalyser`](https://github.com/dev-bricks/MethodenAnalyser) | Testmethodik & Psychometrie-Engine | Psychologische Analyse & Validierung |
-| [`companion-for-agy`](https://github.com/ellmos-ai/companion-for-agy) | PTY-basierter Stdout-Capture Wrapper für agy/Gemini CLI | Multi-Agent Subprozess-Orchestrierung |
-| [`CareCenter-for-Codex`](https://github.com/dev-bricks/CareCenter-for-Codex) | Klienten-Pflegedokumentation & klinischer Prozessassistent | Spezialisierter Assistenz-Workflow-Agent |
+| Projekt | Organisation | Beschreibung | Rolle in der Suite |
+|---|---|---|---|
+| [`DevCenter`](https://github.com/dev-bricks/DevCenter) | `dev-bricks` | Entwickler-Dashboard, Tool-Health & Systemorchestrierung | Systemmonitoring & Entwickler-Cockpit |
+| [`CodeBox`](https://github.com/dev-bricks/CodeBox) | `dev-bricks` | Sandbox-Codeausführung & Skript-Runner | Sichere isolierte Laufzeitumgebung |
+| [`MethodenAnalyser`](https://github.com/dev-bricks/MethodenAnalyser) | `dev-bricks` | Testmethodik & Psychometrie-Engine | Psychologische Analyse & Validierung |
+| [`companion-for-agy`](https://github.com/ellmos-ai/companion-for-agy) | `ellmos-ai` | PTY-basierter Stdout-Capture Wrapper für agy/Gemini CLI | Multi-Agent Subprozess-Orchestrierung |
+| [`safe-start-for-codex`](https://github.com/dev-bricks/safe-start-for-codex) | `dev-bricks` | Isolierter Sandbox-Starter für Coding-Agenten | Sichere Ausführungs-Sandbox |
+| [`automizer-for-claude-desktop`](https://github.com/dev-bricks/automizer-for-claude-desktop) | `dev-bricks` | Prozess-Starter & Automatisierungsbrücke für Claude Desktop | Desktop-Agenten-Orchestrierung |
+| [`CareCenter-for-Codex`](https://github.com/dev-bricks/CareCenter-for-Codex) | `dev-bricks` | Klienten-Pflegedokumentation & klinischer Prozessassistent | Spezialisierter Assistenz-Workflow-Agent |
+| [`WinStorePackager`](https://github.com/file-bricks/WinStorePackager) | `file-bricks` | MSIX-Paketierung & Windows Store Deployment-Pipeline | Desktop-App-Distribution |
+| [`ProFiler`](https://github.com/file-bricks/ProFiler) | `file-bricks` | Schneller, lokaler Datei-Inspektor und Kategorisierer | Dateiorganisation & Asset-Inspektion |
+| [`ExplorerPro`](https://github.com/file-bricks/ExplorerPro) | `file-bricks` | Multi-Tab Datei-Manager mit KI-Schlagworten | Dateinavigation & Indexverwaltung |
+| [`DokuZen`](https://github.com/doc-bricks/DokuZen) | `doc-bricks` | Lokale Dokumentenverwaltung & Textextraktion | Dokumenten-OCR & Verschlagwortung |
+| [`PDFtoPDFocr`](https://github.com/doc-bricks/PDFtoPDFocr) | `doc-bricks` | Lokales Batch-PDF-OCR Konvertierungswerkzeug | PDF-Texterkennung & Volltextindizierung |
+| [`MediaBrain`](https://github.com/doc-bricks/MediaBrain) | `doc-bricks` | Lokale KI-Medienverwaltung & Transkriptions-Engine | Audio- & Video-Wissensaufbereitung |
+| [`ellmos-controlcenter-mcp`](https://github.com/ellmos-ai/ellmos-controlcenter-mcp) | `ellmos-ai` | Gateway & Tool-Orchestrierungs-MCP-Server | MCP-Werkzeug-Koordination |
+| [`ellmos-filecommander-mcp`](https://github.com/ellmos-ai/ellmos-filecommander-mcp) | `ellmos-ai` | Sicherer Dateisystem-MCP-Server mit Papierkorb-Schutz | Sichere Dateioperationen |
+| [`ellmos-codecommander-mcp`](https://github.com/ellmos-ai/ellmos-codecommander-mcp) | `ellmos-ai` | Code-Analyse & AST-Refactoring-MCP-Server | AST-Code-Transformation |
+| [`open-bricks`](https://github.com/open-bricks) | `open-bricks` | Dachorganisation für modulare Entwickler- & Desktop-Tools | Ökosystem-Dach |
 
+---
+
+## Dokumentation & Schnittstellenverträge
+
+- [ARCHITECTURE.md](ARCHITECTURE.md): Detaillierte Architekturschichten, Event-Schemata und Reservierungsmechanik.
+- [SECURITY.md](SECURITY.md): Sicherheitsrichtlinie, Local-First-Speicher-Invarianten und Schwachstellenmeldung.
+- [CHANGELOG.md](CHANGELOG.md): Versionshistorie und Discoverability-Einträge.
+- [contracts/scheduler-credit-gate.md](contracts/scheduler-credit-gate.md): Schnittstellenspezifikation für den Scheduler-Credit-Gate-Adapter.
+- [contracts/receipt-retention.md](contracts/receipt-retention.md): 30-Tage Belegaufbewahrung und Audit-Zusammenfassungsvertrag.
+- [contracts/deployment-plan.schema.json](contracts/deployment-plan.schema.json): JSON-Schema für System-Gap-Deployment-Pläne.
+
+---
+
+## Sicherheit & Kontakt
+
+Für sicherheitsrelevante Hinweise und vertrauliche Anfragen:
+- **Sicherheitsteam**: `security@ellmos.ai`
+- **Maintainer**: `support@lukasgeiger.com`
+
+---
+
+## Lizenz
+
+Dieses Projekt steht unter der [MIT-Lizenz](LICENSE).

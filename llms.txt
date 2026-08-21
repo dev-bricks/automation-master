@@ -17,18 +17,29 @@ Part of the dev-bricks ecosystem and open-bricks umbrella. Python 3.10+, MIT Lic
 - Does **not** schedule processes, execute tasks, or launch jobs (delegated to schedulers like `ellmos-scheduler`).
 - Does **not** store live SQLite databases in cloud sync directories (OneDrive); default database lives in `%LOCALAPPDATA%\ellmos\automation-master\`.
 - Defaults to `SHADOW` or `DISABLED` mode to prevent unintended operational throttling.
+- Zero network egress; operates 100% offline in standard user mode without administrative elevation.
 
 ## Verification & Status
-- **Test Suite**: 45 passed (100% green via `pytest`).
+- **Test Suite**: 48 passed (100% green via `pytest`).
 - **Code Hygiene**: 100% compliant with `ruff check` (py310).
 
-## Docs
-- [README.md](https://github.com/dev-bricks/automation-master/blob/main/README.md): Primary documentation, architecture overview, and usage.
+## Key Files & Entrypoints
+- CLI Entrypoint: `automation-master` (`automation_master.cli:main` / `python -m automation_master`)
+- Python API: `automation_master.AutomationMaster`, `automation_master.EventStore`, `automation_master.CreditPolicy`
+- [README.md](https://github.com/dev-bricks/automation-master/blob/main/README.md): Primary English documentation, architecture overview, and usage.
 - [README_de.md](https://github.com/dev-bricks/automation-master/blob/main/README_de.md): German documentation and quickstart.
 - [ARCHITECTURE.md](https://github.com/dev-bricks/automation-master/blob/main/ARCHITECTURE.md): Architectural boundaries, event models, and reservation protocols.
-- [SECURITY.md](https://github.com/dev-bricks/automation-master/blob/main/SECURITY.md): Security boundary and local storage policy.
+- [SECURITY.md](https://github.com/dev-bricks/automation-master/blob/main/SECURITY.md): Security policy, local storage invariants, and confidential reporting contacts (`security@ellmos.ai`).
 - [CHANGELOG.md](https://github.com/dev-bricks/automation-master/blob/main/CHANGELOG.md): Version history.
 - [ellmos-module.v2.json](https://github.com/dev-bricks/automation-master/blob/main/ellmos-module.v2.json): Machine-readable module manifest.
+
+## Ecosystem & Sibling Tools
+- [`DevCenter`](https://github.com/dev-bricks/DevCenter): Developer dashboard, tool health & system orchestration.
+- [`CodeBox`](https://github.com/dev-bricks/CodeBox): Safe isolated Python code execution sandbox.
+- [`MethodenAnalyser`](https://github.com/dev-bricks/MethodenAnalyser): Test methodology and psychometrics engine.
+- [`companion-for-agy`](https://github.com/ellmos-ai/companion-for-agy): PTY stdout capture wrapper for Antigravity/Gemini.
+- [`safe-start-for-codex`](https://github.com/dev-bricks/safe-start-for-codex): Isolated execution sandbox.
+- [`automizer-for-claude-desktop`](https://github.com/dev-bricks/automizer-for-claude-desktop): Automation launcher for Claude Desktop.
 
 ## Common Search Phrases
 ```text
@@ -40,5 +51,4 @@ event-sourced automation receipts ledger
 ellmos-scheduler credit gate adapter
 ```
 
-## Last-checked: 2026-08-16
-
+## Last-checked: 2026-08-21
