@@ -27,11 +27,20 @@
 - **Eventual Consistency Across Hosts**: Cross-host synchronization operates with independent credit envelopes; ledger history is append-only and never rewritten.
 - **Retention Invariant**: Detailed receipt projections are retained for 30 days, after which an audit summary containing immutable event metadata and payload hashes is preserved.
 
+### Supported Versions / Unterstützte Versionen
+
+| Version | Supported / Unterstützt | Status |
+| :--- | :---: | :--- |
+| `0.1.x` | :white_check_mark: | Active Development & Security Updates |
+| `< 0.1.0` | :x: | Experimental Pre-Release |
+
 ### Reporting Security Vulnerabilities
 
 If you discover a potential security issue or vulnerability, please report it privately:
 - **Email**: `security@ellmos.ai`
 - **Alternative**: `support@lukasgeiger.com`
+- **Umbrella Security**: `lukas@open-bricks.org`
+- **GitHub Security Advisories**: [Open a private advisory](https://github.com/dev-bricks/automation-master/security/advisories)
 
 Please include reproduction steps and environment details. Do not open public GitHub issues containing event payloads, private configurations, or local filesystem paths.
 
@@ -65,3 +74,6 @@ Please include reproduction steps and environment details. Do not open public Gi
 Sicherheitsrelevante Schwachstellen bitte vertraulich per E-Mail melden:
 - **E-Mail**: `security@ellmos.ai`
 - **Alternativ**: `support@lukasgeiger.com`
+- **Dachverband**: `lukas@open-bricks.org`
+- **GitHub Security Advisories**: [Private Sicherheitsmeldung eröffnen](https://github.com/dev-bricks/automation-master/security/advisories)
+

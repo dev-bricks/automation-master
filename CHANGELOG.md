@@ -1,8 +1,14 @@
 # Changelog
 
-## Unreleased
+## [0.1.1] - 2026-08-23
 
-- Conducted Discoverability, README-Design, Badges, Security Parity & Ecosystem Cross-Linking Check (Pfad B) [G 2026-08-21].
+- **GitHub Actions Multi-OS CI Workflow**: Added `.github/workflows/ci.yml` supporting Multi-OS matrix (`ubuntu-latest`, `windows-latest`, `macos-latest`) and Python versions `['3.10', '3.11', '3.12', '3.13']` with Pip caching, ruff linting gate, and pytest test suite.
+- **PEP 621 Standard Classifiers & Metadata**: Expanded `pyproject.toml` with PEP 621 Classifiers (`Development Status :: 4 - Beta`, `OS Independent`, `POSIX Linux`, `Microsoft Windows`, `MacOS`, `Topic Software Development Build Tools`, `Topic System Administration`), keywords, dev dependencies, and full `[project.urls]` table (`Homepage`, `Documentation`, `Repository`, `Issues`, `Changelog`, `Security`, `Umbrella`).
+- **Bilingual Security Policy Hardening**: Hardened `SECURITY.md` with umbrella contact `lukas@open-bricks.org` alongside `security@ellmos.ai` and `support@lukasgeiger.com`, direct GitHub Security Advisories reporting link, and Supported Versions matrix table.
+- **Expanded Contract & Invariant Tests**: Expanded `tests/test_metadata.py` with `test_ci_workflow_integrity`, `test_pyproject_pep621_classifiers_and_urls`, and `test_offline_and_privacy_invariants` (11 contract tests, 51/51 passed).
+- **Version & Manifest Parity**: Bumped version to `0.1.1` across `pyproject.toml`, `src/automation_master/__init__.py`, `ellmos-module.v2.json`, and `llms.txt`.
+- **Badges & Documentation Sync**: Updated `README.md` and `README_de.md` with CI workflow badge, 51 passed tests badge, and version 0.1.1 badge; synchronized `llms.txt` Last-checked timestamp to `2026-08-23`.
+
 - Expanded bilingual Shields.io badges in `README.md` & `README_de.md` (Pytest, Version, Python 3.10-3.13, Architecture: Event-Sourced SQLite, Platform: Windows/Linux/macOS, Privacy: Zero-Egress, Security: Local-First, License: MIT, dev-bricks, open-bricks, llms.txt).
 - Added third interactive bilingual Mermaid diagram visualizing the Event Sourcing, Projection & 30-Day Receipt Retention Lifecycle in `README.md` & `README_de.md`.
 - Expanded sibling ecosystem matrix across `dev-bricks`, `file-bricks`, `doc-bricks`, `ellmos-ai`, and `open-bricks` (`DevCenter`, `CodeBox`, `MethodenAnalyser`, `companion-for-agy`, `safe-start-for-codex`, `automizer-for-claude-desktop`, `CareCenter-for-Codex`, `WinStorePackager`, `ProFiler`, `ExplorerPro`, `DokuZen`, `PDFtoPDFocr`, `MediaBrain`, `ellmos-controlcenter-mcp`, `ellmos-filecommander-mcp`, `ellmos-codecommander-mcp`, `open-bricks`).
