@@ -51,18 +51,21 @@
   },
   "adapters": [
     {
+      "type": "seam",
       "id": "ellmos-scheduler-credit-gate",
       "target": "automation.schedule",
       "status": "contract",
       "note": "Narrow preflight and local credit reservation seam; no scheduler logic."
     },
     {
+      "type": "seam",
       "id": "system-gap-master-deployment-manifest",
       "target": "sync.files",
       "status": "contract",
       "note": "Discovery and import-plan contract; disabled or shadow by default."
     },
     {
+      "type": "seam",
       "id": "sqlite-transit-sync-event-merge",
       "target": "sync.database",
       "status": "contract",
