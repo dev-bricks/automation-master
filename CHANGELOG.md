@@ -1,5 +1,21 @@
 # Changelog
 
+## Unreleased - 2026-08-29
+
+- Added `AutomationRuntime` as the separate logical provider for
+  `module:automation-runtime`, without transferring definition, scheduler,
+  provider, or policy ownership.
+- Added closed, immutable runtime receipts with provider-native and
+  scheduler-native readback, explicit authority-resolution evidence,
+  immutable execution pins, bounded redacted output summaries, and content-hash
+  verification.
+- Added fail-closed provider JSON and read-only immutable scheduler SQLite
+  readback adapters plus four CLI commands for readback, recording, and bounded
+  statistics.
+- Added paired English/German runtime observation contracts and synchronized
+  README, architecture, manifest, CLI, and LLM-facing documentation.
+- Expanded the local suite from 51 to 66 tests.
+
 ## [0.1.1] - 2026-08-23
 
 - **GitHub Actions Multi-OS CI Workflow**: Added `.github/workflows/ci.yml` supporting Multi-OS matrix (`ubuntu-latest`, `windows-latest`, `macos-latest`) and Python versions `['3.10', '3.11', '3.12', '3.13']` with Pip caching, ruff linting gate, and pytest test suite.

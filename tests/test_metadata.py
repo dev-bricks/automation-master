@@ -30,6 +30,9 @@ def test_manifest_structure_and_schema():
     assert "automation.registry" in manifest["provides"]
     assert "automation.budget" in manifest["provides"]
     assert "automation.credit" in manifest["provides"]
+    assert "automation.runtime.observe" in manifest["provides"]
+    assert "automation.runtime.receipt" in manifest["provides"]
+    assert "automation.runtime.statistics" in manifest["provides"]
     assert len(manifest["adapters"]) >= 3
     assert manifest["source_of_truth"]["repository"] == "https://github.com/dev-bricks/automation-master.git"
 
@@ -45,6 +48,8 @@ def test_required_docs_exist_and_non_empty():
         "SECURITY.md",
         "LICENSE",
         "ellmos-module.v2.json",
+        "contracts/automation-runtime-observation.md",
+        "contracts/automation-runtime-observation_de.md",
     ]
     for filename in required:
         file_path = REPO_ROOT / filename
@@ -69,6 +74,10 @@ def test_public_api_exports():
         "project_receipt",
         "project_receipts",
         "AntigravityPromptRepairContractAdapter",
+        "AutomationRuntime",
+        "RuntimeReceiptStore",
+        "read_provider_receipt",
+        "read_scheduler_run",
     ]
     for symbol in expected_symbols:
         assert hasattr(automation_master, symbol), f"Missing exported symbol: {symbol}"
@@ -81,8 +90,10 @@ def test_llms_txt_integrity():
     assert "# automation-master" in llms_text
     assert "AutomationMaster" in llms_text
     assert "RewardPolicy" in llms_text
+    assert "AutomationRuntime" in llms_text
+    assert "runtime-provider-readback" in llms_text
     assert "ARCHITECTURE.md" in llms_text
-    assert "Last-checked: 2026-08-23" in llms_text
+    assert "Last-checked: 2026-08-29" in llms_text
 
 
 def test_security_policy_bilingual_and_contacts():
@@ -114,6 +125,7 @@ def test_readme_bilingual_badges_and_mermaid():
         assert "CodeBox" in readme
         assert "companion-for-agy" in readme
         assert "security@ellmos.ai" in readme
+        assert "AutomationRuntime" in readme
 
 
 def test_pyproject_pep621_classifiers_and_urls():

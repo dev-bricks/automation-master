@@ -7,7 +7,7 @@
   "kind": "library",
   "status": "experimental",
   "visibility": "private",
-  "description": "Local-first registry, reward policy, budget, credit, receipt, and override governance for scheduled automations.",
+  "description": "Local-first registry, reward policy, budget, credit, governance receipts, and separately bounded runtime observation for scheduled automations.",
   "package": "automation-master",
   "entrypoints": {
     "cli": "python -m automation_master",
@@ -18,7 +18,10 @@
     "automation.family",
     "automation.reward",
     "automation.budget",
-    "automation.credit"
+    "automation.credit",
+    "automation.runtime.observe",
+    "automation.runtime.receipt",
+    "automation.runtime.statistics"
   ],
   "requires": [],
   "optional": [
@@ -70,6 +73,20 @@
       "target": "sync.database",
       "status": "contract",
       "note": "Append-only event merge policy for verified closed snapshots."
+    },
+    {
+      "type": "seam",
+      "id": "ellmos-scheduler-runtime-readback",
+      "target": "automation.runtime.observe",
+      "status": "implemented",
+      "note": "Read-only immutable scheduler run readback; no scheduling, dispatch, output, or error export."
+    },
+    {
+      "type": "seam",
+      "id": "provider-json-runtime-readback",
+      "target": "automation.runtime.observe",
+      "status": "implemented",
+      "note": "Bounded provider-native JSON readback exposing only selected metadata and a SHA-256 digest."
     }
   ]
 }

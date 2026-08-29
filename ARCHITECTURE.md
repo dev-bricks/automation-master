@@ -2,16 +2,43 @@
 
 ## Boundaries
 
-`automation-master` owns five capabilities: automation registry, family
-mapping, deterministic reward policy, epoch credit envelopes, and run
-receipts. Scheduling, process execution, file distribution, and snapshot
-transport stay with their respective modules.
+`automation-master` physically packages the automation registry, family
+mapping, deterministic reward policy, epoch credit envelopes, governance run
+receipts, and a separate logical runtime observer. Scheduling, process
+execution, file distribution, authority ownership, and snapshot transport stay
+with their respective modules.
 
 ```text
 ellmos-scheduler -> CreditGateAdapter -> AutomationMaster -> local SQLite events
 system-gap-master -> DeploymentPlan validator ------^
 sqlite-transit-sync -> immutable merge policy ------^
 ```
+
+## Runtime observation
+
+`AutomationRuntime` implements the logical `module:automation-runtime` role
+without merging registry, scheduler, or provider ownership:
+
+```text
+registry definition + authority resolution ----\
+scheduler-native run readback -------------------+-> AutomationRuntime
+provider-native receipt readback ----------------/          |
+                                                  immutable local receipt
+                                                  bounded statistics
+```
+
+The observer requires both native readbacks, exactly one resolved input for
+each required authority class, immutable pins for non-app-native execution, and
+SHA-256-only input fingerprints. It stores create-only JSON receipts outside
+configured OneDrive roots and verifies their content hashes on every read.
+Provider JSON and scheduler SQLite adapters are read-only and emit bounded
+metadata rather than raw source content.
+
+Definitions and approval state remain registry-owned. Due time, leases,
+dispatch, retries, and run state remain scheduler-owned. Rules, policies,
+decisions, workflows, and approved user preferences remain authority-owned.
+Execution remains provider-owned. The runtime observer neither activates nor
+mutates any of them. See `contracts/automation-runtime-observation.md`.
 
 ## Event model
 

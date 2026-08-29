@@ -10,6 +10,12 @@ from typing import Any
 
 from .models import AutomationSpec, MutationClass, RewardSignals, RunClass
 from .reward import RewardPolicy
+from .runtime import (
+    AutomationRuntime,
+    RuntimeReceiptStore,
+    read_provider_receipt,
+    read_scheduler_run,
+)
 from .service import AutomationMaster
 from .store import EventStore
 
@@ -22,6 +28,14 @@ def default_db_path() -> Path:
     return base / "ellmos" / "automation-master" / "automation-master.db"
 
 
+def default_receipts_path() -> Path:
+    if os.name == "nt":
+        base = Path(os.environ.get("LOCALAPPDATA", Path.home() / "AppData" / "Local"))
+    else:
+        base = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local" / "state"))
+    return base / "ellmos" / "automation-master" / "automation-runtime" / "receipts"
+
+
 def _emit(value: Any) -> None:
     print(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True))
 
@@ -32,6 +46,7 @@ def _parser() -> argparse.ArgumentParser:
         description="Local-first automation credit governance.",
     )
     parser.add_argument("--db", type=Path, default=default_db_path())
+    parser.add_argument("--receipts-dir", type=Path, default=default_receipts_path())
     parser.add_argument("--node", default=os.environ.get("AUTOMATION_MASTER_NODE", "local"))
     commands = parser.add_subparsers(dest="command", required=True)
 
@@ -84,11 +99,52 @@ def _parser() -> argparse.ArgumentParser:
         reward.add_argument(f"--{name.replace('_', '-')}", type=float, default=0.0)
     reward.add_argument("--stale-epochs", type=int, default=0)
     reward.add_argument("--previous-score", type=float)
+    runtime_record = commands.add_parser("runtime-record")
+    runtime_record.add_argument("receipt", type=Path)
+    commands.add_parser("runtime-stats")
+    provider_readback = commands.add_parser("runtime-provider-readback")
+    provider_readback.add_argument("receipt", type=Path)
+    provider_readback.add_argument("--source-id", required=True)
+    provider_readback.add_argument("--receipt-id-field", default="receipt_id")
+    provider_readback.add_argument("--status-field", default="status")
+    provider_readback.add_argument("--observed-at-field", default="finished_at")
+    scheduler_readback = commands.add_parser("runtime-scheduler-readback")
+    scheduler_readback.add_argument("database", type=Path)
+    scheduler_readback.add_argument("run_id")
+    scheduler_readback.add_argument("--source-id", default="ellmos-scheduler")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    if args.command == "runtime-provider-readback":
+        _emit(
+            read_provider_receipt(
+                args.receipt,
+                source_id=args.source_id,
+                receipt_id_field=args.receipt_id_field,
+                status_field=args.status_field,
+                observed_at_field=args.observed_at_field,
+            )
+        )
+        return 0
+    if args.command == "runtime-scheduler-readback":
+        _emit(
+            read_scheduler_run(
+                args.database,
+                args.run_id,
+                source_id=args.source_id,
+            )
+        )
+        return 0
+    if args.command in {"runtime-record", "runtime-stats"}:
+        runtime = AutomationRuntime(RuntimeReceiptStore(args.receipts_dir))
+        if args.command == "runtime-record":
+            payload = json.loads(args.receipt.read_text(encoding="utf-8"))
+            _emit(runtime.record(payload))
+        else:
+            _emit(runtime.statistics())
+        return 0
     store = EventStore(args.db)
     master = AutomationMaster(store, node_id=args.node)
     if args.command == "init":

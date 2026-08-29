@@ -21,11 +21,20 @@ from .retention import (
     project_receipts,
 )
 from .reward import RewardPolicy, RewardResult
+from .runtime import (
+    AutomationRuntime,
+    RuntimeReceiptConflictError,
+    RuntimeReceiptStore,
+    build_runtime_receipt,
+    read_provider_receipt,
+    read_scheduler_run,
+)
 from .service import AutomationMaster, BudgetState, CreditPolicy, ReceiptMetrics
 from .store import EventConflictError, EventStore
 
 __all__ = [
     "AutomationMaster",
+    "AutomationRuntime",
     "AutomationSpec",
     "BudgetState",
     "CreditPolicy",
@@ -38,6 +47,8 @@ __all__ = [
     "RewardPolicy",
     "RewardResult",
     "RewardSignals",
+    "RuntimeReceiptConflictError",
+    "RuntimeReceiptStore",
     "ReceiptRetentionClass",
     "ReceiptRetentionPolicy",
     "RunClass",
@@ -47,6 +58,9 @@ __all__ = [
     "PromptRepairContractResult",
     "project_receipt",
     "project_receipts",
+    "build_runtime_receipt",
+    "read_provider_receipt",
+    "read_scheduler_run",
 ]
 
 __version__ = "0.1.1"

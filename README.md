@@ -3,7 +3,7 @@
 <img src="banner.png" width="100%" alt="automation-master banner">
 
 [![CI](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml)
-[![Pytest](https://img.shields.io/badge/pytest-51%20passed-brightgreen.svg)](https://pytest.org)
+[![Pytest](https://img.shields.io/badge/pytest-66%20passed-brightgreen.svg)](https://pytest.org)
 [![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](pyproject.toml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org)
 [![Architecture: Event-Sourced](https://img.shields.io/badge/Architecture-Event--Sourced%20SQLite-indigo.svg)](ARCHITECTURE.md)
@@ -23,9 +23,36 @@ scheduled automation families. It registers comparable variants, calculates
 explainable reward scores, assigns epoch-scoped credit envelopes, records run
 receipts, and proposes throttling inputs.
 
+The package also provides `AutomationRuntime`, a separate logical runtime
+observer. It validates provider-native and scheduler-native readbacks, stores
+immutable redacted run receipts, and reports bounded runtime statistics without
+assuming definition, scheduling, or policy authority.
+
 It does **not** schedule processes, start jobs, replace `task-master`, or replace
 `ticket-master`. Integration with schedulers (such as `ellmos-scheduler`), `system-gap-master`, and
 `sqlite-transit-sync` happens through narrow, fail-closed adapters.
+
+## Runtime Observation Boundary
+
+```mermaid
+flowchart LR
+    REG["Automation registry<br/>definition & approval"] --> RUNTIME
+    SCHED["Scheduler<br/>due time, lease & dispatch"] --> RUNTIME
+    PROVIDER["Provider<br/>native execution receipt"] --> RUNTIME
+    AUTH["Rules, policies, decisions,<br/>workflows & approved preferences"] --> RUNTIME
+    RUNTIME["AutomationRuntime<br/>validate, store & summarize evidence"] --> RECEIPT["Immutable local receipt<br/>bounded redacted statistics"]
+```
+
+The observer accepts a closed receipt schema and requires native readback from
+both provider and scheduler. Non-app-native executions need an immutable commit
+or content pin. Receipt storage is create-only, detects tampering, and refuses
+configured OneDrive roots. Provider and scheduler readers return hashed,
+bounded metadata only; raw prompts, outputs, errors, credentials, and source
+paths do not cross the boundary.
+
+Runtime observation does not schedule, launch, approve, mutate, publish, or
+enforce an automation. See the bilingual
+[runtime observation contract](contracts/automation-runtime-observation.md).
 
 ---
 
@@ -180,6 +207,14 @@ automation-master --db .\pilot.db --node workstation allocate 2026-W34 research 
 
 # Check current status and budget consumption
 automation-master --db .\pilot.db --node workstation status --epoch 2026-W34 --scope research
+
+# Derive redacted metadata from native provider and scheduler evidence
+automation-master runtime-provider-readback .\provider-receipt.json --source-id provider-a
+automation-master runtime-scheduler-readback .\scheduler-snapshot.db run-123
+
+# Store a validated immutable runtime receipt and report bounded statistics
+automation-master --receipts-dir .\runtime-receipts runtime-record .\receipt.json
+automation-master --receipts-dir .\runtime-receipts runtime-stats
 ```
 
 > [!TIP]
@@ -258,6 +293,7 @@ decision = gate.authorize(
 - [CHANGELOG.md](CHANGELOG.md): Version history, releases, and discoverability records.
 - [contracts/scheduler-credit-gate.md](contracts/scheduler-credit-gate.md): Scheduler credit gate adapter specifications.
 - [contracts/receipt-retention.md](contracts/receipt-retention.md): 30-day receipt retention and audit summary contract.
+- [contracts/automation-runtime-observation.md](contracts/automation-runtime-observation.md): Runtime readback, immutable receipt, authority-resolution, and ownership boundaries.
 - [contracts/deployment-plan.schema.json](contracts/deployment-plan.schema.json): JSON schema for System-Gap deployment plans.
 
 ---

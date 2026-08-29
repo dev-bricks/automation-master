@@ -3,7 +3,7 @@
 <img src="banner.png" width="100%" alt="automation-master banner">
 
 [![CI](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml)
-[![Pytest](https://img.shields.io/badge/pytest-51%20passed-brightgreen.svg)](https://pytest.org)
+[![Pytest](https://img.shields.io/badge/pytest-66%20passed-brightgreen.svg)](https://pytest.org)
 [![Version](https://img.shields.io/badge/Version-0.1.1-blue.svg)](pyproject.toml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org)
 [![Architektur: Event-Sourced](https://img.shields.io/badge/Architektur-Event--Sourced%20SQLite-indigo.svg)](ARCHITECTURE.md)
@@ -23,9 +23,38 @@ Control- und Governance-Modul für wiederkehrende Automatisierungsfamilien. Es e
 Automatisierungsvarianten, berechnet erklärbare Belohnungswerte (Reward Scores),
 vergibt epochenspezifische Credit-Rahmen und protokolliert unveränderliche Laufbelege.
 
+Das Paket stellt außerdem `AutomationRuntime` als getrennten logischen
+Runtime-Beobachter bereit. Er validiert native Rücklesedaten von Provider und
+Scheduler, speichert unveränderliche bereinigte Laufbelege und meldet begrenzte
+Runtime-Statistiken, ohne Definitions-, Planungs- oder Policy-Autorität zu
+beanspruchen.
+
 Das Modul plant oder startet **keine** Prozesse und ersetzt weder `task-master`
 noch `ticket-master`. Die Anbindung an externe Scheduler (wie `ellmos-scheduler`), `system-gap-master`
 und `sqlite-transit-sync` erfolgt über schmale, fail-closed Adapter-Schnittstellen.
+
+## Grenze der Runtime-Beobachtung
+
+```mermaid
+flowchart LR
+    REG["Automation-Registry<br/>Definition & Freigabe"] --> RUNTIME
+    SCHED["Scheduler<br/>Fälligkeit, Lease & Dispatch"] --> RUNTIME
+    PROVIDER["Provider<br/>nativer Ausführungsbeleg"] --> RUNTIME
+    AUTH["Regeln, Policies, Entscheidungen,<br/>Workflows & freigegebene Präferenzen"] --> RUNTIME
+    RUNTIME["AutomationRuntime<br/>Nachweise validieren, speichern & verdichten"] --> RECEIPT["Unveränderlicher lokaler Beleg<br/>begrenzte bereinigte Statistik"]
+```
+
+Der Beobachter akzeptiert ein geschlossenes Belegschema und verlangt native
+Rücklesedaten sowohl vom Provider als auch vom Scheduler. Nicht app-eigene
+Ausführungen benötigen einen unveränderlichen Commit- oder Inhalts-Pin. Der
+Belegspeicher schreibt nur neue Dateien, erkennt Manipulationen und verweigert
+konfigurierte OneDrive-Verzeichnisse. Provider- und Scheduler-Leser geben nur
+begrenzte gehashte Metadaten zurück; Roh-Prompts, Ausgaben, Fehler,
+Zugangsdaten und Quellpfade überschreiten diese Grenze nicht.
+
+Die Runtime-Beobachtung plant, startet, genehmigt, verändert, veröffentlicht
+oder erzwingt keine Automation. Siehe den deutschsprachigen
+[Runtime-Beobachtungsvertrag](contracts/automation-runtime-observation_de.md).
 
 ---
 
@@ -180,6 +209,14 @@ automation-master --db .\pilot.db --node workstation allocate 2026-W34 research 
 
 # Status und Budgetverbrauch abfragen
 automation-master --db .\pilot.db --node workstation status --epoch 2026-W34 --scope research
+
+# Bereinigte Metadaten aus nativen Provider- und Scheduler-Nachweisen ableiten
+automation-master runtime-provider-readback .\provider-beleg.json --source-id provider-a
+automation-master runtime-scheduler-readback .\scheduler-snapshot.db run-123
+
+# Validierten Runtime-Beleg unveränderlich speichern und begrenzte Statistik ausgeben
+automation-master --receipts-dir .\runtime-belege runtime-record .\beleg.json
+automation-master --receipts-dir .\runtime-belege runtime-stats
 ```
 
 > [!TIP]
@@ -258,6 +295,7 @@ decision = gate.authorize(
 - [CHANGELOG.md](CHANGELOG.md): Versionshistorie und Discoverability-Einträge.
 - [contracts/scheduler-credit-gate.md](contracts/scheduler-credit-gate.md): Schnittstellenspezifikation für den Scheduler-Credit-Gate-Adapter.
 - [contracts/receipt-retention.md](contracts/receipt-retention.md): 30-Tage Belegaufbewahrung und Audit-Zusammenfassungsvertrag.
+- [contracts/automation-runtime-observation_de.md](contracts/automation-runtime-observation_de.md): Deutsche Grenzen für Runtime-Rücklesen, unveränderliche Belege, Autoritätsauflösung und Zuständigkeiten.
 - [contracts/deployment-plan.schema.json](contracts/deployment-plan.schema.json): JSON-Schema für System-Gap-Deployment-Pläne.
 
 ---

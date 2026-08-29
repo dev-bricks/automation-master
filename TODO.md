@@ -2,6 +2,11 @@
 
 ## Before real activation
 
+- Run a real, read-only provider-and-scheduler receipt pilot outside OneDrive;
+  the runtime observer and synthetic acceptance coverage are implemented, but a
+  production-native evidence source has not yet been authorized.
+- Add provider-specific JSON selectors only for verified native receipt
+  formats; keep unknown layouts fail-closed.
 - Run a 14-day synthetic-to-shadow pilot on workstation and laptop.
 - Calibrate reward weights and credit conversion from receipts.
 - Review trust allowlists and signed manifest provenance.
