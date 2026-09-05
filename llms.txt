@@ -4,6 +4,16 @@
 
 Part of the dev-bricks ecosystem and open-bricks umbrella. Python 3.10+, MIT License.
 
+## Version and delivery state
+
+- Base package, manifest, and remote `main`: **0.1.1**.
+- No Git tag or GitHub Release exists for 0.1.1 as checked on 2026-09-05; this is repository/package
+  metadata, not an externally published release.
+- `AutomationRuntime` exists on `feat/automation-runtime-observer-20260829` as **Unreleased** work
+  and is not integrated into `main`; PR, CI, review, and final version choice remain open.
+- Status remains experimental and private. Enforcement is disabled by default, and only synthetic
+  or shadow pilot use is allowed; publication and real scheduler activation are not authorized.
+
 ## Core Capabilities
 - **AutomationMaster Service**: Central controller for registry, epoch budgets, preflights, reservations, receipts, handovers, and deterministic projections.
 - **Automation Registry**: Versioned local registration of automation families, variants, and configurations.
@@ -59,5 +69,5 @@ ellmos-scheduler credit gate adapter
 automation runtime native receipt observer
 ```
 
-## Last-checked: 2026-08-29
+## Last-checked: 2026-09-05
 

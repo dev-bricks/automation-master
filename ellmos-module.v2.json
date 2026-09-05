@@ -7,7 +7,7 @@
   "kind": "library",
   "status": "experimental",
   "visibility": "private",
-  "description": "Local-first registry, reward policy, budget, credit, governance receipts, and separately bounded runtime observation for scheduled automations.",
+  "description": "Experimental private 0.1.1 registry and governance base, with unreleased feature-branch runtime observation that does not activate scheduling or enforcement.",
   "package": "automation-master",
   "entrypoints": {
     "cli": "python -m automation_master",

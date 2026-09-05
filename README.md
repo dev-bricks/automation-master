@@ -32,6 +32,18 @@ It does **not** schedule processes, start jobs, replace `task-master`, or replac
 `ticket-master`. Integration with schedulers (such as `ellmos-scheduler`), `system-gap-master`, and
 `sqlite-transit-sync` happens through narrow, fail-closed adapters.
 
+## Version and Delivery Status
+
+- The base package, manifest, and remote `main` branch identify version **0.1.1**.
+- No Git tag or GitHub Release exists for 0.1.1; the number identifies repository/package metadata,
+  not an externally published release.
+- `AutomationRuntime` is implemented only on branch
+  `feat/automation-runtime-observer-20260829` and remains **Unreleased** pending PR, CI, review, and
+  a final version decision. It is not integrated into `main`.
+- The module remains **experimental** and **private**. Enforcement is disabled by default; only
+  synthetic and shadow pilots are currently allowed. Publication and real scheduler activation
+  are not authorized.
+
 ## Runtime Observation Boundary
 
 ```mermaid

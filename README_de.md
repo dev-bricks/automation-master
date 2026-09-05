@@ -33,6 +33,19 @@ Das Modul plant oder startet **keine** Prozesse und ersetzt weder `task-master`
 noch `ticket-master`. Die Anbindung an externe Scheduler (wie `ellmos-scheduler`), `system-gap-master`
 und `sqlite-transit-sync` erfolgt über schmale, fail-closed Adapter-Schnittstellen.
 
+## Versions- und Auslieferungsstatus
+
+- Basispaket, Manifest und der Remote-Branch `main` weisen die Version **0.1.1** aus.
+- Für 0.1.1 existiert weder ein Git-Tag noch ein GitHub-Release; die Nummer bezeichnet den
+  Repository- und Paketmetadatenstand, keine extern veröffentlichte Version.
+- `AutomationRuntime` ist ausschließlich auf dem Branch
+  `feat/automation-runtime-observer-20260829` implementiert und bleibt **Unreleased**, bis PR, CI,
+  Review und die endgültige Versionsentscheidung abgeschlossen sind. Der Observer ist nicht in
+  `main` integriert.
+- Das Modul bleibt **experimentell** und **privat**. Enforcement ist standardmäßig deaktiviert;
+  derzeit sind ausschließlich synthetische und Shadow-Piloten erlaubt. Veröffentlichung und reale
+  Scheduler-Aktivierung sind nicht autorisiert.
+
 ## Grenze der Runtime-Beobachtung
 
 ```mermaid

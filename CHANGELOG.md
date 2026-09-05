@@ -2,6 +2,11 @@
 
 ## Unreleased - 2026-08-29
 
+> Delivery status checked 2026-09-05: these runtime-observer changes were introduced by commit
+> `c2de718` on `feat/automation-runtime-observer-20260829`. They are not integrated into
+> `origin/main`; no PR, Git tag, or GitHub Release exists. The base package version remains 0.1.1
+> until the pending integration and version decision is made.
+
 - Added `AutomationRuntime` as the separate logical provider for
   `module:automation-runtime`, without transferring definition, scheduler,
   provider, or policy ownership.

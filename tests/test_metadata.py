@@ -9,7 +9,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_version_parity():
-    """Verify version parity across pyproject.toml, package, manifest, and changelog."""
+    """Verify base-version parity and the separate unreleased branch state."""
     pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
     assert f'version = "{automation_master.__version__}"' in pyproject_text
 
@@ -20,6 +20,18 @@ def test_version_parity():
     ver_tag = automation_master.__version__
     assert f"## [{ver_tag}]" in changelog_text or f"## {ver_tag}" in changelog_text
 
+    state_text = (REPO_ROOT / "STATE.md").read_text(encoding="utf-8")
+    readme_text = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de_text = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+    llms_text = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
+    for text in (state_text, readme_text, readme_de_text, llms_text):
+        assert automation_master.__version__ in text
+        assert "feat/automation-runtime-observer-20260829" in text
+        assert "Unreleased" in text
+    assert "not integrated into `main`" in readme_text
+    assert "Observer ist nicht in\n  `main` integriert" in readme_de_text
+    assert "no git tag or github release" in llms_text.lower()
+
 
 def test_manifest_structure_and_schema():
     """Validate ellmos-module.v2.json structure and capabilities."""
@@ -27,6 +39,10 @@ def test_manifest_structure_and_schema():
     assert manifest["schema"] == "ellmos.module.v2"
     assert manifest["id"] == "automation-master"
     assert manifest["category"] == "control"
+    assert manifest["version"] == "0.1.1"
+    assert manifest["status"] == "experimental"
+    assert manifest["visibility"] == "private"
+    assert "unreleased feature-branch" in manifest["description"]
     assert "automation.registry" in manifest["provides"]
     assert "automation.budget" in manifest["provides"]
     assert "automation.credit" in manifest["provides"]
@@ -93,7 +109,7 @@ def test_llms_txt_integrity():
     assert "AutomationRuntime" in llms_text
     assert "runtime-provider-readback" in llms_text
     assert "ARCHITECTURE.md" in llms_text
-    assert "Last-checked: 2026-08-29" in llms_text
+    assert "Last-checked: 2026-09-05" in llms_text
 
 
 def test_security_policy_bilingual_and_contacts():
@@ -131,7 +147,7 @@ def test_readme_bilingual_badges_and_mermaid():
 def test_pyproject_pep621_classifiers_and_urls():
     """Verify PEP 621 classifiers, keywords, settings, and project.urls."""
     pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
-    assert 'Development Status :: 4 - Beta' in pyproject
+    assert 'Development Status :: 3 - Alpha' in pyproject
     assert 'Programming Language :: Python :: 3.10' in pyproject
     assert 'Programming Language :: Python :: 3.11' in pyproject
     assert 'Programming Language :: Python :: 3.12' in pyproject
