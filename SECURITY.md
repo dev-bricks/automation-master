@@ -34,15 +34,21 @@
 | `0.1.x` | :white_check_mark: | Active Development & Security Updates |
 | `< 0.1.0` | :x: | Experimental Pre-Release |
 
-### Reporting Security Vulnerabilities
+### Reporting Security Vulnerabilities & SLAs
 
 If you discover a potential security issue or vulnerability, please report it privately:
-- **Email**: `security@ellmos.ai`
-- **Alternative**: `support@lukasgeiger.com`
-- **Umbrella Security**: `lukas@open-bricks.org`
+- **Email**: `security@open-bricks.org`
+- **Alternative**: `security@ellmos.ai`
+- **Maintainer**: `support@lukasgeiger.com`
+- **Lead Maintainer**: `lukas@open-bricks.org`
 - **GitHub Security Advisories**: [Open a private advisory](https://github.com/dev-bricks/automation-master/security/advisories)
 
+#### Security Response SLAs
+- **48-Hour Response SLA**: Initial acknowledgment of all vulnerability reports within 48 hours.
+- **5-Day Triage Commitment**: Severity assessment, reproduction, and triage completed within 5 business days.
+
 Please include reproduction steps and environment details. Do not open public GitHub issues containing event payloads, private configurations, or local filesystem paths.
+
 
 ---
 
@@ -69,11 +75,16 @@ Please include reproduction steps and environment details. Do not open public Gi
 - **Eventual Consistency**: Die Replikation über Hosts hinweg erfolgt über unabhängige Budgets; das Event-Ledger ist unveränderlich (Append-Only).
 - **Aufbewahrungs-Invariante**: Detaillierte Belegprojektionen bleiben 30 Tage erhalten; danach sichert eine kompakte Audit-Zusammenfassung mit Metadaten und Payload-Hashes die dauerhafte Nachvollziehbarkeit.
 
-### Meldung von Sicherheitslücken
+### Meldung von Sicherheitslücken & SLAs
 
 Sicherheitsrelevante Schwachstellen bitte vertraulich per E-Mail melden:
-- **E-Mail**: `security@ellmos.ai`
-- **Alternativ**: `support@lukasgeiger.com`
-- **Dachverband**: `lukas@open-bricks.org`
+- **E-Mail**: `security@open-bricks.org`
+- **Alternativ**: `security@ellmos.ai`
+- **Maintainer**: `support@lukasgeiger.com`
+- **Lead Maintainer**: `lukas@open-bricks.org`
 - **GitHub Security Advisories**: [Private Sicherheitsmeldung eröffnen](https://github.com/dev-bricks/automation-master/security/advisories)
+
+#### Sicherheits-Reaktions-SLAs
+- **48-Stunden-Reaktions-SLA**: Bestätigung des Eingangs jeder Sicherheitsmeldung innerhalb von maximal 48 Stunden.
+- **5-Tage-Triage-Zusage**: Fachliche Triage, Risikobewertung und Schwachstellenanalyse innerhalb von 5 Werktagen.
 

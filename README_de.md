@@ -3,13 +3,15 @@
 <img src="banner.png" width="100%" alt="automation-master banner">
 
 [![CI](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml)
-[![Pytest](https://img.shields.io/badge/pytest-51%20passed-brightgreen.svg)](https://pytest.org)
 [![Version](https://img.shields.io/badge/Version-0.1.1-blue.svg)](pyproject.toml)
+[![Code-Stil: Ruff](https://img.shields.io/badge/Code--Stil-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+[![Pytest](https://img.shields.io/badge/pytest-59%20passed%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org)
 [![Architektur: Event-Sourced](https://img.shields.io/badge/Architektur-Event--Sourced%20SQLite-indigo.svg)](ARCHITECTURE.md)
 [![Plattform](https://img.shields.io/badge/Plattform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](pyproject.toml)
 [![Datenschutz: Offline](https://img.shields.io/badge/Datenschutz-100%25%20Offline%20%7C%20Zero--Egress-success.svg)](SECURITY.md)
-[![Sicherheit: Local-First](https://img.shields.io/badge/Sicherheit-Local--First-blue.svg)](SECURITY.md)
+[![Sicherheit: Local-First](https://img.shields.io/badge/Sicherheit-Local--First%20%7C%20Non--Elevation-blue.svg)](SECURITY.md)
+[![Sicherheits-SLA](https://img.shields.io/badge/Sicherheits--SLA-48h%20Reaktion-blue.svg)](SECURITY.md)
 [![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
 [![Ecosystem: dev-bricks](https://img.shields.io/badge/Ecosystem-dev--bricks-blue.svg)](https://github.com/dev-bricks)
 [![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
@@ -17,6 +19,29 @@
 
 > [!NOTE]
 > Schneller Index für LLMs und KI-Agenten: siehe [llms.txt](llms.txt) für Kontext, Grenzen und API-Signaturen.
+> English documentation available: See [README.md](README.md).
+
+---
+
+### Schnellnavigation
+- [1. Übersicht & Management Summary](#übersicht--management-summary)
+- [2. Systemarchitektur](#systemarchitektur)
+- [3. Reservierungs- & Credit-Governance-Ablauf](#reservierungs--credit-governance-ablauf)
+- [4. Event-Sourcing- & Projektionslebenszyklus](#event-sourcing--projektionslebenszyklus)
+- [5. Sicherheitsmodell & Governance-Invarianten](#sicherheitsmodell--governance-invarianten)
+- [6. Installation & Voraussetzungen](#installation--voraussetzungen)
+- [7. CLI-Bedienung & Betrieb](#cli-bedienung--betrieb)
+- [8. Python-API-Integration](#python-api-integration)
+- [9. Datenspeicher & Multi-OS-Pfade](#datenspeicher--multi-os-pfade)
+- [10. Geschwisterwerkzeuge & Ökosystem-Matrix](#geschwisterwerkzeuge--ökosystem-matrix)
+- [11. Architekturdokumente & Vertragsspezifikationen](#architekturdokumente--vertragsspezifikationen)
+- [12. Sicherheitsrichtlinie & Meldewege](#sicherheitsrichtlinie--meldewege)
+- [13. Lizenz](#lizenz)
+- [14. Englische Dokumentation / English Version (README.md)](README.md)
+
+---
+
+## Übersicht & Management Summary
 
 `automation-master` ist ein standardmäßig privates, lokal betriebenes
 Control- und Governance-Modul für wiederkehrende Automatisierungsfamilien. Es erfasst
@@ -29,7 +54,7 @@ und `sqlite-transit-sync` erfolgt über schmale, fail-closed Adapter-Schnittstel
 
 ---
 
-## Architektur
+## Systemarchitektur
 
 ```mermaid
 graph TD
@@ -146,19 +171,30 @@ graph LR
 
 ---
 
-## Schutzregeln & Governance-Invarianten
+## Sicherheitsmodell & Governance-Invarianten
 
-- **Standardmäßig Fail-Closed**: Der Startmodus ist `disabled` oder `shadow`; harte Gates sind Opt-in und erfordern explizite Aktivierung.
-- **Null Kosten für inaktive Läufe**: `NO_WORK` in der Vorprüfung kostet 0 Credits. Wird erst nach der Reservierung `NO_WORK` festgestellt, wird die Reservierung vollständig freigegeben.
-- **Ausnahme-Garantie für Schutzläufe**: Einzigartige, sicherheitskritische oder fristgebundene Läufe behalten eine garantierte Mindestabdeckung.
-- **Unveränderliches Event-Ledger**: Jede dauerhafte Zustandsänderung ist ein unveränderliches Event mit Event-ID, Node-ID, Budget-Epoche, Entity-Version und SHA-256 Payload-Hash.
-- **Transaktions-Isolation**: Lokale Reservierungen nutzen atomare `BEGIN IMMEDIATE` SQLite-Transaktionen; hostübergreifende Synchronisation erfolgt mit Eventual Consistency.
-- **Zero-Egress & Geheimnis-Schutz**: Roh-Payloads und Zugangsdatenmuster werden niemals exportiert oder übertragen.
-- **Beleg-Retention**: Detaillierte Laufbelege bleiben 30 Tage erhalten; danach sichern Audit-Zusammenfassungen mit Hashes die dauerhafte Integrität.
+Das Governance-Modell von `automation-master` basiert auf zehn überprüfbaren Kerninvarianten:
+
+| Invariante & Garantie | Geltungsbereich | Mechanismus | Durchsetzung |
+| :--- | :--- | :--- | :--- |
+| **1. 100% Local-First & Zero-Egress** | Netzwerk & Telemetrie | 100% Offline, reine Standardbibliothek, keine externen Sockets | Keine Netzwerkaufrufe, lokale Datenisolation |
+| **2. Non-Elevation (RunAsInvoker)** | Berechtigungen | Unprivilegierter Standard-Benutzermodus | Keine administrativen Rechte oder Root erforderlich |
+| **3. Unveränderliches Event-Ledger** | Persistenz | Append-Only SQLite `events`-Tabelle mit SHA-256 Payload-Hashes | Keine mutierenden `UPDATE`- oder `DELETE`-Operationen |
+| **4. Atomare Reservierungsintegrität** | Nebenläufigkeit | SQLite `BEGIN IMMEDIATE` Transaktionsgrenzen | Schutz vor Budget-Überbuchungen & Race Conditions |
+| **5. Fail-Closed Credit Gating** | Autorisierung | Standardmodus `SHADOW` oder `DISABLED` | Explizite Richtlinienaktivierung für harte Drosselung nötig |
+| **6. Null Kosten für Leerläufe (NO_WORK)** | Budgetierung | 0 Credits bei `NO_WORK`, sofortige Freigabe reservierter Mittel | Keine Budgeterschöpfung bei Leerläufen |
+| **7. Ausnahme-Garantie für Schutzläufe** | Betriebssicherheit & SLA | Garantierte Mindestabdeckung für geschäftskritische Jobs | Schutz vor Deadlines & Systemstillstand |
+| **8. 30-Tage Belegaufbewahrung** | Datenlebenszyklus | 30 Tage Detailprojektion, danach unveränderliche Audit-Summen | Deterministische Alterung ohne Ledger-Mutation |
+| **9. Multi-OS Plattform-Parität** | Portabilität | Identisches Laufzeitverhalten auf Windows, Linux und macOS | Pfadagnostische Standardisierung, UTF-8 |
+| **10. Cloud-Sync-Ordner-Isolation** | Speichersicherheit | Datenbankablage in `%LOCALAPPDATA%` bzw. `$XDG_STATE_HOME` | Ausschluss aus synchronisierten Ordnern (OneDrive/Dropbox) |
 
 ---
 
-## Schnellstart
+## Installation & Voraussetzungen
+
+### Voraussetzungen
+- Python 3.10, 3.11, 3.12 oder 3.13
+- SQLite 3.35+ (in Standard-Python enthalten)
 
 ### Installation
 
@@ -166,7 +202,9 @@ graph LR
 python -m pip install -e ".[dev]"
 ```
 
-### CLI-Nutzung
+---
+
+## CLI-Bedienung & Betrieb
 
 ```powershell
 # Lokales Event-Ledger initialisieren
@@ -182,12 +220,9 @@ automation-master --db .\pilot.db --node workstation allocate 2026-W34 research 
 automation-master --db .\pilot.db --node workstation status --epoch 2026-W34 --scope research
 ```
 
-> [!TIP]
-> Die Produktionsdatenbank liegt isoliert außerhalb synchronisierter Cloud-Ordner:
-> - **Windows**: `%LOCALAPPDATA%\ellmos\automation-master\automation-master.db`
-> - **Linux/macOS**: `$XDG_STATE_HOME/ellmos/automation-master/automation-master.db`
+---
 
-### Python-API-Beispiel
+## Python-API-Integration
 
 ```python
 from automation_master import EnforcementMode, EventStore, RunClass
@@ -225,7 +260,16 @@ decision = gate.authorize(
 
 ---
 
-## Ökosystem & Verwandte Werkzeuge
+## Datenspeicher & Multi-OS-Pfade
+
+> [!TIP]
+> Die Produktionsdatenbank liegt isoliert außerhalb synchronisierter Cloud-Ordner (wie OneDrive oder Dropbox):
+> - **Windows**: `%LOCALAPPDATA%\ellmos\automation-master\automation-master.db`
+> - **Linux/macOS**: `$XDG_STATE_HOME/ellmos/automation-master/automation-master.db` (Standard: `~/.local/state/ellmos/automation-master/`)
+
+---
+
+## Geschwisterwerkzeuge & Ökosystem-Matrix
 
 `automation-master` ist Teil des **dev-bricks** Ökosystems und der **open-bricks** Open-Source-Initiative:
 
@@ -234,24 +278,31 @@ decision = gate.authorize(
 | [`DevCenter`](https://github.com/dev-bricks/DevCenter) | `dev-bricks` | Entwickler-Dashboard, Tool-Health & Systemorchestrierung | Systemmonitoring & Entwickler-Cockpit |
 | [`CodeBox`](https://github.com/dev-bricks/CodeBox) | `dev-bricks` | Sandbox-Codeausführung & Skript-Runner | Sichere isolierte Laufzeitumgebung |
 | [`MethodenAnalyser`](https://github.com/dev-bricks/MethodenAnalyser) | `dev-bricks` | Testmethodik & Psychometrie-Engine | Psychologische Analyse & Validierung |
-| [`companion-for-agy`](https://github.com/ellmos-ai/companion-for-agy) | `ellmos-ai` | PTY-basierter Stdout-Capture Wrapper für agy/Gemini CLI | Multi-Agent Subprozess-Orchestrierung |
+| [`smart-backup`](https://github.com/dev-bricks/smart-backup) | `dev-bricks` | Lokales atomares Backup- & Snapshot-Werkzeug | Zustandssicherung & Artefakt-Recovery |
+| [`win-firewall-manager`](https://github.com/dev-bricks/win-firewall-manager) | `dev-bricks` | Deklarativer Windows-Firewall-Konfigurationsmanager | Host-Sicherheit & Port-Gating |
 | [`safe-start-for-codex`](https://github.com/dev-bricks/safe-start-for-codex) | `dev-bricks` | Isolierter Sandbox-Starter für Coding-Agenten | Sichere Ausführungs-Sandbox |
 | [`automizer-for-claude-desktop`](https://github.com/dev-bricks/automizer-for-claude-desktop) | `dev-bricks` | Prozess-Starter & Automatisierungsbrücke für Claude Desktop | Desktop-Agenten-Orchestrierung |
 | [`CareCenter-for-Codex`](https://github.com/dev-bricks/CareCenter-for-Codex) | `dev-bricks` | Klienten-Pflegedokumentation & klinischer Prozessassistent | Spezialisierter Assistenz-Workflow-Agent |
+| [`companion-for-agy`](https://github.com/ellmos-ai/companion-for-agy) | `ellmos-ai` | PTY-basierter Stdout-Capture Wrapper für agy/Gemini CLI | Multi-Agent Subprozess-Orchestrierung |
+| [`ellmos-scheduler`](https://github.com/ellmos-ai/ellmos-scheduler) | `ellmos-ai` | Deterministischer lokaler Aufgaben- und Job-Scheduler | Aufgabenplanung & Ausführungs-Engine |
+| [`system-gap-master`](https://github.com/ellmos-ai/system-gap-master) | `ellmos-ai` | System-Paritäts- & Deploymentplan-Verifikation | Paritätsüberwachung & Health-Probes |
+| [`sqlite-transit-sync`](https://github.com/ellmos-ai/sqlite-transit-sync) | `ellmos-ai` | Offline-fähige SQLite-Replikation & Synchronisation | Hostübergreifende Ledger-Synchronisation |
+| [`workflowhooker-provenance`](https://github.com/ellmos-ai/workflowhooker-provenance) | `ellmos-ai` | Provenienz-Tracking & Workflow-Interceptor | Agent-Lebenszyklus-Instrumentierung |
+| [`memoryhooker-provenance`](https://github.com/ellmos-ai/memoryhooker-provenance) | `ellmos-ai` | Kontext-Speicherinjektion & Provenienz-Harness | Sitzungsgedächtnis & Kontextabruf |
+| [`ellmos-controlcenter-mcp`](https://github.com/ellmos-ai/ellmos-controlcenter-mcp) | `ellmos-ai` | Gateway & Tool-Orchestrierungs-MCP-Server | MCP-Werkzeug-Koordination |
+| [`ellmos-filecommander-mcp`](https://github.com/ellmos-ai/ellmos-filecommander-mcp) | `ellmos-ai` | Sicherer Dateisystem-MCP-Server mit Papierkorb-Schutz | Sichere Dateioperationen |
+| [`ellmos-codecommander-mcp`](https://github.com/ellmos-ai/ellmos-codecommander-mcp) | `ellmos-ai` | Code-Analyse & AST-Refactoring-MCP-Server | AST-Code-Transformation |
 | [`WinStorePackager`](https://github.com/file-bricks/WinStorePackager) | `file-bricks` | MSIX-Paketierung & Windows Store Deployment-Pipeline | Desktop-App-Distribution |
 | [`ProFiler`](https://github.com/file-bricks/ProFiler) | `file-bricks` | Schneller, lokaler Datei-Inspektor und Kategorisierer | Dateiorganisation & Asset-Inspektion |
 | [`ExplorerPro`](https://github.com/file-bricks/ExplorerPro) | `file-bricks` | Multi-Tab Datei-Manager mit KI-Schlagworten | Dateinavigation & Indexverwaltung |
 | [`DokuZen`](https://github.com/doc-bricks/DokuZen) | `doc-bricks` | Lokale Dokumentenverwaltung & Textextraktion | Dokumenten-OCR & Verschlagwortung |
 | [`PDFtoPDFocr`](https://github.com/doc-bricks/PDFtoPDFocr) | `doc-bricks` | Lokales Batch-PDF-OCR Konvertierungswerkzeug | PDF-Texterkennung & Volltextindizierung |
 | [`MediaBrain`](https://github.com/doc-bricks/MediaBrain) | `doc-bricks` | Lokale KI-Medienverwaltung & Transkriptions-Engine | Audio- & Video-Wissensaufbereitung |
-| [`ellmos-controlcenter-mcp`](https://github.com/ellmos-ai/ellmos-controlcenter-mcp) | `ellmos-ai` | Gateway & Tool-Orchestrierungs-MCP-Server | MCP-Werkzeug-Koordination |
-| [`ellmos-filecommander-mcp`](https://github.com/ellmos-ai/ellmos-filecommander-mcp) | `ellmos-ai` | Sicherer Dateisystem-MCP-Server mit Papierkorb-Schutz | Sichere Dateioperationen |
-| [`ellmos-codecommander-mcp`](https://github.com/ellmos-ai/ellmos-codecommander-mcp) | `ellmos-ai` | Code-Analyse & AST-Refactoring-MCP-Server | AST-Code-Transformation |
 | [`open-bricks`](https://github.com/open-bricks) | `open-bricks` | Dachorganisation für modulare Entwickler- & Desktop-Tools | Ökosystem-Dach |
 
 ---
 
-## Dokumentation & Schnittstellenverträge
+## Architekturdokumente & Vertragsspezifikationen
 
 - [ARCHITECTURE.md](ARCHITECTURE.md): Detaillierte Architekturschichten, Event-Schemata und Reservierungsmechanik.
 - [SECURITY.md](SECURITY.md): Sicherheitsrichtlinie, Local-First-Speicher-Invarianten und Schwachstellenmeldung.
@@ -262,14 +313,27 @@ decision = gate.authorize(
 
 ---
 
-## Sicherheit & Kontakt
+## Sicherheitsrichtlinie & Meldewege
 
 Für sicherheitsrelevante Hinweise und vertrauliche Anfragen:
-- **Sicherheitsteam**: `security@ellmos.ai`
+- **Sicherheitsteam**: `security@open-bricks.org`
+- **Alternativ**: `security@ellmos.ai`
 - **Maintainer**: `support@lukasgeiger.com`
+- **Lead Maintainer**: `lukas@open-bricks.org`
+- **GitHub Security Advisories**: [Private Sicherheitsmeldung eröffnen](https://github.com/dev-bricks/automation-master/security/advisories)
+
+### Reaktions-SLAs
+- **48-Stunden-Reaktions-SLA**: Bestätigung des Eingangs jeder Sicherheitsmeldung innerhalb von maximal 48 Stunden.
+- **5-Tage-Triage-Zusage**: Fachliche Triage, Risikobewertung und Schwachstellenanalyse innerhalb von 5 Werktagen.
 
 ---
 
 ## Lizenz
 
 Dieses Projekt steht unter der [MIT-Lizenz](LICENSE).
+
+---
+
+## Englische Dokumentation / English Version
+
+Die vollständige englischsprachige Dokumentation finden Sie in [README.md](README.md).

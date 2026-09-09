@@ -1,6 +1,17 @@
 # Changelog
 
+## [0.1.1] - 2026-09-09
+
+- **Bilingual 14-Point Quick Navigation**: Added full 14-point quick navigation (`Quick Navigation` / `Schnellnavigation`) with explicit markdown anchor parity across `README.md` and `README_de.md`.
+- **10 Governance & Runtime Invariants Table**: Integrated standardized high-contrast table of ten verifiable architectural guarantees (Zero-Egress, Non-Elevation, Append-Only Event Ledger, Atomic Reservations, Fail-Closed Credit Gating, Zero Cost for NO_WORK, Critical Exemptions, 30-Day Retention, Multi-OS Parity, Cloud-Sync Isolation) in both English and German documentation.
+- **CI Hardening**: Enhanced `.github/workflows/ci.yml` with workflow-level concurrency (`cancel-in-progress: true`) and pre-test bytecode verification (`python -m compileall -q src tests`).
+- **Synchronized Badges & SLAs**: Added Ruff Code Style badge, 48h Security SLA badge, Parent Organization URL, and updated Pytest test badge (59 passed | 100% green); hardened `SECURITY.md` with explicit 48-Hour Response SLA and 5-Day Triage commitment.
+- **Ecosystem Matrix Expansion**: Expanded sibling tools matrix to 21 repositories across `dev-bricks`, `ellmos-ai`, `file-bricks`, `doc-bricks`, and `open-bricks`.
+- **Repository Hygiene & Gitignore Hardening**: Added synchronization conflict ignore patterns (`*.sync-conflict-*`, `*.conflict`, `*-CONFLIT-*`, `*-conflict-*`) and multi-agent lock patterns (`LOCK.*`, `*.lock`, `LOCK*.txt`) to `.gitignore`.
+- **Metadata Contract Test Suite**: Expanded `tests/test_metadata.py` with 8 new automated parity and contract verification tests (59/59 passed).
+
 ## [0.1.1] - 2026-08-23
+
 
 - **GitHub Actions Multi-OS CI Workflow**: Added `.github/workflows/ci.yml` supporting Multi-OS matrix (`ubuntu-latest`, `windows-latest`, `macos-latest`) and Python versions `['3.10', '3.11', '3.12', '3.13']` with Pip caching, ruff linting gate, and pytest test suite.
 - **PEP 621 Standard Classifiers & Metadata**: Expanded `pyproject.toml` with PEP 621 Classifiers (`Development Status :: 4 - Beta`, `OS Independent`, `POSIX Linux`, `Microsoft Windows`, `MacOS`, `Topic Software Development Build Tools`, `Topic System Administration`), keywords, dev dependencies, and full `[project.urls]` table (`Homepage`, `Documentation`, `Repository`, `Issues`, `Changelog`, `Security`, `Umbrella`).

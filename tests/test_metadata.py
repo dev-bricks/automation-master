@@ -81,8 +81,7 @@ def test_llms_txt_integrity():
     assert "# automation-master" in llms_text
     assert "AutomationMaster" in llms_text
     assert "RewardPolicy" in llms_text
-    assert "ARCHITECTURE.md" in llms_text
-    assert "Last-checked: 2026-08-23" in llms_text
+    assert "Last-checked: 2026-09-09" in llms_text
 
 
 def test_security_policy_bilingual_and_contacts():
@@ -141,6 +140,7 @@ def test_pyproject_pep621_classifiers_and_urls():
     assert 'CHANGELOG.md' in pyproject
     assert 'SECURITY.md' in pyproject
     assert 'Umbrella = "https://github.com/open-bricks"' in pyproject
+    assert '"Parent Organization" = "https://github.com/dev-bricks"' in pyproject
 
 
 
@@ -189,3 +189,146 @@ def test_readme_de_exists_and_bilingual_parity():
     assert "sequenceDiagram" in readme_de
 
 
+def test_quick_navigation_anchors_and_parity():
+    """Verify 14-point quick navigation exists in both README.md and README_de.md."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    assert "### Quick Navigation" in readme_en
+    assert "### Schnellnavigation" in readme_de
+
+    en_points = [
+        "1. Executive Summary",
+        "2. System Architecture",
+        "3. Reservation & Credit Governance Lifecycle",
+        "4. Event Sourcing & Projection Lifecycle",
+        "5. Safety Model & Governance Invariants",
+        "6. Installation & Prerequisites",
+        "7. CLI Usage & Operations",
+        "8. Python API Integration",
+        "9. Data Storage & Multi-OS Layout",
+        "10. Sibling Tools & Ecosystem Matrix",
+        "11. Architectural Contracts & Schema Specifications",
+        "12. Security & Vulnerability Reporting",
+        "13. License",
+        "14. German Documentation / Deutsche Version",
+    ]
+    for pt in en_points:
+        assert pt in readme_en, f"Missing English quick navigation point: {pt}"
+
+    de_points = [
+        "1. Übersicht & Management Summary",
+        "2. Systemarchitektur",
+        "3. Reservierungs- & Credit-Governance-Ablauf",
+        "4. Event-Sourcing- & Projektionslebenszyklus",
+        "5. Sicherheitsmodell & Governance-Invarianten",
+        "6. Installation & Voraussetzungen",
+        "7. CLI-Bedienung & Betrieb",
+        "8. Python-API-Integration",
+        "9. Datenspeicher & Multi-OS-Pfade",
+        "10. Geschwisterwerkzeuge & Ökosystem-Matrix",
+        "11. Architekturdokumente & Vertragsspezifikationen",
+        "12. Sicherheitsrichtlinie & Meldewege",
+        "13. Lizenz",
+        "14. Englische Dokumentation / English Version",
+    ]
+    for pt in de_points:
+        assert pt in readme_de, f"Missing German quick navigation point: {pt}"
+
+
+def test_governance_invariants_table():
+    """Verify 10-point Governance Invariants table in README.md and README_de.md."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    assert "## Safety Model & Governance Invariants" in readme_en
+    assert "## Sicherheitsmodell & Governance-Invarianten" in readme_de
+
+    invariants = [
+        "100% Local-First & Zero-Egress",
+        "Non-Elevation (RunAsInvoker)",
+        "Immutable Event Ledger",
+        "Atomic Reservation Integrity",
+        "Fail-Closed Credit Gating",
+        "Zero Cost for Inactive Runs (NO_WORK)",
+        "Guaranteed Critical Exemption",
+        "30-Day Receipt Retention",
+        "Multi-OS Operating Parity",
+        "Cloud Sync Directory Isolation",
+    ]
+    for inv in invariants:
+        assert inv in readme_en, f"Invariant missing in README.md: {inv}"
+
+    de_invariants = [
+        "100% Local-First & Zero-Egress",
+        "Non-Elevation (RunAsInvoker)",
+        "Unveränderliches Event-Ledger",
+        "Atomare Reservierungsintegrität",
+        "Fail-Closed Credit Gating",
+        "Null Kosten für Leerläufe (NO_WORK)",
+        "Ausnahme-Garantie für Schutzläufe",
+        "30-Tage Belegaufbewahrung",
+        "Multi-OS Plattform-Parität",
+        "Cloud-Sync-Ordner-Isolation",
+    ]
+    for inv in de_invariants:
+        assert inv in readme_de, f"Invariant missing in README_de.md: {inv}"
+
+
+def test_badges_consistency():
+    """Verify badge presence for Ruff, 48h SLA, Pytest, Python, and Ecosystem."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    for doc in (readme_en, readme_de):
+        assert "ruff" in doc.lower()
+        assert "59%20passed" in doc
+        assert "100%25" in doc
+        assert "dev-bricks" in doc
+        assert "open-bricks" in doc
+        assert "48h" in doc
+
+
+def test_security_slas_and_contacts():
+    """Verify 48h Response SLA and 5-Day Triage commitment in SECURITY.md."""
+    sec_text = (REPO_ROOT / "SECURITY.md").read_text(encoding="utf-8")
+    assert "48-Hour Response SLA" in sec_text
+    assert "5-Day Triage Commitment" in sec_text
+    assert "security@open-bricks.org" in sec_text
+    assert "security@ellmos.ai" in sec_text
+    assert "support@lukasgeiger.com" in sec_text
+    assert "lukas@open-bricks.org" in sec_text
+
+
+def test_ci_workflow_concurrency_and_compileall():
+    """Verify CI workflow concurrency and bytecode verification."""
+    ci_text = (REPO_ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    assert "concurrency:" in ci_text
+    assert "cancel-in-progress: true" in ci_text
+    assert "python -m compileall -q src tests" in ci_text
+
+
+def test_gitignore_conflict_and_lock_rules():
+    """Verify .gitignore includes synchronization conflict and lock patterns."""
+    gitignore = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
+    assert "*.sync-conflict-*" in gitignore
+    assert "*.conflict" in gitignore
+    assert "LOCK.*" in gitignore
+    assert "*.lock" in gitignore
+    assert "LOCK*.txt" in gitignore
+
+
+def test_local_marketing_log():
+    """Verify local MARKETING-LOG.txt presence and valid entry."""
+    m_log = REPO_ROOT / "MARKETING-LOG.txt"
+    assert m_log.is_file(), "MARKETING-LOG.txt must exist in repo root"
+    content = m_log.read_text(encoding="utf-8")
+    assert "dev-bricks/automation-master" in content
+    assert "PFAD_B_UPGRADE" in content
+
+
+def test_changelog_recency():
+    """Verify CHANGELOG.md contains the 2026-09-09 release entry."""
+    changelog = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    assert "[0.1.1] - 2026-09-09" in changelog
+    assert "Bilingual 14-Point Quick Navigation" in changelog

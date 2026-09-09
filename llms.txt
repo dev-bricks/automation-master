@@ -20,7 +20,7 @@ Part of the dev-bricks ecosystem and open-bricks umbrella. Python 3.10+, MIT Lic
 - Zero network egress; operates 100% offline in standard user mode without administrative elevation.
 
 ## Verification & Status
-- **Test Suite**: 51 passed (100% green via `pytest`).
+- **Test Suite**: 59 passed (100% green via `pytest`).
 - **Code Hygiene**: 100% compliant with `ruff check` (py310).
 - **CI Matrix**: GitHub Actions multi-OS (`ubuntu-latest`, `windows-latest`, `macos-latest`) and Python 3.10-3.13.
 
@@ -30,7 +30,7 @@ Part of the dev-bricks ecosystem and open-bricks umbrella. Python 3.10+, MIT Lic
 - [README.md](https://github.com/dev-bricks/automation-master/blob/main/README.md): Primary English documentation, architecture overview, and usage.
 - [README_de.md](https://github.com/dev-bricks/automation-master/blob/main/README_de.md): German documentation and quickstart.
 - [ARCHITECTURE.md](https://github.com/dev-bricks/automation-master/blob/main/ARCHITECTURE.md): Architectural boundaries, event models, and reservation protocols.
-- [SECURITY.md](https://github.com/dev-bricks/automation-master/blob/main/SECURITY.md): Security policy, local storage invariants, and confidential reporting contacts (`security@ellmos.ai`, `lukas@open-bricks.org`).
+- [SECURITY.md](https://github.com/dev-bricks/automation-master/blob/main/SECURITY.md): Security policy, local storage invariants, and confidential reporting contacts (`security@open-bricks.org`, `security@ellmos.ai`, `support@lukasgeiger.com`, `lukas@open-bricks.org`).
 - [CHANGELOG.md](https://github.com/dev-bricks/automation-master/blob/main/CHANGELOG.md): Version history.
 - [ellmos-module.v2.json](https://github.com/dev-bricks/automation-master/blob/main/ellmos-module.v2.json): Machine-readable module manifest.
 
@@ -38,6 +38,8 @@ Part of the dev-bricks ecosystem and open-bricks umbrella. Python 3.10+, MIT Lic
 - [`DevCenter`](https://github.com/dev-bricks/DevCenter): Developer dashboard, tool health & system orchestration.
 - [`CodeBox`](https://github.com/dev-bricks/CodeBox): Safe isolated Python code execution sandbox.
 - [`MethodenAnalyser`](https://github.com/dev-bricks/MethodenAnalyser): Test methodology and psychometrics engine.
+- [`smart-backup`](https://github.com/dev-bricks/smart-backup): Local-first atomic backup and snapshot utility.
+- [`win-firewall-manager`](https://github.com/dev-bricks/win-firewall-manager): Declarative Windows Firewall configuration manager.
 - [`companion-for-agy`](https://github.com/ellmos-ai/companion-for-agy): PTY stdout capture wrapper for Antigravity/Gemini.
 - [`safe-start-for-codex`](https://github.com/dev-bricks/safe-start-for-codex): Isolated execution sandbox.
 - [`automizer-for-claude-desktop`](https://github.com/dev-bricks/automizer-for-claude-desktop): Automation launcher for Claude Desktop.
@@ -52,5 +54,4 @@ event-sourced automation receipts ledger
 ellmos-scheduler credit gate adapter
 ```
 
-## Last-checked: 2026-08-23
-
+## Last-checked: 2026-09-09

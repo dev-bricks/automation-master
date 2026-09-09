@@ -18,3 +18,14 @@ config.local.json
 .claude/settings.local.json
 PRIVATE.txt
 PUBLIC.txt
+
+# Synchronization conflict patterns
+*.sync-conflict-*
+*.conflict
+*-CONFLIT-*
+*-conflict-*
+
+# Multi-agent lock coordination
+LOCK.*
+*.lock
+LOCK*.txt

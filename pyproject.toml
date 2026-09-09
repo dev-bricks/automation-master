@@ -44,6 +44,7 @@ Repository = "https://github.com/dev-bricks/automation-master.git"
 Issues = "https://github.com/dev-bricks/automation-master/issues"
 Changelog = "https://github.com/dev-bricks/automation-master/blob/main/CHANGELOG.md"
 Security = "https://github.com/dev-bricks/automation-master/blob/main/SECURITY.md"
+"Parent Organization" = "https://github.com/dev-bricks"
 Umbrella = "https://github.com/open-bricks"
 
 
