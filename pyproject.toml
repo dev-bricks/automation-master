@@ -9,6 +9,7 @@ description = "Local-first automation registry, reward policy, and event-sourced
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
+license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md"]
 authors = [{ name = "Lukas Geiger", email = "lukas@open-bricks.org" }]
 keywords = [
   "automation",

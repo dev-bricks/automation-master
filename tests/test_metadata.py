@@ -44,6 +44,7 @@ def test_required_docs_exist_and_non_empty():
         "ARCHITECTURE.md",
         "SECURITY.md",
         "LICENSE",
+        "THIRD_PARTY_LICENSES.md",
         "ellmos-module.v2.json",
     ]
     for filename in required:
@@ -283,7 +284,7 @@ def test_badges_consistency():
 
     for doc in (readme_en, readme_de):
         assert "ruff" in doc.lower()
-        assert "63%20passed" in doc
+        assert "66%20passed" in doc
         assert "100%25" in doc
         assert "dev-bricks" in doc
         assert "open-bricks" in doc
@@ -381,3 +382,43 @@ def test_changelog_recent_pfad_a_entry():
     assert "## [0.1.2] - 2026-09-10" in changelog
     assert "Gitignore Hardening" in changelog
     assert "Standardized Pytest & CI Configuration" in changelog
+
+
+def test_third_party_licenses_and_pep639():
+    """Verify THIRD_PARTY_LICENSES.md presence, pure stdlib invariant, and PEP 639 config."""
+    licenses_path = REPO_ROOT / "THIRD_PARTY_LICENSES.md"
+    assert licenses_path.is_file(), "THIRD_PARTY_LICENSES.md must exist in repo root"
+    content = licenses_path.read_text(encoding="utf-8")
+    assert "Zero-Runtime-Dependency" in content or "Zero External Runtime Dependencies" in content
+    assert "100% pure Python standard library" in content
+    assert "pytest" in content
+    assert "ruff" in content
+    assert "setuptools" in content
+
+    pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert 'license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md"]' in pyproject
+
+
+def test_todo_status_table_and_gate_readiness():
+    """Verify TODO.md contains standard STATUS table and formalized tasks."""
+    todo_path = REPO_ROOT / "TODO.md"
+    assert todo_path.is_file(), "TODO.md must exist"
+    todo_text = todo_path.read_text(encoding="utf-8")
+    assert "## STATUS" in todo_text
+    assert "| Category" in todo_text
+    assert "Evidence / next gate" in todo_text
+    assert "TASK-AM-" in todo_text
+
+
+def test_final_gate_check_compliance():
+    """Verify minimum ignore entries and absence of German indicators in English README."""
+    gitignore = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
+    for req in ["__pycache__", "*.pyc", ".env", "*.db", ".venv/", ".idea/", ".vscode/", "data/"]:
+        assert req in gitignore, f"Missing required .gitignore entry for Gate 1: {req}"
+
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    first_50 = "\n".join(readme_en.splitlines()[:50])
+    # Gate 2 requires English language purity in first 50 lines
+    assert "Dokumentation" not in first_50
+    assert "Voraussetzungen" not in first_50
+

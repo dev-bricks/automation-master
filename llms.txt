@@ -20,7 +20,7 @@ Part of the dev-bricks ecosystem and open-bricks umbrella. Version 0.1.2, Python
 - Zero network egress; operates 100% offline in standard user mode without administrative elevation.
 
 ## Verification & Status
-- **Test Suite**: 63 passed (100% green via `pytest -ra -v`).
+- **Test Suite**: 66 passed (100% green via `pytest -ra -v`).
 - **Code Hygiene**: 100% compliant with `ruff check` (py310).
 - **CI Matrix**: GitHub Actions multi-OS (`ubuntu-latest`, `windows-latest`, `macos-latest`) and Python 3.10-3.13.
 
@@ -32,6 +32,7 @@ Part of the dev-bricks ecosystem and open-bricks umbrella. Version 0.1.2, Python
 - [ARCHITECTURE.md](https://github.com/dev-bricks/automation-master/blob/main/ARCHITECTURE.md): Architectural boundaries, event models, and reservation protocols.
 - [SECURITY.md](https://github.com/dev-bricks/automation-master/blob/main/SECURITY.md): Security policy, local storage invariants, and confidential reporting contacts (`security@open-bricks.org`, `security@ellmos.ai`, `support@lukasgeiger.com`, `lukas@open-bricks.org`).
 - [CHANGELOG.md](https://github.com/dev-bricks/automation-master/blob/main/CHANGELOG.md): Version history.
+- [THIRD_PARTY_LICENSES.md](https://github.com/dev-bricks/automation-master/blob/main/THIRD_PARTY_LICENSES.md): Third-party software inventory and zero-runtime-dependency verification.
 - [ellmos-module.v2.json](https://github.com/dev-bricks/automation-master/blob/main/ellmos-module.v2.json): Machine-readable module manifest.
 
 ## Ecosystem & Sibling Tools

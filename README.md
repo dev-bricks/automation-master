@@ -5,7 +5,7 @@
 [![CI](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/badge/version-0.1.2-blue.svg)](pyproject.toml)
 [![Code Style: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
-[![Pytest](https://img.shields.io/badge/pytest-63%20passed%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
+[![Pytest](https://img.shields.io/badge/pytest-66%20passed%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org)
 [![Architecture: Event-Sourced](https://img.shields.io/badge/Architecture-Event--Sourced%20SQLite-indigo.svg)](ARCHITECTURE.md)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](pyproject.toml)
@@ -19,7 +19,7 @@
 
 > [!NOTE]
 > Quick index for LLMs and AI coding agents: see [llms.txt](llms.txt) for context, boundaries, and API signatures.
-> Deutsche Dokumentation verfügbar: Siehe [README_de.md](README_de.md).
+> German edition available: see [README_de.md](README_de.md).
 
 ---
 
