@@ -3,9 +3,9 @@
 <img src="banner.png" width="100%" alt="automation-master banner">
 
 [![CI](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/Version-0.1.1-blue.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/Version-0.1.2-blue.svg)](pyproject.toml)
 [![Code-Stil: Ruff](https://img.shields.io/badge/Code--Stil-ruff-000000.svg)](https://github.com/astral-sh/ruff)
-[![Pytest](https://img.shields.io/badge/pytest-59%20passed%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
+[![Pytest](https://img.shields.io/badge/pytest-63%20passed%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org)
 [![Architektur: Event-Sourced](https://img.shields.io/badge/Architektur-Event--Sourced%20SQLite-indigo.svg)](ARCHITECTURE.md)
 [![Plattform](https://img.shields.io/badge/Plattform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](pyproject.toml)

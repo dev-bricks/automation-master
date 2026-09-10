@@ -81,7 +81,8 @@ def test_llms_txt_integrity():
     assert "# automation-master" in llms_text
     assert "AutomationMaster" in llms_text
     assert "RewardPolicy" in llms_text
-    assert "Last-checked: 2026-09-09" in llms_text
+    assert "Last-checked: 2026-09-10" in llms_text
+    assert "0.1.2" in llms_text
 
 
 def test_security_policy_bilingual_and_contacts():
@@ -282,7 +283,7 @@ def test_badges_consistency():
 
     for doc in (readme_en, readme_de):
         assert "ruff" in doc.lower()
-        assert "59%20passed" in doc
+        assert "63%20passed" in doc
         assert "100%25" in doc
         assert "dev-bricks" in doc
         assert "open-bricks" in doc
@@ -332,3 +333,51 @@ def test_changelog_recency():
     changelog = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
     assert "[0.1.1] - 2026-09-09" in changelog
     assert "Bilingual 14-Point Quick Navigation" in changelog
+
+
+def test_gitignore_hygiene_patterns():
+    """Verify .gitignore includes complete multi-host conflict and multi-agent lock patterns."""
+    gitignore = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
+    required_patterns = [
+        "*.sync-temp-*",
+        "*-ASUS-GEI.*",
+        "*-WORKSTATION-LG.*",
+        "*-WORKSTATION.*",
+        "LOCK",
+        "LOCK.permissions.json",
+        "uv.lock",
+        "coverage/",
+        "wheelhouse/",
+        ".wheel-smoke/",
+        "*.tmp",
+        "*.bak",
+        "*.swp",
+        "*~",
+        "*.log",
+    ]
+    for pat in required_patterns:
+        assert pat in gitignore, f"Missing pattern in .gitignore: {pat}"
+
+
+def test_pytest_configuration_and_flags():
+    """Verify pyproject.toml standardizes pytest options to -ra -v."""
+    pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert 'addopts = "-ra -v"' in pyproject
+    assert 'pythonpath = ["src"]' in pyproject
+    assert 'testpaths = ["tests"]' in pyproject
+
+
+def test_ci_workflow_pytest_flags():
+    """Verify CI workflow executes pytest -ra -v."""
+    ci_text = (REPO_ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    assert "pytest -ra -v" in ci_text
+    assert "python -m compileall -q src tests" in ci_text
+    assert "cancel-in-progress: true" in ci_text
+
+
+def test_changelog_recent_pfad_a_entry():
+    """Verify CHANGELOG.md has a Pfad A entry for 0.1.2 with standardized hygiene notes."""
+    changelog = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    assert "## [0.1.2] - 2026-09-10" in changelog
+    assert "Gitignore Hardening" in changelog
+    assert "Standardized Pytest & CI Configuration" in changelog

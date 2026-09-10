@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "automation-master"
-version = "0.1.1"
+version = "0.1.2"
 description = "Local-first automation registry, reward policy, and event-sourced credit governance."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -64,7 +64,7 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.pytest.ini_options]
-addopts = "-q"
+addopts = "-ra -v"
 pythonpath = ["src"]
 testpaths = ["tests"]
 

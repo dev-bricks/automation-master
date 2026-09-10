@@ -24,8 +24,27 @@ PUBLIC.txt
 *.conflict
 *-CONFLIT-*
 *-conflict-*
+*.sync-temp-*
+*-ASUS-GEI.*
+*-WORKSTATION-LG.*
+*-WORKSTATION.*
 
 # Multi-agent lock coordination
+LOCK
 LOCK.*
 *.lock
 LOCK*.txt
+LOCK.permissions.json
+uv.lock
+
+# Test, coverage and packaging caches
+coverage/
+wheelhouse/
+.wheel-smoke/
+
+# Temporary editor and log files
+*.tmp
+*.bak
+*.swp
+*~
+*.log

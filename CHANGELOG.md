@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.2] - 2026-09-10
+
+- **Technical Hygiene & Path A Hardening**: Comprehensive maintenance pass across repository metadata, testing configurations, and ignore rules.
+- **Gitignore Hardening**: Expanded `.gitignore` with multi-host synchronization conflict patterns (`*.sync-temp-*`, `*-ASUS-GEI.*`, `*-WORKSTATION-LG.*`, `*-WORKSTATION.*`), multi-agent locks (`LOCK`, `LOCK.permissions.json`, `uv.lock`), coverage/packaging scratch directories (`coverage/`, `wheelhouse/`, `.wheel-smoke/`), and temporary editor/log files (`*.tmp`, `*.bak`, `*.swp`, `*~`, `*.log`).
+- **Standardized Pytest & CI Configuration**: Standardized `pyproject.toml` pytest options (`addopts = "-ra -v"`) and updated `.github/workflows/ci.yml` test step to execute `pytest -ra -v`.
+- **Contract Test Suite Expansion**: Added automated contract tests in `tests/test_metadata.py` verifying gitignore hygiene patterns, pytest flag configuration, CI workflow flags, and changelog currency (63 passed | 100% green).
+- **Documentation & Badge Synchronization**: Bumped version to `0.1.2` across `pyproject.toml`, `src/automation_master/__init__.py`, `ellmos-module.v2.json`, `README.md`, `README_de.md`, and `llms.txt`; synchronized test count badge (63 passed | 100% green) and Last-checked timestamp (2026-09-10).
+
 ## [0.1.1] - 2026-09-09
 
 - **Bilingual 14-Point Quick Navigation**: Added full 14-point quick navigation (`Quick Navigation` / `Schnellnavigation`) with explicit markdown anchor parity across `README.md` and `README_de.md`.
