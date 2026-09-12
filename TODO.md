@@ -1,5 +1,17 @@
 # TODO
 
+## TASKPLAN readback (2026-09-05)
+
+The current open work is routed as TASKPLAN #98-#111: observer branch/CI
+(#98), state/version parity (#99), native receipt pilot (#100), provider
+selectors (#101), 14-day shadow pilot (#102), reward calibration (#103),
+manifest trust/provenance (#104), scheduler credit gate (#105), SQLite Transit
+registration (#106), operator overrides (#107), monitoring/recovery (#108),
+provider prompt repair (#109), receipt file security (#110), and closed
+secret-safe output schemas (#111). The completed retention projection and pure
+Antigravity contract verifier below remain completed; neither authorizes
+provider mutation, publication, or hard enforcement.
+
 ## Before real activation
 
 - Run a real, read-only provider-and-scheduler receipt pilot outside OneDrive;
