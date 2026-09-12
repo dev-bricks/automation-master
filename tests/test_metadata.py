@@ -82,8 +82,10 @@ def test_llms_txt_integrity():
     assert "# automation-master" in llms_text
     assert "AutomationMaster" in llms_text
     assert "RewardPolicy" in llms_text
-    assert "Last-checked: 2026-09-10" in llms_text
-    assert "0.1.2" in llms_text
+    assert "Last-checked: 2026-09-12" in llms_text
+    assert "0.1.3" in llms_text
+    assert "INV-LOCAL-01" in llms_text
+    assert "MARKETING-LOG.txt" in llms_text
 
 
 def test_security_policy_bilingual_and_contacts():
@@ -192,7 +194,7 @@ def test_readme_de_exists_and_bilingual_parity():
 
 
 def test_quick_navigation_anchors_and_parity():
-    """Verify 14-point quick navigation exists in both README.md and README_de.md."""
+    """Verify 16-point quick navigation exists in both README.md and README_de.md."""
     readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
 
@@ -209,11 +211,13 @@ def test_quick_navigation_anchors_and_parity():
         "7. CLI Usage & Operations",
         "8. Python API Integration",
         "9. Data Storage & Multi-OS Layout",
-        "10. Sibling Tools & Ecosystem Matrix",
-        "11. Architectural Contracts & Schema Specifications",
-        "12. Security & Vulnerability Reporting",
-        "13. License",
-        "14. German Documentation / Deutsche Version",
+        "10. Target Personas & Discoverability",
+        "11. Third-Party Licenses & Transparency",
+        "12. Sibling Tools & Ecosystem Matrix",
+        "13. Architectural Contracts & Schema Specifications",
+        "14. Security & Vulnerability Reporting",
+        "15. License",
+        "16. German Documentation / Deutsche Version",
     ]
     for pt in en_points:
         assert pt in readme_en, f"Missing English quick navigation point: {pt}"
@@ -228,11 +232,13 @@ def test_quick_navigation_anchors_and_parity():
         "7. CLI-Bedienung & Betrieb",
         "8. Python-API-Integration",
         "9. Datenspeicher & Multi-OS-Pfade",
-        "10. Geschwisterwerkzeuge & Ökosystem-Matrix",
-        "11. Architekturdokumente & Vertragsspezifikationen",
-        "12. Sicherheitsrichtlinie & Meldewege",
-        "13. Lizenz",
-        "14. Englische Dokumentation / English Version",
+        "10. Zielgruppen & Auffindbarkeit",
+        "11. Drittanbieter-Lizenzen & Transparenz",
+        "12. Geschwisterwerkzeuge & Ökosystem-Matrix",
+        "13. Architekturdokumente & Vertragsspezifikationen",
+        "14. Sicherheitsrichtlinie & Meldewege",
+        "15. Lizenz",
+        "16. Englische Dokumentation / English Version",
     ]
     for pt in de_points:
         assert pt in readme_de, f"Missing German quick navigation point: {pt}"
@@ -284,11 +290,13 @@ def test_badges_consistency():
 
     for doc in (readme_en, readme_de):
         assert "ruff" in doc.lower()
-        assert "66%20passed" in doc
+        assert "71%20passed" in doc
         assert "100%25" in doc
         assert "dev-bricks" in doc
         assert "open-bricks" in doc
         assert "48h" in doc
+        assert "Third-Party" in doc or "Drittanbieter" in doc
+        assert "Marketing" in doc
 
 
 def test_security_slas_and_contacts():
@@ -376,12 +384,13 @@ def test_ci_workflow_pytest_flags():
     assert "cancel-in-progress: true" in ci_text
 
 
-def test_changelog_recent_pfad_a_entry():
-    """Verify CHANGELOG.md has a Pfad A entry for 0.1.2 with standardized hygiene notes."""
+def test_changelog_recent_entries():
+    """Verify CHANGELOG.md has entries for 0.1.2 and 0.1.3 with standardized notes."""
     changelog = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    assert "## [0.1.3] - 2026-09-12" in changelog
     assert "## [0.1.2] - 2026-09-10" in changelog
     assert "Gitignore Hardening" in changelog
-    assert "Standardized Pytest & CI Configuration" in changelog
+    assert "Bilingual 16-Point Quick Navigation" in changelog
 
 
 def test_third_party_licenses_and_pep639():
@@ -421,4 +430,89 @@ def test_final_gate_check_compliance():
     # Gate 2 requires English language purity in first 50 lines
     assert "Dokumentation" not in first_50
     assert "Voraussetzungen" not in first_50
+
+
+def test_target_personas_and_discoverability_contract():
+    """Verify the 4 target personas and matrices across READMEs and MARKETING-LOG."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+    marketing = (REPO_ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
+
+    assert "## Target Personas & Discoverability" in readme_en
+    assert "## Zielgruppen & Auffindbarkeit" in readme_de
+
+    personas = [
+        "Autonomous AI Agent Engineers",
+        "DevOps, SRE & CI/CD Pipeline",
+        "Edge, Embedded & Air-Gapped Systems Developers",
+        "Enterprise Security",
+    ]
+    for persona in personas:
+        assert persona in readme_en, f"Missing persona in README.md: {persona}"
+        assert persona in marketing, f"Missing persona in MARKETING-LOG.txt: {persona}"
+
+    assert "Autonome KI-Agenten-Entwickler" in readme_de
+    assert "Unternehmens-Sicherheits- & Compliance-Verantwortliche" in readme_de
+
+
+def test_third_party_licenses_audit_contract():
+    """Verify THIRD_PARTY_LICENSES.md contains complete audit sections and invariant mappings."""
+    licenses_path = REPO_ROOT / "THIRD_PARTY_LICENSES.md"
+    assert licenses_path.is_file()
+    content = licenses_path.read_text(encoding="utf-8")
+
+    assert "2026-09-12" in content
+    assert "Zero External Runtime Dependencies" in content
+    assert "PSF" in content
+    assert "MIT License" in content
+    assert "INV-LOCAL-01" in content
+    assert "INV-ISOLAT-10" in content
+
+
+def test_competitive_matrix_and_invariants_in_marketing_log():
+    """Verify MARKETING-LOG.txt contains 5-way competitive matrix and invariants."""
+    marketing = (REPO_ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
+
+    assert "5-WAY COMPETITIVE DIFFERENTIATION MATRIX" in marketing
+    assert "cron/systemd" in marketing
+    assert "Airflow/Prefect" in marketing
+    assert "AWS Budgets" in marketing
+    assert "INV-LOCAL-01: 100% Local-First & Zero-Egress" in marketing
+    assert "INV-ISOLAT-10: Cloud Sync Directory Isolation" in marketing
+    assert "SIBLING ECOSYSTEM" in marketing
+    assert "DevCenter" in marketing
+    assert "CodeBox" in marketing
+
+
+def test_pyproject_extended_urls():
+    """Verify pyproject.toml [project.urls] contains extended resource links."""
+    pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert '"Third-Party Licenses" =' in pyproject
+    assert "THIRD_PARTY_LICENSES.md" in pyproject
+    assert '"Marketing-Log" =' in pyproject
+    assert "MARKETING-LOG.txt" in pyproject
+    assert '"LLM-Ready" =' in pyproject
+    assert "llms.txt" in pyproject
+
+
+def test_governance_invariants_canonical_ids():
+    """Verify canonical IDs INV-LOCAL-01 through INV-ISOLAT-10 appear in READMEs."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    expected_ids = [
+        "INV-LOCAL-01",
+        "INV-PRIV-02",
+        "INV-IMMUT-03",
+        "INV-ATOMIC-04",
+        "INV-GATE-05",
+        "INV-NOWORK-06",
+        "INV-EXEMPT-07",
+        "INV-RETENT-08",
+        "INV-PARITY-09",
+        "INV-ISOLAT-10",
+    ]
+    for inv_id in expected_ids:
+        assert inv_id in readme_en, f"Missing {inv_id} in README.md"
+        assert inv_id in readme_de, f"Missing {inv_id} in README_de.md"
 

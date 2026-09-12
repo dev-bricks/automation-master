@@ -3,15 +3,17 @@
 <img src="banner.png" width="100%" alt="automation-master banner">
 
 [![CI](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-0.1.2-blue.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-0.1.3-blue.svg)](pyproject.toml)
 [![Code Style: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
-[![Pytest](https://img.shields.io/badge/pytest-66%20passed%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
+[![Pytest](https://img.shields.io/badge/pytest-71%20passed%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org)
 [![Architecture: Event-Sourced](https://img.shields.io/badge/Architecture-Event--Sourced%20SQLite-indigo.svg)](ARCHITECTURE.md)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](pyproject.toml)
 [![Privacy: Offline](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-success.svg)](SECURITY.md)
 [![Security: Local-First](https://img.shields.io/badge/security-Local--First%20%7C%20Non--Elevation-blue.svg)](SECURITY.md)
 [![Security SLA](https://img.shields.io/badge/security%20SLA-48h%20response-blue.svg)](SECURITY.md)
+[![Third-Party Audited](https://img.shields.io/badge/Third--Party%20Audited-100%25%20Permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
+[![Marketing Log](https://img.shields.io/badge/Marketing%20Log-Active-blue.svg)](MARKETING-LOG.txt)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Ecosystem: dev-bricks](https://img.shields.io/badge/Ecosystem-dev--bricks-blue.svg)](https://github.com/dev-bricks)
 [![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
@@ -33,11 +35,13 @@
 - [7. CLI Usage & Operations](#cli-usage--operations)
 - [8. Python API Integration](#python-api-integration)
 - [9. Data Storage & Multi-OS Layout](#data-storage--multi-os-layout)
-- [10. Sibling Tools & Ecosystem Matrix](#sibling-tools--ecosystem-matrix)
-- [11. Architectural Contracts & Schema Specifications](#architectural-contracts--schema-specifications)
-- [12. Security & Vulnerability Reporting](#security--vulnerability-reporting)
-- [13. License](#license)
-- [14. German Documentation / Deutsche Version (README_de.md)](README_de.md)
+- [10. Target Personas & Discoverability](#target-personas--discoverability)
+- [11. Third-Party Licenses & Transparency](#third-party-licenses--transparency)
+- [12. Sibling Tools & Ecosystem Matrix](#sibling-tools--ecosystem-matrix)
+- [13. Architectural Contracts & Schema Specifications](#architectural-contracts--schema-specifications)
+- [14. Security & Vulnerability Reporting](#security--vulnerability-reporting)
+- [15. License](#license)
+- [16. German Documentation / Deutsche Version (README_de.md)](README_de.md)
 
 ---
 
@@ -177,16 +181,16 @@ The governance model of `automation-master` is strictly anchored in ten verifiab
 
 | Invariant & Guarantee | Scope | Mechanism | Enforcement |
 | :--- | :--- | :--- | :--- |
-| **1. 100% Local-First & Zero-Egress** | Network & Telemetry | 100% offline, pure standard library, zero external sockets | No external egress, complete privacy |
-| **2. Non-Elevation (RunAsInvoker)** | Permissions | Standard unprivileged user mode | No root or administrative escalation required |
-| **3. Immutable Event Ledger** | Persistence | Append-only SQLite `events` table with SHA-256 payload hashes | No `UPDATE` or `DELETE` mutations on raw events |
-| **4. Atomic Reservation Integrity** | Concurrency | SQLite `BEGIN IMMEDIATE` transaction boundaries | Strict prevention of overdraft races & double-spending |
-| **5. Fail-Closed Credit Gating** | Authorization | Default `SHADOW` or `DISABLED` enforcement mode | Explicit policy activation required for hard throttling |
-| **6. Zero Cost for Inactive Runs (NO_WORK)** | Budgeting | 0 credits charged for `NO_WORK`, immediate hold release | Prevents credit depletion during idle schedules |
-| **7. Guaranteed Critical Exemption** | Safety & SLA | Protected baseline allowance for safety-critical jobs | Preserves health probes and critical sync |
-| **8. 30-Day Receipt Retention** | Data Lifecycle | 30-day rich diagnostic projections, immutable audit summaries | Deterministic storage aging without ledger mutation |
-| **9. Multi-OS Operating Parity** | Portability | Verified identical execution on Windows, Linux, and macOS | Pure POSIX/NT path normalization, UTF-8 |
-| **10. Cloud Sync Directory Isolation** | Storage Safety | Database placement in `%LOCALAPPDATA%` / `$XDG_STATE_HOME` | Rejection of active databases inside OneDrive/Dropbox |
+| **`INV-LOCAL-01`: 100% Local-First & Zero-Egress** | Network & Telemetry | 100% offline, pure standard library, zero external sockets | No external egress, complete privacy |
+| **`INV-PRIV-02`: Non-Elevation (RunAsInvoker)** | Permissions | Standard unprivileged user mode | No root or administrative escalation required |
+| **`INV-IMMUT-03`: Immutable Event Ledger** | Persistence | Append-only SQLite `events` table with SHA-256 payload hashes | No `UPDATE` or `DELETE` mutations on raw events |
+| **`INV-ATOMIC-04`: Atomic Reservation Integrity** | Concurrency | SQLite `BEGIN IMMEDIATE` transaction boundaries | Strict prevention of overdraft races & double-spending |
+| **`INV-GATE-05`: Fail-Closed Credit Gating** | Authorization | Default `SHADOW` or `DISABLED` enforcement mode | Explicit policy activation required for hard throttling |
+| **`INV-NOWORK-06`: Zero Cost for Inactive Runs (NO_WORK)** | Budgeting | 0 credits charged for `NO_WORK`, immediate hold release | Prevents credit depletion during idle schedules |
+| **`INV-EXEMPT-07`: Guaranteed Critical Exemption** | Safety & SLA | Protected baseline allowance for safety-critical jobs | Preserves health probes and critical sync |
+| **`INV-RETENT-08`: 30-Day Receipt Retention** | Data Lifecycle | 30-day rich diagnostic projections, immutable audit summaries | Deterministic storage aging without ledger mutation |
+| **`INV-PARITY-09`: Multi-OS Operating Parity** | Portability | Verified identical execution on Windows, Linux, and macOS | Pure POSIX/NT path normalization, UTF-8 |
+| **`INV-ISOLAT-10`: Cloud Sync Directory Isolation** | Storage Safety | Database placement in `%LOCALAPPDATA%` / `$XDG_STATE_HOME` | Rejection of active databases inside OneDrive/Dropbox |
 
 ---
 
@@ -266,6 +270,38 @@ decision = gate.authorize(
 > The production database is isolated outside synchronized cloud storage folders (such as OneDrive or Dropbox):
 > - **Windows**: `%LOCALAPPDATA%\ellmos\automation-master\automation-master.db`
 > - **Linux/macOS**: `$XDG_STATE_HOME/ellmos/automation-master/automation-master.db` (default: `~/.local/state/ellmos/automation-master/`)
+
+---
+
+## Target Personas & Discoverability
+
+`automation-master` is engineered for four primary user groups and operational scenarios:
+
+1. **Autonomous AI Agent Engineers & Swarm Operators**: Prevent runaway agent loops, hold-backs, and unbounded tool invocation costs in multi-agent environments (Claude Code, Antigravity, Codex, Kimi). Provides deterministic credit reservations and explainable reward degradation.
+2. **DevOps, SRE & CI/CD Pipeline Architects**: Replace fragile crontabs and unmonitored recurring scripts with epoch-bounded budgets, preflight `NO_WORK` skip checks (0 credits consumed), and audit-ready event ledgers.
+3. **Edge, Embedded & Air-Gapped Systems Developers**: Deploy governance on air-gapped industrial workstations or offline devices with zero external daemon requirements, zero cloud dependencies, and zero network egress (`INV-LOCAL-01`).
+4. **Enterprise Security & Compliance Officers**: Cryptographically verify task provenance, runtime resource usage, and decision rationale via append-only SQLite event ledgers with SHA-256 payload hashing (`INV-IMMUT-03`) backed by a formal 48h security SLA (`INV-ISOLAT-10`).
+
+### High-Intent Search Phrases
+- `automation-master` · `local-first automation governance python`
+- `event-sourced credit budget sqlite` · `ai agent task throttling and reward policy`
+- `zero-egress task governance python` · `sqlite append-only event ledger automation`
+- `offline scheduled job credit envelope` · `dev-bricks open-bricks automation master`
+
+---
+
+## Third-Party Licenses & Transparency
+
+`automation-master` enforces a strict **Zero-Runtime-Dependency** policy (`dependencies = []`). The core package runs exclusively on the Python standard library, ensuring complete immunity against third-party supply-chain compromises and copyleft contamination.
+
+| Component | Scope | Version Spec | License | Source / Repository |
+| :--- | :--- | :--- | :--- | :--- |
+| **Python Standard Library** | Runtime | `>=3.10` | Python Software Foundation (PSF) | [python.org](https://www.python.org/) |
+| **pytest** | Development / Test | `>=8.0` | MIT License | [pytest.org](https://pytest.org/) |
+| **ruff** | Development / Linter | `>=0.9` | MIT OR Apache-2.0 | [github.com/astral-sh/ruff](https://github.com/astral-sh/ruff) |
+| **setuptools** | Build System | `>=68.0` | MIT License | [github.com/pypa/setuptools](https://github.com/pypa/setuptools) |
+
+For complete licensing terms, audit attestations, and invariant mappings, see [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
 
 ---
 

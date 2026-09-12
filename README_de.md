@@ -3,15 +3,17 @@
 <img src="banner.png" width="100%" alt="automation-master banner">
 
 [![CI](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/Version-0.1.2-blue.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/Version-0.1.3-blue.svg)](pyproject.toml)
 [![Code-Stil: Ruff](https://img.shields.io/badge/Code--Stil-ruff-000000.svg)](https://github.com/astral-sh/ruff)
-[![Pytest](https://img.shields.io/badge/pytest-66%20passed%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
+[![Pytest](https://img.shields.io/badge/pytest-71%20passed%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org)
 [![Architektur: Event-Sourced](https://img.shields.io/badge/Architektur-Event--Sourced%20SQLite-indigo.svg)](ARCHITECTURE.md)
 [![Plattform](https://img.shields.io/badge/Plattform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](pyproject.toml)
 [![Datenschutz: Offline](https://img.shields.io/badge/Datenschutz-100%25%20Offline%20%7C%20Zero--Egress-success.svg)](SECURITY.md)
 [![Sicherheit: Local-First](https://img.shields.io/badge/Sicherheit-Local--First%20%7C%20Non--Elevation-blue.svg)](SECURITY.md)
 [![Sicherheits-SLA](https://img.shields.io/badge/Sicherheits--SLA-48h%20Reaktion-blue.svg)](SECURITY.md)
+[![Drittanbieter-Lizenzen](https://img.shields.io/badge/Drittanbieter--Lizenzen-100%25%20Frei-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
+[![Marketing-Log](https://img.shields.io/badge/Marketing--Log-Aktiv-blue.svg)](MARKETING-LOG.txt)
 [![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
 [![Ecosystem: dev-bricks](https://img.shields.io/badge/Ecosystem-dev--bricks-blue.svg)](https://github.com/dev-bricks)
 [![Umbrella: open-bricks](https://img.shields.io/badge/Umbrella-open--bricks-purple.svg)](https://github.com/open-bricks)
@@ -33,11 +35,13 @@
 - [7. CLI-Bedienung & Betrieb](#cli-bedienung--betrieb)
 - [8. Python-API-Integration](#python-api-integration)
 - [9. Datenspeicher & Multi-OS-Pfade](#datenspeicher--multi-os-pfade)
-- [10. Geschwisterwerkzeuge & Ökosystem-Matrix](#geschwisterwerkzeuge--ökosystem-matrix)
-- [11. Architekturdokumente & Vertragsspezifikationen](#architekturdokumente--vertragsspezifikationen)
-- [12. Sicherheitsrichtlinie & Meldewege](#sicherheitsrichtlinie--meldewege)
-- [13. Lizenz](#lizenz)
-- [14. Englische Dokumentation / English Version (README.md)](README.md)
+- [10. Zielgruppen & Auffindbarkeit](#zielgruppen--auffindbarkeit)
+- [11. Drittanbieter-Lizenzen & Transparenz](#drittanbieter-lizenzen--transparenz)
+- [12. Geschwisterwerkzeuge & Ökosystem-Matrix](#geschwisterwerkzeuge--ökosystem-matrix)
+- [13. Architekturdokumente & Vertragsspezifikationen](#architekturdokumente--vertragsspezifikationen)
+- [14. Sicherheitsrichtlinie & Meldewege](#sicherheitsrichtlinie--meldewege)
+- [15. Lizenz](#lizenz)
+- [16. Englische Dokumentation / English Version (README.md)](README.md)
 
 ---
 
@@ -177,16 +181,16 @@ Das Governance-Modell von `automation-master` basiert auf zehn überprüfbaren K
 
 | Invariante & Garantie | Geltungsbereich | Mechanismus | Durchsetzung |
 | :--- | :--- | :--- | :--- |
-| **1. 100% Local-First & Zero-Egress** | Netzwerk & Telemetrie | 100% Offline, reine Standardbibliothek, keine externen Sockets | Keine Netzwerkaufrufe, lokale Datenisolation |
-| **2. Non-Elevation (RunAsInvoker)** | Berechtigungen | Unprivilegierter Standard-Benutzermodus | Keine administrativen Rechte oder Root erforderlich |
-| **3. Unveränderliches Event-Ledger** | Persistenz | Append-Only SQLite `events`-Tabelle mit SHA-256 Payload-Hashes | Keine mutierenden `UPDATE`- oder `DELETE`-Operationen |
-| **4. Atomare Reservierungsintegrität** | Nebenläufigkeit | SQLite `BEGIN IMMEDIATE` Transaktionsgrenzen | Schutz vor Budget-Überbuchungen & Race Conditions |
-| **5. Fail-Closed Credit Gating** | Autorisierung | Standardmodus `SHADOW` oder `DISABLED` | Explizite Richtlinienaktivierung für harte Drosselung nötig |
-| **6. Null Kosten für Leerläufe (NO_WORK)** | Budgetierung | 0 Credits bei `NO_WORK`, sofortige Freigabe reservierter Mittel | Keine Budgeterschöpfung bei Leerläufen |
-| **7. Ausnahme-Garantie für Schutzläufe** | Betriebssicherheit & SLA | Garantierte Mindestabdeckung für geschäftskritische Jobs | Schutz vor Deadlines & Systemstillstand |
-| **8. 30-Tage Belegaufbewahrung** | Datenlebenszyklus | 30 Tage Detailprojektion, danach unveränderliche Audit-Summen | Deterministische Alterung ohne Ledger-Mutation |
-| **9. Multi-OS Plattform-Parität** | Portabilität | Identisches Laufzeitverhalten auf Windows, Linux und macOS | Pfadagnostische Standardisierung, UTF-8 |
-| **10. Cloud-Sync-Ordner-Isolation** | Speichersicherheit | Datenbankablage in `%LOCALAPPDATA%` bzw. `$XDG_STATE_HOME` | Ausschluss aus synchronisierten Ordnern (OneDrive/Dropbox) |
+| **`INV-LOCAL-01`: 100% Local-First & Zero-Egress** | Netzwerk & Telemetrie | 100% Offline, reine Standardbibliothek, keine externen Sockets | Keine Netzwerkaufrufe, lokale Datenisolation |
+| **`INV-PRIV-02`: Non-Elevation (RunAsInvoker)** | Berechtigungen | Unprivilegierter Standard-Benutzermodus | Keine administrativen Rechte oder Root erforderlich |
+| **`INV-IMMUT-03`: Unveränderliches Event-Ledger** | Persistenz | Append-Only SQLite `events`-Tabelle mit SHA-256 Payload-Hashes | Keine mutierenden `UPDATE`- oder `DELETE`-Operationen |
+| **`INV-ATOMIC-04`: Atomare Reservierungsintegrität** | Nebenläufigkeit | SQLite `BEGIN IMMEDIATE` Transaktionsgrenzen | Schutz vor Budget-Überbuchungen & Race Conditions |
+| **`INV-GATE-05`: Fail-Closed Credit Gating** | Autorisierung | Standardmodus `SHADOW` oder `DISABLED` | Explizite Richtlinienaktivierung für harte Drosselung nötig |
+| **`INV-NOWORK-06`: Null Kosten für Leerläufe (NO_WORK)** | Budgetierung | 0 Credits bei `NO_WORK`, sofortige Freigabe reservierter Mittel | Keine Budgeterschöpfung bei Leerläufen |
+| **`INV-EXEMPT-07`: Ausnahme-Garantie für Schutzläufe** | Betriebssicherheit & SLA | Garantierte Mindestabdeckung für geschäftskritische Jobs | Schutz vor Deadlines & Systemstillstand |
+| **`INV-RETENT-08`: 30-Tage Belegaufbewahrung** | Datenlebenszyklus | 30 Tage Detailprojektion, danach unveränderliche Audit-Summen | Deterministische Alterung ohne Ledger-Mutation |
+| **`INV-PARITY-09`: Multi-OS Plattform-Parität** | Portabilität | Identisches Laufzeitverhalten auf Windows, Linux und macOS | Pfadagnostische Standardisierung, UTF-8 |
+| **`INV-ISOLAT-10`: Cloud-Sync-Ordner-Isolation** | Speichersicherheit | Datenbankablage in `%LOCALAPPDATA%` bzw. `$XDG_STATE_HOME` | Ausschluss aus synchronisierten Ordnern (OneDrive/Dropbox) |
 
 ---
 
@@ -266,6 +270,38 @@ decision = gate.authorize(
 > Die Produktionsdatenbank liegt isoliert außerhalb synchronisierter Cloud-Ordner (wie OneDrive oder Dropbox):
 > - **Windows**: `%LOCALAPPDATA%\ellmos\automation-master\automation-master.db`
 > - **Linux/macOS**: `$XDG_STATE_HOME/ellmos/automation-master/automation-master.db` (Standard: `~/.local/state/ellmos/automation-master/`)
+
+---
+
+## Zielgruppen & Auffindbarkeit
+
+`automation-master` wurde für vier zentrale Anwendergruppen und Einsatzszenarien entwickelt:
+
+1. **Autonome KI-Agenten-Entwickler & Multi-Agenten-Orchestratoren**: Verhindert unkontrollierte Endlosschleifen, Ausführungskosten und übermäßige Tool-Aufrufe in Multi-Agenten-Umgebungen (Claude Code, Antigravity, Codex, Kimi). Bietet deterministische Credit-Reservierungen und nachvollziehbare Belohnungsdegradation.
+2. **DevOps-, SRE- & CI/CD-Automations-Architekten**: Ersetzt fragile Crontabs und unüberwachte Hintergrundskripte durch epochenbezogene Budgets, `NO_WORK`-Vorprüfungen (0 Credits Verbrauch) und manipulationssichere Audit-Ledger.
+3. **Edge-, Embedded- & Air-Gapped-Systemingenieure**: Ermöglicht zuverlässige Prozess-Governance auf isolierten Industrie-PCs und Offline-Geräten mit null externen Daemon-Anforderungen, null Cloud-Abhängigkeiten und 100% Zero-Egress (`INV-LOCAL-01`).
+4. **Unternehmens-Sicherheits- & Compliance-Verantwortliche**: Ermöglicht den kryptografischen Nachweis aller automatisierten Aktivitäten, Ressourcenverbräuche und Entscheidungen via SQLite-Event-Ledger mit SHA-256 Payload-Hashes (`INV-IMMUT-03`) und formalem 48h-Sicherheits-SLA (`INV-ISOLAT-10`).
+
+### Suchbegriffe mit hoher Relevanz
+- `automation-master` · `lokale Automatisierungs-Governance Python`
+- `Event-Sourced Credit Budget SQLite` · `KI-Agent Aufgaben-Drosselung Belohnungsmodell`
+- `Zero-Egress Task Governance Python` · `SQLite unveränderliches Event-Ledger`
+- `Offline Automatisierung Kreditrahmen Steuerung` · `dev-bricks open-bricks automation master`
+
+---
+
+## Drittanbieter-Lizenzen & Transparenz
+
+`automation-master` verfolgt eine strikte **Zero-Runtime-Dependency**-Richtlinie (`dependencies = []`). Das Kernmodul läuft vollständig auf der Python-Standardbibliothek, wodurch Risiken durch Drittanbieter-Lieferkettenangriffe oder Copyleft-Kontaminationen ausgeschlossen sind.
+
+| Komponente | Geltungsbereich | Versionsvorgabe | Lizenz | Quelle / Repository |
+| :--- | :--- | :--- | :--- | :--- |
+| **Python-Standardbibliothek** | Laufzeitumgebung | `>=3.10` | Python Software Foundation (PSF) | [python.org](https://www.python.org/) |
+| **pytest** | Entwicklung / Test | `>=8.0` | MIT-Lizenz | [pytest.org](https://pytest.org/) |
+| **ruff** | Entwicklung / Linter | `>=0.9` | MIT OR Apache-2.0 | [github.com/astral-sh/ruff](https://github.com/astral-sh/ruff) |
+| **setuptools** | Build-System | `>=68.0` | MIT-Lizenz | [github.com/pypa/setuptools](https://github.com/pypa/setuptools) |
+
+Ausführliche Lizenztexte, Prüfberichte und die Zuordnung zu den Governance-Invarianten finden Sie in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
 
 ---
 

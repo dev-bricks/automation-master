@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.3] - 2026-09-12
+
+- **Bilingual 16-Point Quick Navigation & Visual Architecture**: Upgraded quick navigation across `README.md` and `README_de.md` to 16 points with 100% reciprocal markdown anchor parity, introducing dedicated sections for Target Personas & Discoverability (`#target-personas--discoverability` / `#zielgruppen--auffindbarkeit`) and Third-Party Licenses & Transparency (`#third-party-licenses--transparency` / `#drittanbieter-lizenzen--transparenz`).
+- **Target Personas & Market Positioning**: Established formal personas targeting Autonomous AI Agent Engineers, DevOps & Automation Architects, Edge/Air-Gapped Systems Developers, and Enterprise Security & Compliance Officers with bilingual high-intent discovery query matrices.
+- **PEP 621 Extended Project URLs**: Enriched `pyproject.toml` `[project.urls]` table with canonical links to `Third-Party Licenses`, `Marketing-Log`, and `LLM-Ready` resources.
+- **Comprehensive Third-Party License Audit**: Updated `THIRD_PARTY_LICENSES.md` audit confirming zero external runtime dependencies (`dependencies = []`), standard library runtime purity, and mapping directly to the 10 Governance Invariants (`INV-LOCAL-01` to `INV-ISOLAT-10`).
+- **Enriched Marketing & Discoverability Log**: Expanded `MARKETING-LOG.txt` with structured operational audit trails, 4 persona journeys, bilingual keyword matrices, 5-way competitive matrix across 10 architectural dimensions, and 21 sibling ecosystem partner tools.
+- **Canonical Governance Invariant IDs**: Integrated standardized identifiers (`INV-LOCAL-01` through `INV-ISOLAT-10`) into README invariant tables, `llms.txt`, and license documentation.
+- **Metadata Contract Test Suite Expansion**: Added 5 new automated contract tests in `tests/test_metadata.py` verifying 16-point quick navigation reciprocal parity, extended PEP 621 URLs, target personas presence, competitive matrix integrity, and canonical invariant IDs (71/71 passed | 100% green).
+
 ## [0.1.2] - 2026-09-10
 
 - **Technical Hygiene & Path A Hardening**: Comprehensive maintenance pass across repository metadata, testing configurations, and ignore rules.

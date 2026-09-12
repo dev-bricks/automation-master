@@ -1,9 +1,9 @@
 # Third-Party Licenses & Software Inventory
 
-**Project:** `automation-master`  
-**License:** [MIT License](LICENSE)  
-**Audit Date:** 2026-09-10  
-**Status:** Invariant Confirmed — Zero External Runtime Dependencies  
+**Project:** `automation-master`<br>
+**License:** [MIT License](LICENSE)<br>
+**Audit Date:** 2026-09-12<br>
+**Status:** Invariant Confirmed — Zero External Runtime Dependencies
 
 ---
 
@@ -39,6 +39,23 @@ The following tools and libraries are utilized exclusively during development, c
 | :--- | :--- | :--- | :--- | :--- |
 | [Python](https://www.python.org/) | `>=3.10` | PSF License | System Runtime | Multi-OS execution environment (`Windows`, `Linux`, `macOS`) |
 | [Git](https://git-scm.com/) | `>=2.40` | GPL-2.0 | Version Control | Plan-D source-of-truth management and release tagging |
+
+---
+
+## Governance & Security Invariants Mapping
+
+The software architecture and dependency footprint directly uphold the 10 Governance Invariants:
+
+- **`INV-LOCAL-01`**: 100% Local-First & Zero-Egress — No third-party network or telemetry packages in runtime dependencies.
+- **`INV-PRIV-02`**: Non-Elevation / RunAsInvoker — User-mode execution without administrative or root rights.
+- **`INV-IMMUT-03`**: Immutable Event Ledger — Standard library `sqlite3` and `hashlib` ensure cryptographic tamper resistance.
+- **`INV-ATOMIC-04`**: Atomic Reservation Integrity — Standard library `sqlite3` `BEGIN IMMEDIATE` locks avoid overdraft races.
+- **`INV-GATE-05`**: Fail-Closed Credit Gating — Default `SHADOW`/`DISABLED` mode protects system stability.
+- **`INV-NOWORK-06`**: Zero Cost for Inactive Runs — `NO_WORK` preflight checks release holds with 0 credit deduction.
+- **`INV-EXEMPT-07`**: Guaranteed Critical Exemption — Safety-critical jobs retain protected baseline allowance.
+- **`INV-RETENT-08`**: 30-Day Receipt Retention — Deterministic storage aging without destructive ledger mutations.
+- **`INV-PARITY-09`**: Multi-OS Operating Parity — Pure standard library enables identical behavior on Windows, Linux, and macOS.
+- **`INV-ISOLAT-10`**: Cloud Sync Directory Isolation & 48h SLA — Storage isolation in `%LOCALAPPDATA%` and formal 48h security SLA.
 
 ---
 

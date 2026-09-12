@@ -2,7 +2,7 @@
 
 > `automation-master` is a private-by-default, local-first control and governance module for recurring automation families. It registers comparable automation variants, calculates explainable reward scores, manages epoch-scoped credit envelopes, records run receipts, and proposes throttling inputs.
 
-Part of the dev-bricks ecosystem and open-bricks umbrella. Version 0.1.2, Python 3.10+, MIT License.
+Part of the dev-bricks ecosystem and open-bricks umbrella. Version 0.1.3, Python 3.10+, MIT License.
 
 ## Core Capabilities
 - **AutomationMaster Service**: Central controller for registry, epoch budgets, preflights, reservations, receipts, handovers, and deterministic projections.
@@ -13,6 +13,18 @@ Part of the dev-bricks ecosystem and open-bricks umbrella. Version 0.1.2, Python
 - **Receipt Retention**: 30-day detailed projection retention with immutable event payload hash audit preservation.
 - **Contract Adapters**: Narrow seams for `ellmos-scheduler` (CreditGateAdapter), `system-gap-master` (DeploymentPlan), `sqlite-transit-sync` (ImmutableMergePolicy), and Antigravity prompt-repair invariant verifier.
 
+## Governance & Runtime Invariants
+- `INV-LOCAL-01`: 100% Local-First & Zero-Egress (pure Python standard library, no external sockets).
+- `INV-PRIV-02`: Non-Elevation / RunAsInvoker (runs entirely with standard unprivileged user rights).
+- `INV-IMMUT-03`: Immutable Event Ledger (append-only SQLite `events` table with SHA-256 payload hashes).
+- `INV-ATOMIC-04`: Atomic Reservation Integrity (`BEGIN IMMEDIATE` transaction boundaries prevent race conditions).
+- `INV-GATE-05`: Fail-Closed Credit Gating (default `SHADOW`/`DISABLED` mode; explicit activation required).
+- `INV-NOWORK-06`: Zero Cost for Inactive Runs (0 credits charged for `NO_WORK`, immediate hold release).
+- `INV-EXEMPT-07`: Guaranteed Critical Exemption (protected baseline allowance for safety-critical tasks).
+- `INV-RETENT-08`: 30-Day Receipt Retention (30-day rich diagnostic projections; immutable audit summaries).
+- `INV-PARITY-09`: Multi-OS Operating Parity (verified identical execution on Windows, Linux, and macOS).
+- `INV-ISOLAT-10`: Cloud Sync Directory Isolation & 48h SLA (DB placed outside OneDrive; 48h response SLA).
+
 ## Boundaries & Constraints
 - Does **not** schedule processes, execute tasks, or launch jobs (delegated to schedulers like `ellmos-scheduler`).
 - Does **not** store live SQLite databases in cloud sync directories (OneDrive); default database lives in `%LOCALAPPDATA%\ellmos\automation-master\`.
@@ -20,7 +32,7 @@ Part of the dev-bricks ecosystem and open-bricks umbrella. Version 0.1.2, Python
 - Zero network egress; operates 100% offline in standard user mode without administrative elevation.
 
 ## Verification & Status
-- **Test Suite**: 66 passed (100% green via `pytest -ra -v`).
+- **Test Suite**: 71 passed (100% green via `pytest -ra -v`).
 - **Code Hygiene**: 100% compliant with `ruff check` (py310).
 - **CI Matrix**: GitHub Actions multi-OS (`ubuntu-latest`, `windows-latest`, `macos-latest`) and Python 3.10-3.13.
 
@@ -33,6 +45,7 @@ Part of the dev-bricks ecosystem and open-bricks umbrella. Version 0.1.2, Python
 - [SECURITY.md](https://github.com/dev-bricks/automation-master/blob/main/SECURITY.md): Security policy, local storage invariants, and confidential reporting contacts (`security@open-bricks.org`, `security@ellmos.ai`, `support@lukasgeiger.com`, `lukas@open-bricks.org`).
 - [CHANGELOG.md](https://github.com/dev-bricks/automation-master/blob/main/CHANGELOG.md): Version history.
 - [THIRD_PARTY_LICENSES.md](https://github.com/dev-bricks/automation-master/blob/main/THIRD_PARTY_LICENSES.md): Third-party software inventory and zero-runtime-dependency verification.
+- [MARKETING-LOG.txt](https://github.com/dev-bricks/automation-master/blob/main/MARKETING-LOG.txt): Discoverability, personas, competitive matrix, and governance audit log.
 - [ellmos-module.v2.json](https://github.com/dev-bricks/automation-master/blob/main/ellmos-module.v2.json): Machine-readable module manifest.
 
 ## Ecosystem & Sibling Tools
@@ -55,4 +68,4 @@ event-sourced automation receipts ledger
 ellmos-scheduler credit gate adapter
 ```
 
-## Last-checked: 2026-09-10
+## Last-checked: 2026-09-12

@@ -1,4 +1,131 @@
-# MARKETING-LOG.txt - automation-master
-# Format: [YYYY-MM-DD HH:MM:SS TZ] [TASK_NAME] ACTION: ... | DETAILS: ...
+# ================================================================================
+# MARKETING & DISCOVERABILITY LOG: automation-master
+# ================================================================================
+Date: 2026-09-12
+Operator: Antigravity / Gemini (via GITHUBBOT Pfad B)
+Target Repo: dev-bricks/automation-master
+Canonical Path: C:\_Local_DEV\repos\automation-master
+Version: 0.1.3
+Organization: dev-bricks
+Umbrella Collective: open-bricks
 
-[2026-09-09 04:50:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: dev-bricks/automation-master | SCOPE: Bilingual 14-Point Quick Navigation in README.md & README_de.md, 10 Governance & Runtime Invariants Table, Ruff & 48h Security SLA Badges, CI Concurrency & Bytecode compileall gate, .gitignore conflict/lock hardening, Parent Organization metadata, expanded 21-tool sibling ecosystem matrix, and 8 comprehensive contract tests in test_metadata.py (59/59 passed).
+# Audit & Action Tracking:
+# [2026-09-09 04:50:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: dev-bricks/automation-master | SCOPE: Bilingual 14-Point Quick Navigation in README.md & README_de.md, 10 Governance & Runtime Invariants Table, Ruff & 48h Security SLA Badges, CI Concurrency & Bytecode compileall gate, .gitignore conflict/lock hardening, Parent Organization metadata, expanded 21-tool sibling ecosystem matrix, and 8 comprehensive contract tests in test_metadata.py (59/59 passed).
+# [2026-09-10 18:30:00 CEST] [GITHUBBOT_ONE_REPO_CLEANER] ACTION: PFAD_A_HYGIENE | REPO: dev-bricks/automation-master | SCOPE: Gitignore hardening for multi-host conflict and multi-agent lock patterns, standardized pytest -ra -v options, PEP 639 license-files integration, TODO status table format, and 66 passed contract tests (v0.1.2).
+# [2026-09-12 04:45:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: dev-bricks/automation-master | SCOPE: 16-point quick navigation with 100% reciprocal anchor parity in README.md & README_de.md, enriched PEP 621 URLs (Third-Party Licenses, Marketing-Log, LLM-Ready), comprehensive THIRD_PARTY_LICENSES.md audit for pure Python stdlib zero-runtime dependencies, enriched MARKETING-LOG.txt (4 personas, bilingual search phrases, 5-way competitive matrix across 10 dimensions, 10 canonical governance invariants INV-LOCAL-01 to INV-ISOLAT-10, 21 partner tools), version bump to 0.1.3, and contract test expansion.
+
+================================================================================
+1. REPOSITORY AUDIT & DISCOVERABILITY BASELINE
+================================================================================
+- Organization: dev-bricks
+- Umbrella Ecosystem: open-bricks
+- Primary Category: Local-First Automation Governance, Event-Sourced Credit Budgeting & Reward Scoring
+- Core Positioning: Private-by-default, local-first control and governance module for scheduled automations. Registers automation families, calculates explainable reward scores, assigns epoch-scoped credit envelopes, records immutable run receipts, and proposes throttling decisions.
+- Distinct Value Proposition: Zero external runtime dependencies (`dependencies = []`). Eliminates unwanted background processes, network egress, and hidden cloud subscription costs. Employs an append-only SQLite event ledger with atomic `BEGIN IMMEDIATE` reservations to prevent double-spending and runaway loops without requiring complex cloud infrastructure.
+- Sibling Ecosystem Integration: Interoperates via narrow, fail-closed contract adapters with task schedulers (`ellmos-scheduler`), deployment plan auditors (`system-gap-master`), offline multi-host replicators (`sqlite-transit-sync`), and AI coding agent repair engines (`companion-for-agy`, `safe-start-for-codex`).
+
+================================================================================
+2. TARGET PERSONAS & USER JOURNEYS
+================================================================================
+1. Autonomous AI Agent Engineers & Multi-Agent Swarm Orchestrators
+   - Needs: Govern autonomous scheduled tasks, prevent rogue agent loops, throttle excessive tool invocations, and enforce strict execution credit envelopes across local LLM agents (Claude Code, Antigravity, Codex, Kimi).
+   - Pain Points: Uncontrolled agent execution causes token burn, infinite loops, and runaway resource consumption without centralized visibility or hold-backs.
+   - Solution: Event-sourced credit envelopes, atomic reservations, and explainable reward policies that penalize repetitive failures and reward productive task completions.
+
+2. DevOps, SRE & CI/CD Pipeline Automation Architects
+   - Needs: Regulate scheduled cron jobs, background runners, and recurring automation scripts across heterogeneous development workstations and servers.
+   - Pain Points: Legacy crontabs lack holistic budget awareness; recurring jobs fail silently, compete destructively for shared CPU/disk resources, or drain resources during idle periods.
+   - Solution: Narrow adapter seams for `ellmos-scheduler` and system schedulers, preflight NO_WORK checks (0 credits consumed), and offline multi-host sync via `sqlite-transit-sync`.
+
+3. Edge, Embedded & Air-Gapped Systems Developers
+   - Needs: Reliable, zero-dependency task governance on air-gapped workstations, industrial controllers, and standalone edge devices.
+   - Pain Points: Heavyweight workflow orchestrators (Airflow, Prefect, Temporal) require complex multi-container infrastructure (Docker, Redis, PostgreSQL) and constant internet connectivity.
+   - Solution: 100% pure Python standard library (`dependencies = []`), single-file SQLite database, zero external daemons, and zero network egress (`INV-LOCAL-01`).
+
+4. Enterprise Security, Governance & Compliance Officers
+   - Needs: Cryptographically auditable trace of all automated actions, resource usage, and governance decisions for internal compliance and external audits (SOC 2, ISO 27001).
+   - Pain Points: Distributed log files are easily tampered with, lack payload integrity verification, and do not provide deterministic audit trails.
+   - Solution: Append-only SQLite event ledger with SHA-256 payload hashes (`INV-IMMUT-03`), 30-day rich diagnostic projections, tamper-evident audit summaries, and formal 48h security SLA (`INV-ISOLAT-10`).
+
+================================================================================
+3. HIGH-INTENT SEARCH QUERIES (BILINGUAL EN & DE)
+================================================================================
+English (EN):
+- `automation-master`
+- `local-first automation governance python`
+- `event-sourced credit budget sqlite`
+- `ai agent task throttling and reward policy`
+- `offline scheduled job credit envelope`
+- `zero-egress task governance python`
+- `sqlite append-only event ledger automation`
+- `deterministic automation reward scoring`
+- `multi-agent budget governance python`
+- `dev-bricks open-bricks automation master`
+
+German (DE):
+- `automation-master lokale Automatisierungs-Governance`
+- `Event-Sourced Credit Budget SQLite Python`
+- `KI-Agent Aufgaben-Drosselung Belohnungsmodell`
+- `Offline Automatisierung Kreditrahmen Steuerung`
+- `Zero-Egress Task Governance Python`
+- `SQLite unveränderliches Event-Ledger`
+- `Deterministische Belohnungsrichtlinie für Automationen`
+- `Multi-Agenten Budgetverwaltung Python`
+- `dev-bricks Automatisierungs-Master Open-Source`
+- `Lokale Prozess-Governance ohne Cloud-Abhängigkeit`
+
+================================================================================
+4. 5-WAY COMPETITIVE DIFFERENTIATION MATRIX
+================================================================================
+| Dimension / Capability | automation-master | Traditional Schedulers (cron/systemd) | Workflow Engines (Airflow/Prefect) | Cloud SaaS FinOps (AWS Budgets) | Ad-hoc In-Memory Scripts |
+|:---|:---|:---|:---|:---|:---|
+| **Local-First & Zero-Egress** | 100% Local-First (`INV-LOCAL-01`) | Local OS process | Complex multi-container setup | ❌ Mandatory cloud telemetry | Local script |
+| **Runtime Dependency Footprint** | Zero base dependencies (`dependencies = []`) | OS native binaries | 50+ heavy dependencies (Postgres/Redis) | Heavy vendor SDKs | Minimal |
+| **Governance & Credit Envelopes** | Built-in epoch envelopes & scopes | ❌ None (run unconditionally) | Basic task concurrency limits | Cloud billing quotas only | ⚠️ Ad-hoc counters (volatile) |
+| **Event Sourcing & Immutability** | Append-only SQLite + SHA-256 (`INV-IMMUT-03`) | ❌ Ephemeral syslog | Mutable operational DB tables | SaaS audit logs (cloud-stored) | ❌ None |
+| **Reservation & Overdraft Protection** | Atomic `BEGIN IMMEDIATE` (`INV-ATOMIC-04`) | ❌ Race condition prone | Distributed locking required | Rate-limited API calls | ❌ Race conditions |
+| **Reward & Scoring Policy** | Explainable scoring, decay & hysteresis | ❌ None | ❌ None | ❌ None | ❌ None |
+| **Idle Run Cost Elimination** | 0 credits for `NO_WORK` (`INV-NOWORK-06`) | ❌ Full execution triggered | ⚠️ Worker slot allocated | ❌ API call billed | ❌ Manual check |
+| **Multi-Host Convergence** | Offline-first sync via `sqlite-transit-sync` | ❌ Host-isolated | Central database required | Central cloud control plane | ❌ Host-isolated |
+| **Privilege Model** | Unprivileged `RunAsInvoker` (`INV-PRIV-02`) | Often root / root cron | Service account / Docker | Cloud IAM | User mode |
+| **Security SLA & Disclosure** | 48h response SLA + 5-day triage (`INV-ISOLAT-10`) | OS vendor lifecycle | Community / Enterprise SLA | Enterprise SLA | None |
+
+================================================================================
+5. GOVERNANCE & RUNTIME INVARIANTS
+================================================================================
+- INV-LOCAL-01: 100% Local-First & Zero-Egress (offline, pure Python stdlib, zero network telemetry).
+- INV-PRIV-02: Non-Elevation / RunAsInvoker (runs entirely in standard user mode without root/admin escalation).
+- INV-IMMUT-03: Immutable Event Ledger (append-only SQLite `events` table with SHA-256 payload hashes; no UPDATE/DELETE on raw events).
+- INV-ATOMIC-04: Atomic Reservation Integrity (SQLite `BEGIN IMMEDIATE` transactions prevent overdraft races and double-spending).
+- INV-GATE-05: Fail-Closed Credit Gating (default SHADOW or DISABLED enforcement; explicit policy activation required for hard throttling).
+- INV-NOWORK-06: Zero Cost for Inactive Runs (0 credits charged for NO_WORK, immediate hold release prevents idle budget depletion).
+- INV-EXEMPT-07: Guaranteed Critical Exemption (protected baseline allowance for safety-critical jobs, health probes, and transit sync).
+- INV-RETENT-08: 30-Day Receipt Retention Tiering (30-day rich diagnostic projections; immutable audit summaries for older events).
+- INV-PARITY-09: Multi-OS Operating Parity (verified identical deterministic execution on Windows, Linux, and macOS).
+- INV-ISOLAT-10: Cloud Sync Directory Isolation & 48h SLA (DB placed outside OneDrive/Dropbox in local state dirs; formal 48h security response SLA).
+
+================================================================================
+6. SIBLING ECOSYSTEM & PARTNER MATRIX
+================================================================================
+Part of the dev-bricks software family and the open-bricks ecosystem:
+1. `DevCenter` (dev-bricks): Developer cockpit, tool health & system orchestration
+2. `CodeBox` (dev-bricks): Sandboxed Python code execution runner
+3. `MethodenAnalyser` (dev-bricks): Test methodology & psychometrics evaluation engine
+4. `smart-backup` (dev-bricks): Local-first atomic backup & snapshot utility
+5. `win-firewall-manager` (dev-bricks): Declarative Windows Firewall configuration manager
+6. `safe-start-for-codex` (dev-bricks): Isolated sandbox launcher for coding agents
+7. `automizer-for-claude-desktop` (dev-bricks): Process launcher & automation bridge for Claude Desktop
+8. `CareCenter-for-Codex` (dev-bricks): Care documentation & clinical process assistant
+9. `companion-for-agy` (ellmos-ai): PTY-based stdout-capture wrapper for agy/Gemini CLI
+10. `ellmos-scheduler` (ellmos-ai): Deterministic local-first task and job scheduler
+11. `system-gap-master` (ellmos-ai): System parity & deployment plan verification
+12. `sqlite-transit-sync` (ellmos-ai): Offline-first SQLite database replication & sync
+13. `workflowhooker-provenance` (ellmos-ai): Provenance tracking & agent workflow interceptor
+14. `memoryhooker-provenance` (ellmos-ai): Context memory injection & provenance harness
+15. `ellmos-controlcenter-mcp` (ellmos-ai): Gateway & tool orchestration MCP server
+16. `ellmos-filecommander-mcp` (ellmos-ai): Safe filesystem management MCP server
+17. `ellmos-codecommander-mcp` (ellmos-ai): Code inspection & AST refactoring MCP server
+18. `WinStorePackager` (file-bricks): MSIX packaging & desktop app deployment pipeline
+19. `ProFiler` (file-bricks): Fast, local-first file categorizer & inspector
+20. `ExplorerPro` (file-bricks): Multi-tab desktop file explorer with AI tags
+21. `open-bricks` (open-bricks): Umbrella organization for developer & desktop tools
