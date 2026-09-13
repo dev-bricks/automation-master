@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.4] - 2026-09-13
+
+- **PEP 561 Typing Marker**: Added `src/automation_master/py.typed` marker and packaged it via `tool.setuptools.package-data` in `pyproject.toml` to guarantee first-class static type-checking integration for consumers (Mypy, Pyright).
+- **Executable Module & CLI Entrypoint Hardening**: Added `src/automation_master/__main__.py` enabling direct module invocation via `python -m automation_master` as specified in `ellmos-module.v2.json`, added explicit `--version` / `-v` flag handling to `automation_master.cli`, and ensured clean execution return semantics.
+- **CI Matrix Timeout Guardrail**: Hardened `.github/workflows/ci.yml` with a 15-minute job timeout guardrail (`timeout-minutes: 15`) across all matrix targets (`ubuntu-latest`, `windows-latest`, `macos-latest` on Python 3.10-3.13) to prevent hung runner tasks.
+- **Gitignore Hardening**: Expanded `.gitignore` with type checker cache directories (`.mypy_cache/`, `.dmypy.json`, `dmypy.json`, `.pyre/`, `.pytype/`) and coverage wildcards (`.coverage.*`).
+- **Contract Test Suite Expansion**: Added 3 new automated contract tests in `tests/test_metadata.py` verifying PEP 561 typing markers, CLI version & module entrypoint integrity, and CI workflow timeout guardrails (74/74 passed | 100% green).
+- **Metadata Parity & Version Synchronization**: Bumped version to `0.1.4` across `pyproject.toml`, `src/automation_master/__init__.py`, `ellmos-module.v2.json`, `README.md`, `README_de.md`, `TODO.md`, and `llms.txt`; synchronized test count badge (74 passed | 100% green) and Last-checked timestamp (2026-09-13).
+
 ## [0.1.3] - 2026-09-12
 
 - **Bilingual 16-Point Quick Navigation & Visual Architecture**: Upgraded quick navigation across `README.md` and `README_de.md` to 16 points with 100% reciprocal markdown anchor parity, introducing dedicated sections for Target Personas & Discoverability (`#target-personas--discoverability` / `#zielgruppen--auffindbarkeit`) and Third-Party Licenses & Transparency (`#third-party-licenses--transparency` / `#drittanbieter-lizenzen--transparenz`).

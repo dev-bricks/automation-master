@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 from typing import Any
 
+from . import __version__
 from .models import AutomationSpec, MutationClass, RewardSignals, RunClass
 from .reward import RewardPolicy
 from .service import AutomationMaster
@@ -30,6 +31,12 @@ def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="automation-master",
         description="Local-first automation credit governance.",
+    )
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
     )
     parser.add_argument("--db", type=Path, default=default_db_path())
     parser.add_argument("--node", default=os.environ.get("AUTOMATION_MASTER_NODE", "local"))
@@ -136,3 +143,7 @@ def main(argv: list[str] | None = None) -> int:
         signals = RewardSignals(**{name: values[name] for name in signal_names})
         _emit(RewardPolicy().score(signals, previous_score=args.previous_score).as_dict())
     return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

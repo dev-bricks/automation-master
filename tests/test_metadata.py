@@ -82,8 +82,8 @@ def test_llms_txt_integrity():
     assert "# automation-master" in llms_text
     assert "AutomationMaster" in llms_text
     assert "RewardPolicy" in llms_text
-    assert "Last-checked: 2026-09-12" in llms_text
-    assert "0.1.3" in llms_text
+    assert "Last-checked: 2026-09-13" in llms_text
+    assert "0.1.4" in llms_text
     assert "INV-LOCAL-01" in llms_text
     assert "MARKETING-LOG.txt" in llms_text
 
@@ -290,7 +290,7 @@ def test_badges_consistency():
 
     for doc in (readme_en, readme_de):
         assert "ruff" in doc.lower()
-        assert "71%20passed" in doc
+        assert "74%20passed" in doc
         assert "100%25" in doc
         assert "dev-bricks" in doc
         assert "open-bricks" in doc
@@ -385,10 +385,12 @@ def test_ci_workflow_pytest_flags():
 
 
 def test_changelog_recent_entries():
-    """Verify CHANGELOG.md has entries for 0.1.2 and 0.1.3 with standardized notes."""
+    """Verify CHANGELOG.md has entries for 0.1.2, 0.1.3, and 0.1.4 with standardized notes."""
     changelog = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    assert "## [0.1.4] - 2026-09-13" in changelog
     assert "## [0.1.3] - 2026-09-12" in changelog
     assert "## [0.1.2] - 2026-09-10" in changelog
+    assert "PEP 561 Typing Marker" in changelog
     assert "Gitignore Hardening" in changelog
     assert "Bilingual 16-Point Quick Navigation" in changelog
 
@@ -516,3 +518,45 @@ def test_governance_invariants_canonical_ids():
         assert inv_id in readme_en, f"Missing {inv_id} in README.md"
         assert inv_id in readme_de, f"Missing {inv_id} in README_de.md"
 
+
+def test_pep561_typing_marker_contract():
+    """Verify PEP 561 py.typed marker exists and is packaged in pyproject.toml."""
+    marker = REPO_ROOT / "src" / "automation_master" / "py.typed"
+    assert marker.is_file(), "src/automation_master/py.typed must exist"
+
+    pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert "[tool.setuptools.package-data]" in pyproject
+    assert 'automation_master = ["py.typed"]' in pyproject
+
+
+def test_cli_version_and_executable_module_contract():
+    """Verify CLI --version, -v, and python -m automation_master module entrypoint."""
+    import pytest
+
+    from automation_master.cli import _parser, main
+
+    parser = _parser()
+    assert parser.prog == "automation-master"
+
+    # Test parser version action
+    with pytest.raises(SystemExit) as exc_info:
+        main(["--version"])
+    assert exc_info.value.code == 0
+
+    with pytest.raises(SystemExit) as exc_info:
+        main(["-v"])
+    assert exc_info.value.code == 0
+
+    # Ensure __main__.py exists and is correctly configured
+    main_py = REPO_ROOT / "src" / "automation_master" / "__main__.py"
+    assert main_py.is_file(), "src/automation_master/__main__.py must exist"
+    main_text = main_py.read_text(encoding="utf-8")
+    assert "from .cli import main" in main_text
+    assert "raise SystemExit(main())" in main_text
+
+
+def test_ci_workflow_timeout_guardrail_contract():
+    """Verify CI workflow defines a timeout guardrail for matrix test runs."""
+    ci_file = REPO_ROOT / ".github" / "workflows" / "ci.yml"
+    ci_text = ci_file.read_text(encoding="utf-8")
+    assert "timeout-minutes: 15" in ci_text

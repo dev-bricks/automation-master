@@ -43,8 +43,16 @@ uv.lock
 
 # Test, coverage and packaging caches
 coverage/
+.coverage.*
 wheelhouse/
 .wheel-smoke/
+
+# Type checking caches
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
 
 # Temporary editor and log files
 *.tmp
