@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "automation-master"
-version = "0.1.4"
+version = "0.1.5"
 description = "Local-first automation registry, reward policy, and event-sourced credit governance."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md"]
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md"]
 authors = [{ name = "Lukas Geiger", email = "lukas@open-bricks.org" }]
 keywords = [
   "automation",
@@ -19,6 +19,11 @@ keywords = [
   "local-first",
   "reward-policy",
   "credit-budget",
+  "zero-egress",
+  "fail-closed",
+  "multi-agent",
+  "dev-bricks",
+  "open-bricks",
 ]
 dependencies = []
 classifiers = [

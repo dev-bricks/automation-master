@@ -3,16 +3,18 @@
 <img src="banner.png" width="100%" alt="automation-master banner">
 
 [![CI](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-0.1.4-blue.svg)](pyproject.toml)
-[![Code Style: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
-[![Pytest](https://img.shields.io/badge/pytest-74%20passed%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
+[![Version](https://img.shields.io/badge/Version-0.1.5-blue.svg)](pyproject.toml)
+[![Code Style: Ruff](https://img.shields.io/badge/Code--Style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+[![Pytest](https://img.shields.io/badge/pytest-passing%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org)
 [![Architecture: Event-Sourced](https://img.shields.io/badge/Architecture-Event--Sourced%20SQLite-indigo.svg)](ARCHITECTURE.md)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](pyproject.toml)
-[![Privacy: Offline](https://img.shields.io/badge/privacy-100%25%20Offline%20%7C%20Zero--Egress-success.svg)](SECURITY.md)
-[![Security: Local-First](https://img.shields.io/badge/security-Local--First%20%7C%20Non--Elevation-blue.svg)](SECURITY.md)
-[![Security SLA](https://img.shields.io/badge/security%20SLA-48h%20response-blue.svg)](SECURITY.md)
-[![Third-Party Audited](https://img.shields.io/badge/Third--Party%20Audited-100%25%20Permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)](pyproject.toml)
+[![Privacy: Offline](https://img.shields.io/badge/Privacy-100%25%20Offline%20%7C%20Zero--Egress-success.svg)](SECURITY.md)
+[![Security: Local-First](https://img.shields.io/badge/Security-Local--First%20%7C%20Non--Elevation-blue.svg)](SECURITY.md)
+[![Security SLA](https://img.shields.io/badge/Security--SLA-48h%20Response-blue.svg)](SECURITY.md)
+[![Third-Party Licenses](https://img.shields.io/badge/Third--Party-Audited%20%7C%20100%25%20Permissive-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
+[![SBOM](https://img.shields.io/badge/SBOM-Level%201%20Audited-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
+[![Attribution: NOTICE](https://img.shields.io/badge/Attribution-NOTICE-blue.svg)](NOTICE)
 [![Marketing Log](https://img.shields.io/badge/Marketing%20Log-Active-blue.svg)](MARKETING-LOG.txt)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Ecosystem: dev-bricks](https://img.shields.io/badge/Ecosystem-dev--bricks-blue.svg)](https://github.com/dev-bricks)
@@ -20,48 +22,47 @@
 [![LLM-Ready](https://img.shields.io/badge/LLM--Ready-llms.txt-blue.svg)](llms.txt)
 
 > [!NOTE]
-> Quick index for LLMs and AI coding agents: see [llms.txt](llms.txt) for context, boundaries, and API signatures.
-> German edition available: see [README_de.md](README_de.md).
+> AI / LLM Context Index: See [llms.txt](llms.txt) for machine-readable context, invariant boundaries, and public API signatures.
+> German Edition: A complete German version is available in [README_de.md](README_de.md).
 
 ---
 
 ### Quick Navigation
-- [1. Executive Summary](#executive-summary)
-- [2. System Architecture](#system-architecture)
-- [3. Reservation & Credit Governance Lifecycle](#reservation--credit-governance-lifecycle)
-- [4. Event Sourcing & Projection Lifecycle](#event-sourcing--projection-lifecycle)
-- [5. Safety Model & Governance Invariants](#safety-model--governance-invariants)
-- [6. Installation & Prerequisites](#installation--prerequisites)
-- [7. CLI Usage & Operations](#cli-usage--operations)
-- [8. Python API Integration](#python-api-integration)
-- [9. Data Storage & Multi-OS Layout](#data-storage--multi-os-layout)
-- [10. Target Personas & Discoverability](#target-personas--discoverability)
-- [11. Third-Party Licenses & Transparency](#third-party-licenses--transparency)
-- [12. Sibling Tools & Ecosystem Matrix](#sibling-tools--ecosystem-matrix)
-- [13. Architectural Contracts & Schema Specifications](#architectural-contracts--schema-specifications)
-- [14. Security & Vulnerability Reporting](#security--vulnerability-reporting)
-- [15. License](#license)
-- [16. German Documentation / Deutsche Version (README_de.md)](README_de.md)
+- [1. Executive Summary & Core Identity](#1-executive-summary--core-identity)
+- [2. Visual Architecture & System Topology](#2-visual-architecture--system-topology)
+- [3. End-to-End Governance & Credit Lifecycle](#3-end-to-end-governance--credit-lifecycle)
+- [4. Target Personas & High-Intent SEO Queries](#4-target-personas--high-intent-seo-queries)
+- [5. Comparative Matrix vs. Alternatives](#5-comparative-matrix-vs-alternatives)
+- [6. Governance & Runtime Invariants Matrix](#6-governance--runtime-invariants-matrix)
+- [7. Event Sourcing & Projection Lifecycle](#7-event-sourcing--projection-lifecycle)
+- [8. Installation & Prerequisites](#8-installation--prerequisites)
+- [9. CLI Usage & Operations](#9-cli-usage--operations)
+- [10. Python API Integration & Extension Points](#10-python-api-integration--extension-points)
+- [11. Data Storage & Multi-OS Layout](#11-data-storage--multi-os-layout)
+- [12. Architectural Contracts & Schema Specifications](#12-architectural-contracts--schema-specifications)
+- [13. Sibling Tools & Ecosystem Matrix](#13-sibling-tools--ecosystem-matrix)
+- [14. Testing, Verification & Quality Gates](#14-testing-verification--quality-gates)
+- [15. Security Policy & Vulnerability SLAs (48h Response SLA)](#15-security-policy--vulnerability-slas-48h-response-sla)
+- [16. Third-Party Licenses & Level 1 SBOM](#16-third-party-licenses--level-1-sbom)
+- [17. Discovery Keywords & AI Agent Index](#17-discovery-keywords--ai-agent-index)
+- [18. Statutory Notice, Liability Limitation & License (§ 521 BGB)](#18-statutory-notice-liability-limitation--license--521-bgb)
 
 ---
 
-## Executive Summary
+## <a id="1-executive-summary--core-identity"></a><a id="executive-summary--core-identity"></a><a id="executive-summary"></a><a id="uebersicht--management-summary"></a>1. Executive Summary & Core Identity
 
-`automation-master` is a private-by-default, local-first control and governance module for
-scheduled automation families. It registers comparable variants, calculates
-explainable reward scores, assigns epoch-scoped credit envelopes, records run
-receipts, and proposes throttling inputs.
+`automation-master` is a private-by-default, local-first control and governance module for recurring automation families and multi-agent AI pipelines. It registers comparable automation variants, calculates explainable reward scores, manages epoch-scoped credit envelopes, records immutable run receipts, and proposes throttling decisions.
 
-It does **not** schedule processes, start jobs, replace `task-master`, or replace
-`ticket-master`. Integration with schedulers (such as `ellmos-scheduler`), `system-gap-master`, and
-`sqlite-transit-sync` happens through narrow, fail-closed adapters.
+The module operates without spawning processes or replacing schedulers like `ellmos-scheduler`, `task-master`, or `ticket-master`. Instead, it provides deterministic policy governance and admission control via narrow, fail-closed contract adapters.
 
 ---
 
-## System Architecture
+## <a id="2-visual-architecture--system-topology"></a><a id="visual-architecture--system-topology"></a><a id="system-architecture"></a><a id="visuelle-systemarchitektur--topologie"></a>2. Visual Architecture & System Topology
+
+The diagram below illustrates the decoupled architecture layers, from external callers through adapter seams, core governance engines, and local-first persistence:
 
 ```mermaid
-graph TD
+flowchart TD
     subgraph ExternalClients ["External Callers & Schedulers"]
         SCHED["ellmos-scheduler / Cron"]
         GAP["system-gap-master"]
@@ -69,22 +70,22 @@ graph TD
     end
 
     subgraph Adapters ["Narrow Adapter Seams"]
-        GATE["CreditGateAdapter<br/>(Preflight & Authorization)"]
-        DEP["DeploymentPlan Validator<br/>(Discovery & Health)"]
-        SYNC["ImmutableMergePolicy<br/>(Append-Only Union)"]
-        PROMPT["PromptRepairContract<br/>(Antigravity Invariant Guard)"]
+        GATE["CreditGateAdapter<br/>Preflight & Authorization"]
+        DEP["DeploymentPlan Validator<br/>Discovery & Health"]
+        SYNC["ImmutableMergePolicy<br/>Append-Only Union"]
+        PROMPT["PromptRepairContract<br/>Antigravity Invariant Guard"]
     end
 
     subgraph CoreEngine ["automation-master Core Engine"]
         SVC["AutomationMaster Service"]
-        POLICY["RewardPolicy<br/>(Deterministic Scoring)"]
-        CREDIT["CreditPolicy<br/>(SHADOW / ENFORCED)"]
-        RETENTION["ReceiptRetentionPolicy<br/>(30d Detailed & Audit Summary)"]
+        POLICY["RewardPolicy<br/>Deterministic Scoring"]
+        CREDIT["CreditPolicy<br/>SHADOW / ENFORCED"]
+        RETENTION["ReceiptRetentionPolicy<br/>30d Detailed & Audit Summary"]
     end
 
     subgraph Storage ["Local-First Event Storage"]
-        LEDGER[("SQLite Event Ledger<br/>events table (Append-Only)<br/>BEGIN IMMEDIATE Transactions")]
-        PROJ["Deterministic Projections<br/>(Budgets, Runs, Receipts)"]
+        LEDGER[("SQLite Event Ledger<br/>events table Append-Only<br/>BEGIN IMMEDIATE Transactions")]
+        PROJ["Deterministic Projections<br/>Budgets, Runs, Receipts"]
     end
 
     SCHED --> GATE
@@ -105,7 +106,7 @@ graph TD
 
 ---
 
-## Reservation & Credit Governance Lifecycle
+## <a id="3-end-to-end-governance--credit-lifecycle"></a><a id="end-to-end-governance--credit-lifecycle"></a><a id="reservation--credit-governance-lifecycle"></a><a id="end-to-end-governance--credit-lebenszyklus"></a>3. End-to-End Governance & Credit Lifecycle
 
 ```mermaid
 sequenceDiagram
@@ -140,42 +141,52 @@ sequenceDiagram
 
 ---
 
-## Event Sourcing & Projection Lifecycle
+## <a id="4-target-personas--high-intent-seo-queries"></a><a id="target-personas--high-intent-seo-queries"></a><a id="target-personas--discoverability"></a><a id="zielgruppen--high-intent-suchbegriffe"></a>4. Target Personas & High-Intent SEO Queries
 
-```mermaid
-graph LR
-    subgraph Input ["Mutations"]
-        EV["Event Creation<br/>(EventId, Epoch, Node, PayloadHash)"]
-    end
+`automation-master` is engineered for four primary user personas across autonomous multi-agent systems and infrastructure operations:
 
-    subgraph Ledger ["Append-Only SQLite Ledger"]
-        TX["BEGIN IMMEDIATE Transaction"]
-        TAB[("events Table<br/>Immutable Log")]
-    end
+- **`[PERSONA-01]` Autonomous AI Agent Engineers & Swarm Operators**: Prevent runaway agent loops, token burn, and unbounded tool invocation costs in multi-agent environments (Claude Code, Antigravity, Codex, Kimi). Provides deterministic credit reservations and explainable reward degradation.
+- **`[PERSONA-02]` DevOps, SRE & CI/CD Pipeline Architects**: Replace fragile crontabs and unmonitored background scripts with epoch-bounded budgets, preflight `NO_WORK` skip checks (0 credits consumed), and audit-ready event ledgers.
+- **`[PERSONA-03]` Edge, Embedded & Air-Gapped Systems Developers**: Deploy governance on air-gapped industrial workstations or offline devices with zero external daemon requirements, zero cloud dependencies, and zero network egress (`INV-LOCAL-01`).
+- **`[PERSONA-04]` Enterprise Security, Governance & Compliance Officers**: Cryptographically verify task provenance, runtime resource usage, and decision rationale via append-only SQLite event ledgers with SHA-256 payload hashing (`INV-IMMUT-03`) backed by a formal 48h security SLA (`INV-ISOLAT-10`).
 
-    subgraph Projections ["Deterministic Projections"]
-        BUDGET["Budget & Envelopes Projection"]
-        RECEIPTS["Run Receipts & Outcomes"]
-        REWARD["Reward & Penalty Score"]
-    end
+### High-Intent Search Queries
 
-    subgraph Retention ["30-Day Retention Tiering"]
-        DETAILED["Detailed Mode (&le; 30 Days)<br/>Full diagnostic fields"]
-        SUMMARY["Audit Summary (> 30 Days)<br/>Preserved metadata & payload hash"]
-    end
-
-    EV --> TX
-    TX --> TAB
-    TAB --> BUDGET
-    TAB --> RECEIPTS
-    TAB --> REWARD
-    RECEIPTS --> DETAILED
-    DETAILED --> SUMMARY
-```
+| Language | Query String | Primary Intent / Persona |
+| :--- | :--- | :--- |
+| **EN** | `automation-master` | Canonical repository and documentation discovery |
+| **EN** | `local-first automation governance python` | Local governance framework search `[PERSONA-02]` |
+| **EN** | `event-sourced credit budget sqlite` | Event ledger and credit reservation architecture `[PERSONA-01]` |
+| **EN** | `ai agent task throttling and reward policy` | Multi-agent loop throttling & scoring `[PERSONA-01]` |
+| **EN** | `zero-egress task governance python` | Air-gapped and secure local-first execution `[PERSONA-03]` |
+| **EN** | `sqlite append-only event ledger automation` | Cryptographic audit trail & compliance `[PERSONA-04]` |
+| **DE** | `automation-master lokale Automatisierungs-Governance` | Deutsche Identität & Paketdokumentation |
+| **DE** | `KI-Agent Aufgaben-Drosselung Belohnungsmodell` | KI-Agenten Throttling und Belohnungssteuerung `[PERSONA-01]` |
+| **DE** | `Event-Sourced Credit Budget SQLite Python` | Lokale Budgetierung und Event-Sourcing `[PERSONA-02]` |
+| **DE** | `Lokale Prozess-Governance ohne Cloud-Abhängigkeit` | Cloud-unabhängige Prozessüberwachung `[PERSONA-03]` |
 
 ---
 
-## Safety Model & Governance Invariants
+## <a id="5-comparative-matrix-vs-alternatives"></a><a id="comparative-matrix-vs-alternatives"></a><a id="vergleichsmatrix-gegenueber-alternativen"></a>5. Comparative Matrix vs. Alternatives
+
+The table below contrasts `automation-master` across 10 architectural and governance dimensions against 4 standard alternatives:
+
+| Technical Dimension | automation-master | Traditional Schedulers (cron/systemd) | Workflow Engines (Airflow/Prefect) | Cloud SaaS FinOps (AWS Budgets) | Ad-hoc Shell Scripts & Locks |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Local-First & Zero-Egress** | **100% Local-First** (`INV-LOCAL-01`) | Local OS process | Heavy multi-container cluster | ❌ Mandatory cloud telemetry | Local script |
+| **Runtime Dependencies** | **Zero Base** (`dependencies = []`) | OS native binaries | 50+ heavy dependencies (Postgres/Redis) | Heavy vendor SDKs | Minimal |
+| **Governance & Credit Envelopes** | **Epoch Envelopes & Scopes** | ❌ None (runs unconditionally) | Basic concurrency slots | Cloud billing quotas only | ⚠️ Volatile counters |
+| **Event Sourcing & Immutability** | **Append-Only SQLite + SHA-256** (`INV-IMMUT-03`) | ❌ Ephemeral syslog | Mutable database tables | SaaS audit logs (remote) | ❌ None |
+| **Atomic Reservation & Overdraft**| **Atomic `BEGIN IMMEDIATE`** (`INV-ATOMIC-04`) | ❌ Race condition prone | Distributed locking needed | Cloud API rate limits | ❌ File race conditions |
+| **Reward & Scoring Policy** | **Explainable Scoring & Decay** | ❌ None | ❌ None | ❌ None | ❌ None |
+| **Idle Run Cost Elimination** | **0 Credits for `NO_WORK`** (`INV-NOWORK-06`) | ❌ Full execution triggered | ⚠️ Worker slot allocated | ❌ API call billed | ❌ Manual check |
+| **Multi-Host Convergence** | **Offline Sync via `sqlite-transit-sync`** | ❌ Host-isolated | Central DB required | Central cloud control plane | ❌ Host-isolated |
+| **Privilege Model** | **Unprivileged `RunAsInvoker`** (`INV-PRIV-02`) | Often root / root crontab | Service account / Docker | Cloud IAM | User mode |
+| **Security SLA & Disclosure** | **48h SLA & 5-Day Triage** (`INV-ISOLAT-10`) | OS vendor lifecycle | Community / Vendor SLA | Enterprise SLA | None |
+
+---
+
+## <a id="6-governance--runtime-invariants-matrix"></a><a id="governance--runtime-invariants-matrix"></a><a id="safety-model--governance-invariants"></a><a id="governance--laufzeit-invarianten-matrix"></a>6. Governance & Runtime Invariants Matrix
 
 The governance model of `automation-master` is strictly anchored in ten verifiable invariants:
 
@@ -194,7 +205,42 @@ The governance model of `automation-master` is strictly anchored in ten verifiab
 
 ---
 
-## Installation & Prerequisites
+## <a id="7-event-sourcing--projection-lifecycle"></a><a id="event-sourcing--projection-lifecycle"></a><a id="event-sourcing--projektionslebenszyklus"></a>7. Event Sourcing & Projection Lifecycle
+
+```mermaid
+graph LR
+    subgraph Input ["Mutations"]
+        EV["Event Creation<br/>EventId, Epoch, Node, PayloadHash"]
+    end
+
+    subgraph Ledger ["Append-Only SQLite Ledger"]
+        TX["BEGIN IMMEDIATE Transaction"]
+        TAB[("events Table<br/>Immutable Log")]
+    end
+
+    subgraph Projections ["Deterministic Projections"]
+        BUDGET["Budget & Envelopes Projection"]
+        RECEIPTS["Run Receipts & Outcomes"]
+        REWARD["Reward & Penalty Score"]
+    end
+
+    subgraph Retention ["30-Day Retention Tiering"]
+        DETAILED["Detailed Mode &le; 30 Days<br/>Full diagnostic fields"]
+        SUMMARY["Audit Summary &gt; 30 Days<br/>Preserved metadata & payload hash"]
+    end
+
+    EV --> TX
+    TX --> TAB
+    TAB --> BUDGET
+    TAB --> RECEIPTS
+    TAB --> REWARD
+    RECEIPTS --> DETAILED
+    DETAILED --> SUMMARY
+```
+
+---
+
+## <a id="8-installation--prerequisites"></a><a id="installation--prerequisites"></a><a id="installation--voraussetzungen"></a>8. Installation & Prerequisites
 
 ### Prerequisites
 - Python 3.10, 3.11, 3.12, or 3.13
@@ -203,14 +249,19 @@ The governance model of `automation-master` is strictly anchored in ten verifiab
 ### Installation
 
 ```powershell
+# Editable installation for development and testing
 python -m pip install -e ".[dev]"
 ```
 
 ---
 
-## CLI Usage & Operations
+## <a id="9-cli-usage--operations"></a><a id="cli-usage--operations"></a><a id="cli-bedienung--betrieb"></a>9. CLI Usage & Operations
 
 ```powershell
+# Display version and help
+automation-master --version
+automation-master --help
+
 # Initialize local ledger
 automation-master --db .\pilot.db --node workstation init
 
@@ -226,7 +277,7 @@ automation-master --db .\pilot.db --node workstation status --epoch 2026-W34 --s
 
 ---
 
-## Python API Integration
+## <a id="10-python-api-integration--extension-points"></a><a id="python-api-integration--extension-points"></a><a id="python-api-integration"></a><a id="python-api-integration--erweiterungspunkte"></a>10. Python API Integration & Extension Points
 
 ```python
 from automation_master import EnforcementMode, EventStore, RunClass
@@ -264,7 +315,7 @@ decision = gate.authorize(
 
 ---
 
-## Data Storage & Multi-OS Layout
+## <a id="11-data-storage--multi-os-layout"></a><a id="data-storage--multi-os-layout"></a><a id="datenspeicher--multi-os-pfade"></a>11. Data Storage & Multi-OS Layout
 
 > [!TIP]
 > The production database is isolated outside synchronized cloud storage folders (such as OneDrive or Dropbox):
@@ -273,39 +324,21 @@ decision = gate.authorize(
 
 ---
 
-## Target Personas & Discoverability
+## <a id="12-architectural-contracts--schema-specifications"></a><a id="architectural-contracts--schema-specifications"></a><a id="architekturdokumente--vertragsspezifikationen"></a>12. Architectural Contracts & Schema Specifications
 
-`automation-master` is engineered for four primary user groups and operational scenarios:
-
-1. **Autonomous AI Agent Engineers & Swarm Operators**: Prevent runaway agent loops, hold-backs, and unbounded tool invocation costs in multi-agent environments (Claude Code, Antigravity, Codex, Kimi). Provides deterministic credit reservations and explainable reward degradation.
-2. **DevOps, SRE & CI/CD Pipeline Architects**: Replace fragile crontabs and unmonitored recurring scripts with epoch-bounded budgets, preflight `NO_WORK` skip checks (0 credits consumed), and audit-ready event ledgers.
-3. **Edge, Embedded & Air-Gapped Systems Developers**: Deploy governance on air-gapped industrial workstations or offline devices with zero external daemon requirements, zero cloud dependencies, and zero network egress (`INV-LOCAL-01`).
-4. **Enterprise Security & Compliance Officers**: Cryptographically verify task provenance, runtime resource usage, and decision rationale via append-only SQLite event ledgers with SHA-256 payload hashing (`INV-IMMUT-03`) backed by a formal 48h security SLA (`INV-ISOLAT-10`).
-
-### High-Intent Search Phrases
-- `automation-master` · `local-first automation governance python`
-- `event-sourced credit budget sqlite` · `ai agent task throttling and reward policy`
-- `zero-egress task governance python` · `sqlite append-only event ledger automation`
-- `offline scheduled job credit envelope` · `dev-bricks open-bricks automation master`
+- [ARCHITECTURE.md](ARCHITECTURE.md): Detailed architectural layers, event schema, and reservation mechanics.
+- [SECURITY.md](SECURITY.md): Security policy, local-first storage invariants, and confidential vulnerability reporting.
+- [CHANGELOG.md](CHANGELOG.md): Version history, releases, and discoverability records.
+- [NOTICE](NOTICE): Formal attribution and copyright declarations.
+- [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md): Level 1 SBOM, invariant cross-reference matrix, and permissive license attestations.
+- [MARKETING-LOG.txt](MARKETING-LOG.txt): Search queries, personas, competitive matrix, and operational audit history.
+- [contracts/scheduler-credit-gate.md](contracts/scheduler-credit-gate.md): Scheduler credit gate adapter specifications.
+- [contracts/receipt-retention.md](contracts/receipt-retention.md): 30-day receipt retention and audit summary contract.
+- [contracts/deployment-plan.schema.json](contracts/deployment-plan.schema.json): JSON schema for System-Gap deployment plans.
 
 ---
 
-## Third-Party Licenses & Transparency
-
-`automation-master` enforces a strict **Zero-Runtime-Dependency** policy (`dependencies = []`). The core package runs exclusively on the Python standard library, ensuring complete immunity against third-party supply-chain compromises and copyleft contamination.
-
-| Component | Scope | Version Spec | License | Source / Repository |
-| :--- | :--- | :--- | :--- | :--- |
-| **Python Standard Library** | Runtime | `>=3.10` | Python Software Foundation (PSF) | [python.org](https://www.python.org/) |
-| **pytest** | Development / Test | `>=8.0` | MIT License | [pytest.org](https://pytest.org/) |
-| **ruff** | Development / Linter | `>=0.9` | MIT OR Apache-2.0 | [github.com/astral-sh/ruff](https://github.com/astral-sh/ruff) |
-| **setuptools** | Build System | `>=68.0` | MIT License | [github.com/pypa/setuptools](https://github.com/pypa/setuptools) |
-
-For complete licensing terms, audit attestations, and invariant mappings, see [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
-
----
-
-## Sibling Tools & Ecosystem Matrix
+## <a id="13-sibling-tools--ecosystem-matrix"></a><a id="sibling-tools--ecosystem-matrix"></a><a id="geschwisterwerkzeuge--oekosystem-matrix"></a>13. Sibling Tools & Ecosystem Matrix
 
 `automation-master` is part of the **dev-bricks** ecosystem and the **open-bricks** open-source suite:
 
@@ -338,18 +371,24 @@ For complete licensing terms, audit attestations, and invariant mappings, see [T
 
 ---
 
-## Architectural Contracts & Schema Specifications
+## <a id="14-testing-verification--quality-gates"></a><a id="testing-verification--quality-gates"></a><a id="running-tests"></a><a id="testen-verifikation--qualitaets-gates"></a>14. Testing, Verification & Quality Gates
 
-- [ARCHITECTURE.md](ARCHITECTURE.md): Detailed architectural layers, event schema, and reservation mechanics.
-- [SECURITY.md](SECURITY.md): Security policy, local-first storage invariants, and confidential vulnerability reporting.
-- [CHANGELOG.md](CHANGELOG.md): Version history, releases, and discoverability records.
-- [contracts/scheduler-credit-gate.md](contracts/scheduler-credit-gate.md): Scheduler credit gate adapter specifications.
-- [contracts/receipt-retention.md](contracts/receipt-retention.md): 30-day receipt retention and audit summary contract.
-- [contracts/deployment-plan.schema.json](contracts/deployment-plan.schema.json): JSON schema for System-Gap deployment plans.
+The test suite enforces complete contract integrity, metadata parity, and error-free AST compilation:
+
+```powershell
+# Run full automated test suite
+pytest -ra -v
+
+# Run linting and code style verification
+ruff check .
+
+# Verify python bytecode compilation across all modules
+python -m compileall -q src tests
+```
 
 ---
 
-## Security & Vulnerability Reporting
+## <a id="15-security-policy--vulnerability-slas-48h-response-sla"></a><a id="security-policy--vulnerability-slas-48h-response-sla"></a><a id="security--vulnerability-reporting"></a><a id="sicherheitsrichtlinie--meldewege-48h-antwort-sla"></a>15. Security Policy & Vulnerability SLAs (48h Response SLA)
 
 For security-related issues or confidential inquiries:
 - **Security Team**: `security@open-bricks.org`
@@ -364,12 +403,38 @@ For security-related issues or confidential inquiries:
 
 ---
 
-## License
+## <a id="16-third-party-licenses--level-1-sbom"></a><a id="third-party-licenses--level-1-sbom"></a><a id="third-party-licenses--transparency"></a><a id="drittanbieter-lizenzen--level-1-sbom"></a>16. Third-Party Licenses & Level 1 SBOM
 
-This project is licensed under the [MIT License](LICENSE).
+`automation-master` enforces a strict **Zero-Runtime-Dependency** policy (`dependencies = []`). The core package runs exclusively on the Python standard library, ensuring complete immunity against third-party supply-chain compromises and copyleft contamination.
+
+| Component | Scope | Version Spec | License | Source / Repository |
+| :--- | :--- | :--- | :--- | :--- |
+| **Python Standard Library** | Runtime | `>=3.10` | Python Software Foundation (PSF) | [python.org](https://www.python.org/) |
+| **pytest** | Development / Test | `>=8.0` | MIT License | [pytest.org](https://pytest.org/) |
+| **ruff** | Development / Linter | `>=0.9` | MIT OR Apache-2.0 | [github.com/astral-sh/ruff](https://github.com/astral-sh/ruff) |
+| **setuptools** | Build System | `>=68.0` | MIT License | [github.com/pypa/setuptools](https://github.com/pypa/setuptools) |
+
+For complete licensing terms, audit attestations, Level 1 SBOM, and invariant cross-reference tables, see [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
 
 ---
 
-## German Documentation / Deutsche Version
+## <a id="17-discovery-keywords--ai-agent-index"></a><a id="discovery-keywords--ai-agent-index"></a><a id="entdeckungs-schluesselwoerter--ki-agenten-index"></a>17. Discovery Keywords & AI Agent Index
 
-Die vollständige deutschsprachige Dokumentation mit identischem Funktionsumfang, Schnellnavigation und Architektur-Diagrammen finden Sie in [README_de.md](README_de.md).
+For autonomous indexing and search disambiguation:
+- **Keywords**: `automation`, `governance`, `event-sourcing`, `sqlite`, `local-first`, `reward-policy`, `credit-budget`, `zero-egress`, `fail-closed`, `multi-agent`, `dev-bricks`, `open-bricks`
+- **Machine-Readable Specification**: [llms.txt](llms.txt)
+- **Module Manifest**: [ellmos-module.v2.json](ellmos-module.v2.json)
+
+---
+
+## <a id="18-statutory-notice-liability-limitation--license--521-bgb"></a><a id="statutory-notice-liability-limitation--license--521-bgb"></a><a id="license"></a><a id="gesetzliche-hinweise-haftungsbeschraenkung--lizenz--521-bgb"></a>18. Statutory Notice, Liability Limitation & License (§ 521 BGB)
+
+### Statutory Notice & Liability Disclaimer (German Law / § 521 BGB)
+
+This software is provided free of charge as an open-source contribution under the MIT License. Pursuant to Section 521 of the German Civil Code (Bürgerliches Gesetzbuch - BGB, *Gefälligkeitsrecht / unentgeltliche Zuwendung*), liability for any defects in quality or title (*Sach- und Rechtsmängel*) is strictly limited to intentional misconduct (*Vorsatz*) and gross negligence (*grobe Fahrlässigkeit*).
+
+The author and maintainers do not assume warranty or liability for direct, indirect, incidental, or consequential damages resulting from the operation, integration, or failure of automation workflows managed or governed by this tool. The user assumes full responsibility for testing and deploying within their operational boundaries.
+
+### Open-Source License
+
+`automation-master` is licensed under the [MIT License](LICENSE). Formal attribution notices and third-party dependency declarations are provided in [NOTICE](NOTICE) and [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).

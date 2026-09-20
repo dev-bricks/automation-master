@@ -1,11 +1,11 @@
 # ================================================================================
 # MARKETING & DISCOVERABILITY LOG: automation-master
 # ================================================================================
-Date: 2026-09-12
+Date: 2026-09-20
 Operator: Antigravity / Gemini (via GITHUBBOT Pfad B)
 Target Repo: dev-bricks/automation-master
 Canonical Path: C:\_Local_DEV\repos\automation-master
-Version: 0.1.3
+Version: 0.1.5
 Organization: dev-bricks
 Umbrella Collective: open-bricks
 
@@ -13,6 +13,7 @@ Umbrella Collective: open-bricks
 # [2026-09-09 04:50:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: dev-bricks/automation-master | SCOPE: Bilingual 14-Point Quick Navigation in README.md & README_de.md, 10 Governance & Runtime Invariants Table, Ruff & 48h Security SLA Badges, CI Concurrency & Bytecode compileall gate, .gitignore conflict/lock hardening, Parent Organization metadata, expanded 21-tool sibling ecosystem matrix, and 8 comprehensive contract tests in test_metadata.py (59/59 passed).
 # [2026-09-10 18:30:00 CEST] [GITHUBBOT_ONE_REPO_CLEANER] ACTION: PFAD_A_HYGIENE | REPO: dev-bricks/automation-master | SCOPE: Gitignore hardening for multi-host conflict and multi-agent lock patterns, standardized pytest -ra -v options, PEP 639 license-files integration, TODO status table format, and 66 passed contract tests (v0.1.2).
 # [2026-09-12 04:45:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: dev-bricks/automation-master | SCOPE: 16-point quick navigation with 100% reciprocal anchor parity in README.md & README_de.md, enriched PEP 621 URLs (Third-Party Licenses, Marketing-Log, LLM-Ready), comprehensive THIRD_PARTY_LICENSES.md audit for pure Python stdlib zero-runtime dependencies, enriched MARKETING-LOG.txt (4 personas, bilingual search phrases, 5-way competitive matrix across 10 dimensions, 10 canonical governance invariants INV-LOCAL-01 to INV-ISOLAT-10, 21 partner tools), version bump to 0.1.3, and contract test expansion.
+# [2026-09-20 10:55:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: dev-bricks/automation-master | SCOPE: Bilingual 18-point Quick Navigation with dual reciprocal HTML anchors, Target Personas [PERSONA-01]..[PERSONA-04], 10-dimension comparative matrix vs 4 alternatives, Level 1 SBOM & Invariant Cross-Reference Matrix in THIRD_PARTY_LICENSES.md, root NOTICE attribution file, PEP 639 license-files synchronization, Section 18 statutory liability disclaimer (§ 521 BGB Gefälligkeitsrecht), live GitHub 20/20 topics & homepage URL, version bump to 0.1.5, and expanded contract tests in test_metadata.py.
 
 ================================================================================
 1. REPOSITORY AUDIT & DISCOVERABILITY BASELINE
@@ -27,22 +28,22 @@ Umbrella Collective: open-bricks
 ================================================================================
 2. TARGET PERSONAS & USER JOURNEYS
 ================================================================================
-1. Autonomous AI Agent Engineers & Multi-Agent Swarm Orchestrators
+1. [PERSONA-01] Autonomous AI Agent Engineers & Multi-Agent Swarm Orchestrators
    - Needs: Govern autonomous scheduled tasks, prevent rogue agent loops, throttle excessive tool invocations, and enforce strict execution credit envelopes across local LLM agents (Claude Code, Antigravity, Codex, Kimi).
    - Pain Points: Uncontrolled agent execution causes token burn, infinite loops, and runaway resource consumption without centralized visibility or hold-backs.
    - Solution: Event-sourced credit envelopes, atomic reservations, and explainable reward policies that penalize repetitive failures and reward productive task completions.
 
-2. DevOps, SRE & CI/CD Pipeline Automation Architects
+2. [PERSONA-02] DevOps, SRE & CI/CD Pipeline Automation Architects
    - Needs: Regulate scheduled cron jobs, background runners, and recurring automation scripts across heterogeneous development workstations and servers.
    - Pain Points: Legacy crontabs lack holistic budget awareness; recurring jobs fail silently, compete destructively for shared CPU/disk resources, or drain resources during idle periods.
    - Solution: Narrow adapter seams for `ellmos-scheduler` and system schedulers, preflight NO_WORK checks (0 credits consumed), and offline multi-host sync via `sqlite-transit-sync`.
 
-3. Edge, Embedded & Air-Gapped Systems Developers
+3. [PERSONA-03] Edge, Embedded & Air-Gapped Systems Developers
    - Needs: Reliable, zero-dependency task governance on air-gapped workstations, industrial controllers, and standalone edge devices.
    - Pain Points: Heavyweight workflow orchestrators (Airflow, Prefect, Temporal) require complex multi-container infrastructure (Docker, Redis, PostgreSQL) and constant internet connectivity.
    - Solution: 100% pure Python standard library (`dependencies = []`), single-file SQLite database, zero external daemons, and zero network egress (`INV-LOCAL-01`).
 
-4. Enterprise Security, Governance & Compliance Officers
+4. [PERSONA-04] Enterprise Security, Governance & Compliance Officers
    - Needs: Cryptographically auditable trace of all automated actions, resource usage, and governance decisions for internal compliance and external audits (SOC 2, ISO 27001).
    - Pain Points: Distributed log files are easily tampered with, lack payload integrity verification, and do not provide deterministic audit trails.
    - Solution: Append-only SQLite event ledger with SHA-256 payload hashes (`INV-IMMUT-03`), 30-day rich diagnostic projections, tamper-evident audit summaries, and formal 48h security SLA (`INV-ISOLAT-10`).

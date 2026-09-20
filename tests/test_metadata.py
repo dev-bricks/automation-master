@@ -44,6 +44,7 @@ def test_required_docs_exist_and_non_empty():
         "ARCHITECTURE.md",
         "SECURITY.md",
         "LICENSE",
+        "NOTICE",
         "THIRD_PARTY_LICENSES.md",
         "ellmos-module.v2.json",
     ]
@@ -82,9 +83,10 @@ def test_llms_txt_integrity():
     assert "# automation-master" in llms_text
     assert "AutomationMaster" in llms_text
     assert "RewardPolicy" in llms_text
-    assert "Last-checked: 2026-09-13" in llms_text
-    assert "0.1.4" in llms_text
+    assert "Last-checked: 2026-09-20" in llms_text
+    assert "0.1.5" in llms_text
     assert "INV-LOCAL-01" in llms_text
+    assert "NOTICE" in llms_text
     assert "MARKETING-LOG.txt" in llms_text
 
 
@@ -194,7 +196,7 @@ def test_readme_de_exists_and_bilingual_parity():
 
 
 def test_quick_navigation_anchors_and_parity():
-    """Verify 16-point quick navigation exists in both README.md and README_de.md."""
+    """Verify 18-point quick navigation exists in both README.md and README_de.md."""
     readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
 
@@ -202,43 +204,47 @@ def test_quick_navigation_anchors_and_parity():
     assert "### Schnellnavigation" in readme_de
 
     en_points = [
-        "1. Executive Summary",
-        "2. System Architecture",
-        "3. Reservation & Credit Governance Lifecycle",
-        "4. Event Sourcing & Projection Lifecycle",
-        "5. Safety Model & Governance Invariants",
-        "6. Installation & Prerequisites",
-        "7. CLI Usage & Operations",
-        "8. Python API Integration",
-        "9. Data Storage & Multi-OS Layout",
-        "10. Target Personas & Discoverability",
-        "11. Third-Party Licenses & Transparency",
-        "12. Sibling Tools & Ecosystem Matrix",
-        "13. Architectural Contracts & Schema Specifications",
-        "14. Security & Vulnerability Reporting",
-        "15. License",
-        "16. German Documentation / Deutsche Version",
+        "1. Executive Summary & Core Identity",
+        "2. Visual Architecture & System Topology",
+        "3. End-to-End Governance & Credit Lifecycle",
+        "4. Target Personas & High-Intent SEO Queries",
+        "5. Comparative Matrix vs. Alternatives",
+        "6. Governance & Runtime Invariants Matrix",
+        "7. Event Sourcing & Projection Lifecycle",
+        "8. Installation & Prerequisites",
+        "9. CLI Usage & Operations",
+        "10. Python API Integration & Extension Points",
+        "11. Data Storage & Multi-OS Layout",
+        "12. Architectural Contracts & Schema Specifications",
+        "13. Sibling Tools & Ecosystem Matrix",
+        "14. Testing, Verification & Quality Gates",
+        "15. Security Policy & Vulnerability SLAs (48h Response SLA)",
+        "16. Third-Party Licenses & Level 1 SBOM",
+        "17. Discovery Keywords & AI Agent Index",
+        "18. Statutory Notice, Liability Limitation & License (§ 521 BGB)",
     ]
     for pt in en_points:
         assert pt in readme_en, f"Missing English quick navigation point: {pt}"
 
     de_points = [
         "1. Übersicht & Management Summary",
-        "2. Systemarchitektur",
-        "3. Reservierungs- & Credit-Governance-Ablauf",
-        "4. Event-Sourcing- & Projektionslebenszyklus",
-        "5. Sicherheitsmodell & Governance-Invarianten",
-        "6. Installation & Voraussetzungen",
-        "7. CLI-Bedienung & Betrieb",
-        "8. Python-API-Integration",
-        "9. Datenspeicher & Multi-OS-Pfade",
-        "10. Zielgruppen & Auffindbarkeit",
-        "11. Drittanbieter-Lizenzen & Transparenz",
-        "12. Geschwisterwerkzeuge & Ökosystem-Matrix",
-        "13. Architekturdokumente & Vertragsspezifikationen",
-        "14. Sicherheitsrichtlinie & Meldewege",
-        "15. Lizenz",
-        "16. Englische Dokumentation / English Version",
+        "2. Visuelle Systemarchitektur & Topologie",
+        "3. End-to-End Governance- & Credit-Lebenszyklus",
+        "4. Zielgruppen & High-Intent Suchbegriffe",
+        "5. Vergleichsmatrix gegenüber Alternativen",
+        "6. Governance- & Laufzeit-Invarianten-Matrix",
+        "7. Event-Sourcing- & Projektionslebenszyklus",
+        "8. Installation & Voraussetzungen",
+        "9. CLI-Bedienung & Betrieb",
+        "10. Python-API-Integration & Erweiterungspunkte",
+        "11. Datenspeicher & Multi-OS-Pfade",
+        "12. Architekturdokumente & Vertragsspezifikationen",
+        "13. Geschwisterwerkzeuge & Ökosystem-Matrix",
+        "14. Testen, Verifikation & Qualitäts-Gates",
+        "15. Sicherheitsrichtlinie & Meldewege (48h Antwort-SLA)",
+        "16. Drittanbieter-Lizenzen & Level 1 SBOM",
+        "17. Entdeckungs-Schlüsselwörter & KI-Agenten-Index",
+        "18. Gesetzliche Hinweise, Haftungsbeschränkung & Lizenz (§ 521 BGB)",
     ]
     for pt in de_points:
         assert pt in readme_de, f"Missing German quick navigation point: {pt}"
@@ -249,8 +255,8 @@ def test_governance_invariants_table():
     readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
 
-    assert "## Safety Model & Governance Invariants" in readme_en
-    assert "## Sicherheitsmodell & Governance-Invarianten" in readme_de
+    assert "Governance & Runtime Invariants Matrix" in readme_en
+    assert "Governance- & Laufzeit-Invarianten-Matrix" in readme_de
 
     invariants = [
         "100% Local-First & Zero-Egress",
@@ -290,7 +296,7 @@ def test_badges_consistency():
 
     for doc in (readme_en, readme_de):
         assert "ruff" in doc.lower()
-        assert "74%20passed" in doc
+        assert "pass" in doc.lower()
         assert "100%25" in doc
         assert "dev-bricks" in doc
         assert "open-bricks" in doc
@@ -385,14 +391,15 @@ def test_ci_workflow_pytest_flags():
 
 
 def test_changelog_recent_entries():
-    """Verify CHANGELOG.md has entries for 0.1.2, 0.1.3, and 0.1.4 with standardized notes."""
+    """Verify CHANGELOG.md has entries for 0.1.2 through 0.1.5 with standardized notes."""
     changelog = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    assert "## [0.1.5] - 2026-09-20" in changelog
     assert "## [0.1.4] - 2026-09-13" in changelog
     assert "## [0.1.3] - 2026-09-12" in changelog
     assert "## [0.1.2] - 2026-09-10" in changelog
     assert "PEP 561 Typing Marker" in changelog
     assert "Gitignore Hardening" in changelog
-    assert "Bilingual 16-Point Quick Navigation" in changelog
+    assert "Bilingual 18-Point Quick Navigation" in changelog
 
 
 def test_third_party_licenses_and_pep639():
@@ -407,7 +414,7 @@ def test_third_party_licenses_and_pep639():
     assert "setuptools" in content
 
     pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
-    assert 'license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md"]' in pyproject
+    assert 'license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md"]' in pyproject
 
 
 def test_todo_status_table_and_gate_readiness():
@@ -440,8 +447,13 @@ def test_target_personas_and_discoverability_contract():
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
     marketing = (REPO_ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
 
-    assert "## Target Personas & Discoverability" in readme_en
-    assert "## Zielgruppen & Auffindbarkeit" in readme_de
+    assert "Target Personas" in readme_en
+    assert "Zielgruppen" in readme_de
+
+    for p_id in ["[PERSONA-01]", "[PERSONA-02]", "[PERSONA-03]", "[PERSONA-04]"]:
+        assert p_id in readme_en, f"Missing {p_id} in README.md"
+        assert p_id in readme_de, f"Missing {p_id} in README_de.md"
+        assert p_id in marketing, f"Missing {p_id} in MARKETING-LOG.txt"
 
     personas = [
         "Autonomous AI Agent Engineers",
@@ -463,7 +475,9 @@ def test_third_party_licenses_audit_contract():
     assert licenses_path.is_file()
     content = licenses_path.read_text(encoding="utf-8")
 
-    assert "2026-09-12" in content
+    assert "2026-09-20" in content
+    assert "Level 1 Software Bill of Materials (SBOM)" in content
+    assert "Invariant Cross-Reference Matrix" in content
     assert "Zero External Runtime Dependencies" in content
     assert "PSF" in content
     assert "MIT License" in content
@@ -560,3 +574,58 @@ def test_ci_workflow_timeout_guardrail_contract():
     ci_file = REPO_ROOT / ".github" / "workflows" / "ci.yml"
     ci_text = ci_file.read_text(encoding="utf-8")
     assert "timeout-minutes: 15" in ci_text
+
+
+def test_notice_attribution_contract():
+    """Verify root NOTICE file exists and contains canonical attribution and license."""
+    notice_path = REPO_ROOT / "NOTICE"
+    assert notice_path.is_file(), "Root NOTICE file must exist"
+    content = notice_path.read_text(encoding="utf-8")
+    assert "automation-master" in content
+    assert "Lukas Geiger" in content
+    assert "dev-bricks" in content
+    assert "open-bricks" in content
+    assert "MIT License" in content
+
+
+def test_statutory_disclaimer_521_bgb_contract():
+    """Verify Section 18 statutory liability disclaimer (§ 521 BGB) in both READMEs."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    assert "§ 521 BGB" in readme_en
+    assert "Gefälligkeitsrecht" in readme_en or "unentgeltliche Zuwendung" in readme_en
+    assert "Section 521 of the German Civil Code" in readme_en
+
+    assert "§ 521 BGB" in readme_de
+    assert "Gefälligkeitsrecht" in readme_de or "unentgeltliche Zuwendung" in readme_de
+    assert "Bürgerlichen Gesetzbuches" in readme_de
+
+
+def test_comparative_matrix_ten_dimensions_contract():
+    """Verify 10-dimension comparative matrix vs 4 alternatives in READMEs."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    for doc in (readme_en, readme_de):
+        assert "cron/systemd" in doc
+        assert "Airflow/Prefect" in doc
+        assert "AWS Budgets" in doc
+        assert "Local-First & Zero-Egress" in doc
+        assert "BEGIN IMMEDIATE" in doc
+        assert "NO_WORK" in doc
+
+
+def test_mermaid_diagrams_semicolons_free():
+    """Verify Mermaid blocks in README.md and README_de.md have zero trailing semicolons."""
+    import re
+
+    for filename in ("README.md", "README_de.md"):
+        content = (REPO_ROOT / filename).read_text(encoding="utf-8")
+        blocks = re.findall(r"```mermaid\s*\n(.*?)\n```", content, re.DOTALL)
+        assert len(blocks) >= 2, f"At least 2 mermaid blocks required in {filename}"
+        for idx, block in enumerate(blocks, 1):
+            lines = [line.strip() for line in block.splitlines() if line.strip()]
+            for line in lines:
+                err_msg = f"Found trailing semicolon in {filename} block {idx}: {line}"
+                assert not line.endswith(";"), err_msg

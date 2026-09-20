@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.5] - 2026-09-20
+
+- **Bilingual 18-Point Quick Navigation & Dual Reciprocal HTML Anchors**: Upgraded quick navigation across `README.md` and `README_de.md` to 18 points with full bidirectional reciprocal anchor parity and dual HTML anchors (`<a id="..."></a>`), ensuring clean linking across both English and German documentation.
+- **Explicit Target Personas (`[PERSONA-01]` to `[PERSONA-04]`)**: Formally structured the target personas section with identifiers `[PERSONA-01]` (Autonomous AI Agent Engineers & Swarm Operators), `[PERSONA-02]` (DevOps & Automation Architects), `[PERSONA-03]` (Edge & Air-Gapped Systems Developers), and `[PERSONA-04]` (Enterprise Security & Compliance Officers), accompanied by bilingual search intent matrices.
+- **10-Dimension 5-Way Comparative Matrix**: Added comprehensive comparative matrix evaluating `automation-master` across 10 architectural dimensions (`INV-LOCAL-01` to `INV-ISOLAT-10`) against 4 standard alternatives (cron/systemd, Airflow/Prefect, AWS Budgets, and ad-hoc scripts).
+- **Statutory Notice & Liability Limitation (§ 521 BGB)**: Added Section 18 to both READMEs establishing formal German statutory liability limitation under § 521 BGB (*Gefälligkeitsrecht / unentgeltliche Zuwendung*) restricting liability to intentional misconduct and gross negligence.
+- **Canonical Root `NOTICE` File & PEP 639 Synchronization**: Created root `NOTICE` file attributing Lukas Geiger and the dev-bricks/open-bricks ecosystems, synchronized PEP 639 `license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md"]` in `pyproject.toml`, and integrated attribution badges.
+- **Level 1 SBOM & Invariant Cross-Reference Matrix**: Upgraded `THIRD_PARTY_LICENSES.md` with a complete Level 1 Software Bill of Materials (SBOM), Invariant Cross-Reference Matrix table, RunAsInvoker non-elevation certification, and zero-copyleft permissive licensing guarantee.
+- **Remote GitHub Discoverability Metadata**: Updated remote GitHub repository metadata with 20 high-relevance topics and homepage URL pointing directly to `#readme`.
+- **Contract Test Suite Expansion**: Expanded automated test suite in `tests/test_metadata.py` with contract tests verifying 18-point quick navigation reciprocal anchors, personas, comparative matrix, NOTICE attribution, § 521 BGB disclaimer, Level 1 SBOM, and semicolon-free Mermaid diagrams.
+- **Version & Manifest Parity**: Bumped version to `0.1.5` across `pyproject.toml`, `src/automation_master/__init__.py`, `ellmos-module.v2.json`, `README.md`, `README_de.md`, `MARKETING-LOG.txt`, and `llms.txt`.
+
 ## [0.1.4] - 2026-09-13
 
 - **PEP 561 Typing Marker**: Added `src/automation_master/py.typed` marker and packaged it via `tool.setuptools.package-data` in `pyproject.toml` to guarantee first-class static type-checking integration for consumers (Mypy, Pyright).

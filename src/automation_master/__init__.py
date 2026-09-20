@@ -49,4 +49,4 @@ __all__ = [
     "project_receipts",
 ]
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"
