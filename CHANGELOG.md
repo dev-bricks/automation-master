@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.6] - 2026-09-21
+
+- Added version-bound, immutable `AUTOMATION_DEFINITION_BOUND` declarations with explicit source, owner, provider, execution class and conditional execution pin. The content-free projection keeps declaration completeness separate from provider-native and runtime state.
+- Fixed import-aware definition-binding conflict handling and PEP 621 license metadata for current editable builds.
+
 ## [0.1.5] - 2026-09-20
 
 - **Bilingual 18-Point Quick Navigation & Dual Reciprocal HTML Anchors**: Upgraded quick navigation across `README.md` and `README_de.md` to 18 points with full bidirectional reciprocal anchor parity and dual HTML anchors (`<a id="..."></a>`), ensuring clean linking across both English and German documentation.

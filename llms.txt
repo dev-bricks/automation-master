@@ -2,7 +2,7 @@
 
 > `automation-master` is a private-by-default, local-first control and governance module for recurring automation families. It registers comparable automation variants, calculates explainable reward scores, manages epoch-scoped credit envelopes, records run receipts, and proposes throttling inputs.
 
-Part of the dev-bricks ecosystem and open-bricks umbrella. Version 0.1.5, Python 3.10+, MIT License.
+Part of the dev-bricks ecosystem and open-bricks umbrella. Version 0.1.6, Python 3.10+, MIT License.
 
 ## Core Capabilities
 - **AutomationMaster Service**: Central controller for registry, epoch budgets, preflights, reservations, receipts, handovers, and deterministic projections.

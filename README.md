@@ -3,7 +3,7 @@
 <img src="banner.png" width="100%" alt="automation-master banner">
 
 [![CI](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/Version-0.1.5-blue.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/Version-0.1.6-blue.svg)](pyproject.toml)
 [![Code Style: Ruff](https://img.shields.io/badge/Code--Style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Pytest](https://img.shields.io/badge/pytest-passing%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org)
@@ -438,3 +438,11 @@ The author and maintainers do not assume warranty or liability for direct, indir
 ### Open-Source License
 
 `automation-master` is licensed under the [MIT License](LICENSE). Formal attribution notices and third-party dependency declarations are provided in [NOTICE](NOTICE) and [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+
+## Version-bound definition bindings
+
+`AutomationDefinitionBinding` records a declared, immutable relationship to an already registered automation version. `bind_automation_definition()` verifies the registered automation ID, version and payload hash inside one `BEGIN IMMEDIATE` transaction before it appends `AUTOMATION_DEFINITION_BOUND`. Repeating the same binding is idempotent; a changed binding for the same version conflicts.
+
+A binding carries an explicit credential-free `repo://` definition source, branch, and either an immutable commit or content hash, plus typed owner and provider references and one EDS execution class. Non-`app-native` bindings require an immutable execution pin; an optional `app-native` pin is validated when present. Existing `variant_id`, `node_id`, `run_class` and `mutation_class` keep their original meanings and are never reinterpreted as branch, owner, provider or EDS execution class.
+
+`get_automation_definition_binding()` returns only a binding that still matches one active registered definition. `definition_binding_projection()` is content-free: it emits per-function declared/unavailable completeness and hashes while deliberately reporting runtime state as `not-observed`. It does not claim enabled, scheduled, running or provider-native state.

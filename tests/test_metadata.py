@@ -84,7 +84,7 @@ def test_llms_txt_integrity():
     assert "AutomationMaster" in llms_text
     assert "RewardPolicy" in llms_text
     assert "Last-checked: 2026-09-20" in llms_text
-    assert "0.1.5" in llms_text
+    assert "0.1.6" in llms_text
     assert "INV-LOCAL-01" in llms_text
     assert "NOTICE" in llms_text
     assert "MARKETING-LOG.txt" in llms_text
@@ -391,8 +391,9 @@ def test_ci_workflow_pytest_flags():
 
 
 def test_changelog_recent_entries():
-    """Verify CHANGELOG.md has entries for 0.1.2 through 0.1.5 with standardized notes."""
+    """Verify CHANGELOG.md has entries for 0.1.2 through 0.1.6 with standardized notes."""
     changelog = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    assert "## [0.1.6] - 2026-09-21" in changelog
     assert "## [0.1.5] - 2026-09-20" in changelog
     assert "## [0.1.4] - 2026-09-13" in changelog
     assert "## [0.1.3] - 2026-09-12" in changelog
@@ -414,6 +415,8 @@ def test_third_party_licenses_and_pep639():
     assert "setuptools" in content
 
     pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert 'license = "MIT"' in pyproject
+    assert 'License :: OSI Approved :: MIT License' not in pyproject
     assert 'license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md"]' in pyproject
 
 

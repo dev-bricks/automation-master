@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "automation-master"
-version = "0.1.5"
+version = "0.1.6"
 description = "Local-first automation registry, reward policy, and event-sourced credit governance."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = "MIT"
 license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md"]
 authors = [{ name = "Lukas Geiger", email = "lukas@open-bricks.org" }]
 keywords = [
@@ -29,7 +29,6 @@ dependencies = []
 classifiers = [
   "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",

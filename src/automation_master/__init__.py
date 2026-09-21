@@ -7,8 +7,10 @@ from .adapters.prompt_repair import (
     PromptRepairContractResult,
 )
 from .models import (
+    AutomationDefinitionBinding,
     AutomationSpec,
     EnforcementMode,
+    ExecutionClass,
     MutationClass,
     ReservationDecision,
     RewardSignals,
@@ -26,10 +28,12 @@ from .store import EventConflictError, EventStore
 
 __all__ = [
     "AutomationMaster",
+    "AutomationDefinitionBinding",
     "AutomationSpec",
     "BudgetState",
     "CreditPolicy",
     "EnforcementMode",
+    "ExecutionClass",
     "EventConflictError",
     "EventStore",
     "MutationClass",
@@ -49,4 +53,4 @@ __all__ = [
     "project_receipts",
 ]
 
-__version__ = "0.1.5"
+__version__ = "0.1.6"

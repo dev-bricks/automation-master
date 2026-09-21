@@ -3,7 +3,7 @@
 <img src="banner.png" width="100%" alt="automation-master banner">
 
 [![CI](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-bricks/automation-master/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/Version-0.1.5-blue.svg)](pyproject.toml)
+[![Version](https://img.shields.io/badge/Version-0.1.6-blue.svg)](pyproject.toml)
 [![Code-Stil: Ruff](https://img.shields.io/badge/Code--Stil-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Pytest](https://img.shields.io/badge/pytest-passing%20%7C%20100%25-brightgreen.svg)](https://pytest.org)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org)
@@ -438,3 +438,11 @@ Der Autor und die Betreuer übernehmen keine Gewährleistung oder Haftung für d
 ### Open-Source-Lizenz
 
 `automation-master` ist lizenziert unter der [MIT-Lizenz](LICENSE). Formale Urheberrechtshinweise und Drittanbieter-Deklarationen sind in [NOTICE](NOTICE) sowie [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) dokumentiert.
+
+## Versionsgebundene Definitionsbindungen
+
+`AutomationDefinitionBinding` hält eine deklarierte, unveränderliche Beziehung zu einer bereits registrierten Automationsversion fest. `bind_automation_definition()` prüft registrierte Automations-ID, Version und Payload-Hash innerhalb einer `BEGIN IMMEDIATE`-Transaktion, bevor `AUTOMATION_DEFINITION_BOUND` angehängt wird. Dieselbe Bindung ist idempotent; eine geänderte Bindung für dieselbe Version führt zu einem Konflikt.
+
+Eine Bindung enthält eine explizite credential-freie `repo://`-Definitionsquelle, Branch sowie entweder einen unveränderlichen Commit oder Content-Hash, typisierte Owner- und Providerreferenzen und eine EDS-Ausführungsklasse. Nicht `app-native`-Bindungen benötigen einen unveränderlichen Ausführungs-Pin; ein optionaler `app-native`-Pin wird bei Angabe validiert. Bestehendes `variant_id`, `node_id`, `run_class` und `mutation_class` behalten ihre ursprüngliche Bedeutung und werden nie als Branch, Owner, Provider oder EDS-Ausführungsklasse umgedeutet.
+
+`get_automation_definition_binding()` gibt nur eine Bindung zurück, die weiter genau einer aktiven registrierten Definition entspricht. `definition_binding_projection()` ist content-free: Sie liefert je Funktion deklarierte/unavailable Vollständigkeit und Hashes und weist den Laufzeitstatus bewusst als `not-observed` aus. Sie behauptet keinen enabled-, scheduled-, running- oder provider-nativen Zustand.

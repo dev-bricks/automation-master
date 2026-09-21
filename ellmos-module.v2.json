@@ -2,7 +2,7 @@
   "schema": "ellmos.module.v2",
   "id": "automation-master",
   "display_name": "Automation Master",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "category": "control",
   "kind": "library",
   "status": "experimental",
