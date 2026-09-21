@@ -7,7 +7,6 @@ import pytest
 from automation_master import (
     AutomationDefinitionBinding,
     AutomationSpec,
-    EventConflictError,
     EventStore,
     ExecutionClass,
     MutationClass,
@@ -155,12 +154,86 @@ def test_ambiguous_registered_version_rejects_binding_without_append(tmp_path):
     assert set(item["unavailable_reasons"].values()) == {"ambiguous_registered_definition"}
 
 
+def test_imported_identical_binding_is_idempotent_but_conflicts_never_append(tmp_path):
+    master = master_for(tmp_path)
+    binding = registered_binding(master)
+    imported = master.store.append(
+        node_id="imported-node",
+        budget_epoch="registry",
+        event_type="AUTOMATION_DEFINITION_BOUND",
+        entity_type="automation-definition",
+        entity_id=binding.automation_id,
+        event_version=binding.definition_version,
+        dedupe_key="imported-identical-binding",
+        payload=binding.as_payload(),
+    )
+    before = master.store.count()
+    assert master.bind_automation_definition(binding) == imported
+    assert master.store.count() == before
+
+    conflict_master = master_for(tmp_path, "import-conflict.db")
+    conflict_binding = registered_binding(conflict_master)
+    conflict_master.store.append(
+        node_id="other-imported-node",
+        budget_epoch="registry",
+        event_type="AUTOMATION_DEFINITION_BOUND",
+        entity_type="automation-definition",
+        entity_id=conflict_binding.automation_id,
+        event_version=conflict_binding.definition_version,
+        dedupe_key="imported-conflicting-binding",
+        payload=replace(
+            conflict_binding,
+            owner_ref="module:other-owner",
+        ).as_payload(),
+    )
+    before = conflict_master.store.count()
+    with pytest.raises(ValueError, match="conflicts"):
+        conflict_master.bind_automation_definition(conflict_binding)
+    assert conflict_master.store.count() == before
+
+    ambiguous_master = master_for(tmp_path, "import-ambiguous.db")
+    ambiguous_binding = registered_binding(ambiguous_master)
+    for dedupe_key in ("imported-one", "imported-two"):
+        ambiguous_master.store.append(
+            node_id="imported-node",
+            budget_epoch="registry",
+            event_type="AUTOMATION_DEFINITION_BOUND",
+            entity_type="automation-definition",
+            entity_id=ambiguous_binding.automation_id,
+            event_version=ambiguous_binding.definition_version,
+            dedupe_key=dedupe_key,
+            payload=ambiguous_binding.as_payload(),
+        )
+    before = ambiguous_master.store.count()
+    with pytest.raises(ValueError, match="ambiguous"):
+        ambiguous_master.bind_automation_definition(ambiguous_binding)
+    assert ambiguous_master.store.count() == before
+
+    tombstone_master = master_for(tmp_path, "import-tombstone.db")
+    tombstone_binding = registered_binding(tombstone_master)
+    tombstone_master.store.append(
+        node_id="imported-node",
+        budget_epoch="registry",
+        event_type="AUTOMATION_DEFINITION_BOUND",
+        entity_type="automation-definition",
+        entity_id=tombstone_binding.automation_id,
+        event_version=tombstone_binding.definition_version,
+        tombstone=True,
+        dedupe_key="imported-tombstone",
+        payload=tombstone_binding.as_payload(),
+    )
+    before = tombstone_master.store.count()
+    with pytest.raises(ValueError, match="invalid_definition_binding"):
+        tombstone_master.bind_automation_definition(tombstone_binding)
+    assert tombstone_master.store.count() == before
+
+
 def test_conflicting_same_version_binding_rolls_back_and_version_change_is_explicit(tmp_path):
     master = master_for(tmp_path)
     first = registered_binding(master, version=1)
     master.bind_automation_definition(first)
     before = master.store.count()
-    with pytest.raises(EventConflictError):
+    with pytest.raises(ValueError, match="conflicts"):
         master.bind_automation_definition(replace(first, owner_ref="module:other-owner"))
     assert master.store.count() == before
 

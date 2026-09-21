@@ -181,7 +181,7 @@ class AutomationMaster:
         payload = binding.as_payload()
         with self.store.immediate() as conn:
             snapshot = self.store.events(
-                event_types=["AUTOMATION_REGISTERED"],
+                event_types=["AUTOMATION_REGISTERED", "AUTOMATION_DEFINITION_BOUND"],
                 connection=conn,
             )
             registration = self._unique_registered_definition(
@@ -191,6 +191,24 @@ class AutomationMaster:
             )
             if registration.payload_hash != binding.automation_payload_hash:
                 raise ValueError("automation payload hash does not match registered definition")
+            existing = self._matching_events(
+                snapshot,
+                event_type="AUTOMATION_DEFINITION_BOUND",
+                automation_id=binding.automation_id,
+                definition_version=binding.definition_version,
+            )
+            if len(existing) > 1:
+                raise ValueError("automation definition binding is ambiguous")
+            if existing:
+                stored = self._binding_from_event(
+                    existing[0],
+                    automation_id=binding.automation_id,
+                    definition_version=binding.definition_version,
+                    registration=registration,
+                )
+                if stored != binding:
+                    raise ValueError("automation definition binding conflicts")
+                return existing[0]
             event = self.store.append(
                 node_id=self.node_id,
                 budget_epoch=budget_epoch,
