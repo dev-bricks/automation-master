@@ -6,10 +6,12 @@ from dataclasses import asdict, dataclass
 from typing import Any
 
 from .models import (
+    AutomationDefinitionBinding,
     AutomationSpec,
     EnforcementMode,
     ReservationDecision,
     RunClass,
+    content_hash,
     new_event_id,
 )
 from .store import Event, EventStore
@@ -89,6 +91,14 @@ class ReceiptMetrics:
         return result
 
 
+_DEFINITION_FUNCTIONS = (
+    "automation-definition-identity",
+    "definition-version-and-branch-reference",
+    "provider-binding-reference",
+    "declared-owner-and-execution-class",
+)
+
+
 class AutomationMaster:
     """Facade whose durable state consists exclusively of immutable events."""
 
@@ -160,6 +170,257 @@ class AutomationMaster:
             bucket = "families" if entity_type == "family" else "automations"
             result[bucket][entity_id] = event.payload
         return result
+
+    def bind_automation_definition(
+        self,
+        binding: AutomationDefinitionBinding,
+        *,
+        budget_epoch: str = "registry",
+    ) -> Event:
+        """Append one version-bound declaration without inferring runtime state."""
+        payload = binding.as_payload()
+        with self.store.immediate() as conn:
+            snapshot = self.store.events(
+                event_types=["AUTOMATION_REGISTERED"],
+                connection=conn,
+            )
+            registration = self._unique_registered_definition(
+                snapshot,
+                binding.automation_id,
+                binding.definition_version,
+            )
+            if registration.payload_hash != binding.automation_payload_hash:
+                raise ValueError("automation payload hash does not match registered definition")
+            event = self.store.append(
+                node_id=self.node_id,
+                budget_epoch=budget_epoch,
+                event_type="AUTOMATION_DEFINITION_BOUND",
+                entity_type="automation-definition",
+                entity_id=binding.automation_id,
+                event_version=binding.definition_version,
+                dedupe_key=(
+                    "automation-definition-binding:"
+                    f"{binding.automation_id}:v{binding.definition_version}"
+                ),
+                payload=payload,
+                connection=conn,
+            )
+            self._binding_from_event(
+                event,
+                automation_id=binding.automation_id,
+                definition_version=binding.definition_version,
+                registration=registration,
+            )
+            return event
+
+    def get_automation_definition_binding(
+        self, automation_id: str, definition_version: int
+    ) -> AutomationDefinitionBinding | None:
+        snapshot = self.store.events(
+            event_types=["AUTOMATION_REGISTERED", "AUTOMATION_DEFINITION_BOUND"]
+        )
+        registration = self._unique_registered_definition(
+            snapshot,
+            automation_id,
+            definition_version,
+        )
+        bindings = self._matching_events(
+            snapshot,
+            event_type="AUTOMATION_DEFINITION_BOUND",
+            automation_id=automation_id,
+            definition_version=definition_version,
+        )
+        if not bindings:
+            return None
+        if len(bindings) != 1:
+            raise ValueError("automation definition binding is ambiguous")
+        return self._binding_from_event(
+            bindings[0],
+            automation_id=automation_id,
+            definition_version=definition_version,
+            registration=registration,
+        )
+
+    def definition_binding_projection(self) -> dict[str, Any]:
+        """Return content-free declaration completeness from one event snapshot."""
+        snapshot = self.store.events(
+            event_types=["AUTOMATION_REGISTERED", "AUTOMATION_DEFINITION_BOUND"]
+        )
+        registrations: dict[tuple[str, int], list[Event]] = {}
+        bindings: dict[tuple[str, int], list[Event]] = {}
+        for event in snapshot:
+            if event.event_type == "AUTOMATION_REGISTERED":
+                registrations.setdefault((event.entity_id, event.event_version), []).append(event)
+            elif event.event_type == "AUTOMATION_DEFINITION_BOUND":
+                bindings.setdefault((event.entity_id, event.event_version), []).append(event)
+
+        items: list[dict[str, Any]] = []
+        for (automation_id, definition_version), candidates in registrations.items():
+            registration_hashes = sorted(event.payload_hash for event in candidates)
+            registration_hash = (
+                registration_hashes[0]
+                if len(registration_hashes) == 1
+                else content_hash(registration_hashes)
+            )
+            item: dict[str, Any] = {
+                "definition_key_sha256": content_hash(
+                    {
+                        "automation_id": automation_id,
+                        "definition_version": definition_version,
+                    }
+                ),
+                "registration_payload_sha256": registration_hash,
+                "binding_payload_sha256": None,
+                "functions": {name: "unavailable" for name in _DEFINITION_FUNCTIONS},
+                "unavailable_reasons": {},
+                "declaration_status": "unavailable",
+            }
+            try:
+                registration = self._unique_registered_definition(
+                    candidates,
+                    automation_id,
+                    definition_version,
+                )
+            except ValueError as exc:
+                self._mark_unavailable(item, str(exc))
+                items.append(item)
+                continue
+
+            item["functions"]["automation-definition-identity"] = "declared"
+            candidates = bindings.get((automation_id, definition_version), [])
+            if not candidates:
+                self._mark_unavailable(item, "missing_definition_binding")
+                item["declaration_status"] = "partial"
+                items.append(item)
+                continue
+            if len(candidates) != 1:
+                self._mark_unavailable(item, "ambiguous_definition_binding")
+                item["declaration_status"] = "partial"
+                items.append(item)
+                continue
+            try:
+                binding = self._binding_from_event(
+                    candidates[0],
+                    automation_id=automation_id,
+                    definition_version=definition_version,
+                    registration=registration,
+                )
+            except ValueError as exc:
+                self._mark_unavailable(item, str(exc))
+                item["declaration_status"] = "partial"
+                items.append(item)
+                continue
+
+            item["binding_payload_sha256"] = content_hash(binding.as_payload())
+            item["functions"] = {name: "declared" for name in _DEFINITION_FUNCTIONS}
+            item["declaration_status"] = "declared"
+            items.append(item)
+
+        return {
+            "schema": "automation-definition-binding-projection.v1",
+            "runtime_state": "not-observed",
+            "definitions": sorted(items, key=lambda item: item["definition_key_sha256"]),
+        }
+
+    @staticmethod
+    def _mark_unavailable(item: dict[str, Any], reason: str) -> None:
+        item["unavailable_reasons"] = {
+            name: reason for name, status in item["functions"].items() if status == "unavailable"
+        }
+
+    @staticmethod
+    def _matching_events(
+        snapshot: list[Event],
+        *,
+        event_type: str,
+        automation_id: str,
+        definition_version: int,
+    ) -> list[Event]:
+        return [
+            event
+            for event in snapshot
+            if event.event_type == event_type
+            and event.entity_id == automation_id
+            and event.event_version == definition_version
+        ]
+
+    def _unique_registered_definition(
+        self,
+        snapshot: list[Event],
+        automation_id: str,
+        definition_version: int,
+    ) -> Event:
+        matches = self._matching_events(
+            snapshot,
+            event_type="AUTOMATION_REGISTERED",
+            automation_id=automation_id,
+            definition_version=definition_version,
+        )
+        if not matches:
+            raise ValueError("missing_registered_definition")
+        if len(matches) != 1:
+            raise ValueError("ambiguous_registered_definition")
+        registration = matches[0]
+        self._validate_registered_event(
+            registration,
+            automation_id=automation_id,
+            definition_version=definition_version,
+        )
+        return registration
+
+    @staticmethod
+    def _validate_registered_event(
+        event: Event,
+        *,
+        automation_id: str,
+        definition_version: int,
+    ) -> None:
+        if (
+            event.event_type != "AUTOMATION_REGISTERED"
+            or event.entity_type != "automation"
+            or event.entity_id != automation_id
+            or event.event_version != definition_version
+        ):
+            raise ValueError("invalid_registered_definition")
+        if event.tombstone:
+            raise ValueError("tombstoned_registered_definition")
+        if (
+            not isinstance(event.payload, dict)
+            or content_hash(event.payload) != event.payload_hash
+            or event.payload.get("automation_id") != automation_id
+            or event.payload.get("version") != definition_version
+        ):
+            raise ValueError("invalid_registered_definition")
+
+    @staticmethod
+    def _binding_from_event(
+        event: Event,
+        *,
+        automation_id: str,
+        definition_version: int,
+        registration: Event,
+    ) -> AutomationDefinitionBinding:
+        if (
+            event.event_type != "AUTOMATION_DEFINITION_BOUND"
+            or event.entity_type != "automation-definition"
+            or event.entity_id != automation_id
+            or event.event_version != definition_version
+            or event.tombstone
+            or not isinstance(event.payload, dict)
+            or content_hash(event.payload) != event.payload_hash
+        ):
+            raise ValueError("invalid_definition_binding")
+        try:
+            binding = AutomationDefinitionBinding.from_payload(event.payload)
+        except ValueError as exc:
+            raise ValueError("invalid_definition_binding") from exc
+        if (
+            binding.automation_id != automation_id
+            or binding.definition_version != definition_version
+            or binding.automation_payload_hash != registration.payload_hash
+        ):
+            raise ValueError("invalid_definition_binding")
+        return binding
 
     def allocate_budget(
         self,

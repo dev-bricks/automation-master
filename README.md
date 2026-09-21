@@ -438,3 +438,11 @@ The author and maintainers do not assume warranty or liability for direct, indir
 ### Open-Source License
 
 `automation-master` is licensed under the [MIT License](LICENSE). Formal attribution notices and third-party dependency declarations are provided in [NOTICE](NOTICE) and [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+
+## Version-bound definition bindings
+
+`AutomationDefinitionBinding` records a declared, immutable relationship to an already registered automation version. `bind_automation_definition()` verifies the registered automation ID, version and payload hash inside one `BEGIN IMMEDIATE` transaction before it appends `AUTOMATION_DEFINITION_BOUND`. Repeating the same binding is idempotent; a changed binding for the same version conflicts.
+
+A binding carries an explicit credential-free `repo://` definition source, branch, and either an immutable commit or content hash, plus typed owner and provider references and one EDS execution class. Non-`app-native` bindings require an immutable execution pin; an optional `app-native` pin is validated when present. Existing `variant_id`, `node_id`, `run_class` and `mutation_class` keep their original meanings and are never reinterpreted as branch, owner, provider or EDS execution class.
+
+`get_automation_definition_binding()` returns only a binding that still matches one active registered definition. `definition_binding_projection()` is content-free: it emits per-function declared/unavailable completeness and hashes while deliberately reporting runtime state as `not-observed`. It does not claim enabled, scheduled, running or provider-native state.
