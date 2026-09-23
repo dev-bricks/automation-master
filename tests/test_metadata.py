@@ -83,8 +83,9 @@ def test_llms_txt_integrity():
     assert "# automation-master" in llms_text
     assert "AutomationMaster" in llms_text
     assert "RewardPolicy" in llms_text
-    assert "Last-checked: 2026-09-20" in llms_text
+    assert "Last-checked: 2026-09-24" in llms_text
     assert "0.1.6" in llms_text
+
     assert "INV-LOCAL-01" in llms_text
     assert "NOTICE" in llms_text
     assert "MARKETING-LOG.txt" in llms_text
@@ -167,6 +168,8 @@ def test_ci_workflow_integrity():
     assert "actions/setup-python@v5" in ci_text
     assert "ruff check ." in ci_text
     assert "pytest" in ci_text
+    assert "permissions:" in ci_text
+    assert "contents: read" in ci_text
 
 
 def test_offline_and_privacy_invariants():
@@ -479,6 +482,7 @@ def test_third_party_licenses_audit_contract():
     content = licenses_path.read_text(encoding="utf-8")
 
     assert "2026-09-20" in content
+    assert "2026-09-24" in content
     assert "Level 1 Software Bill of Materials (SBOM)" in content
     assert "Invariant Cross-Reference Matrix" in content
     assert "Zero External Runtime Dependencies" in content
@@ -508,6 +512,8 @@ def test_pyproject_extended_urls():
     pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
     assert '"Third-Party Licenses" =' in pyproject
     assert "THIRD_PARTY_LICENSES.md" in pyproject
+    assert 'Notice =' in pyproject
+    assert "NOTICE" in pyproject
     assert '"Marketing-Log" =' in pyproject
     assert "MARKETING-LOG.txt" in pyproject
     assert '"LLM-Ready" =' in pyproject
@@ -632,3 +638,66 @@ def test_mermaid_diagrams_semicolons_free():
             for line in lines:
                 err_msg = f"Found trailing semicolon in {filename} block {idx}: {line}"
                 assert not line.endswith(";"), err_msg
+
+
+def test_welcome_and_stale_workflows_contract():
+    """Verify welcome.yml and stale.yml exist with timeouts and least-privilege permissions."""
+    welcome_file = REPO_ROOT / ".github" / "workflows" / "welcome.yml"
+    assert welcome_file.is_file(), "welcome.yml must exist"
+    welcome_text = welcome_file.read_text(encoding="utf-8")
+    assert "actions/first-interaction@v3" in welcome_text
+    assert "timeout-minutes: 5" in welcome_text
+    assert "cancel-in-progress: true" in welcome_text
+    assert "issues: write" in welcome_text
+    assert "pull-requests: write" in welcome_text
+
+    stale_file = REPO_ROOT / ".github" / "workflows" / "stale.yml"
+    assert stale_file.is_file(), "stale.yml must exist"
+    stale_text = stale_file.read_text(encoding="utf-8")
+    assert "actions/stale@v9" in stale_text
+    assert "timeout-minutes: 10" in stale_text
+    assert "cancel-in-progress: true" in stale_text
+    assert "issues: write" in stale_text
+    assert "pull-requests: write" in stale_text
+
+
+def test_gitignore_cloud_sync_and_lock_defense_contract():
+    """Verify .gitignore includes multi-host, lock system, and test scratch defense patterns."""
+    gitignore = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
+    required = [
+        "*-ASUS*",
+        "*-LAPTOP*",
+        "*-Mac Studio*",
+        "*-MacBook*",
+        "LOCK.user.*",
+        "LOCK.until.*",
+        "LOCK.condition.*",
+        ".automation-lock",
+        "!package-lock.json",
+        ".pytest_temp/",
+        ".hypothesis/",
+        ".tox/",
+    ]
+    for pattern in required:
+        assert pattern in gitignore, f"Missing defense pattern in .gitignore: {pattern}"
+
+
+def test_pyproject_pytest_norecursedirs_and_freeze_contract():
+    """Verify pyproject.toml pytest configuration and strict release version freeze."""
+    pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert 'minversion = "7.0"' in pyproject
+    assert "norecursedirs =" in pyproject
+    assert '".git"' in pyproject
+    assert '".pytest_cache"' in pyproject
+
+    # Rule T-20260920-167562623: Pfad A/B runs must preserve frozen version
+    assert f'version = "{automation_master.__version__}"' in pyproject
+    assert automation_master.__version__ == "0.1.6"
+
+
+def test_changelog_unreleased_section_contract():
+    """Verify CHANGELOG.md contains an active [Unreleased] section for Pfad A changes."""
+    changelog = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    assert "## [Unreleased]" in changelog
+    assert "CI Workflow Provisioning & Hardening" in changelog
+    assert "Multi-Host Conflict, Lock & Cache Defense" in changelog

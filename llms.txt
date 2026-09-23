@@ -33,8 +33,8 @@ Part of the dev-bricks ecosystem and open-bricks umbrella. Version 0.1.6, Python
 
 ## Verification & Status
 - **Test Suite**: Fully automated test suite (100% green via `pytest -ra -v`).
-- **Code Hygiene**: 100% compliant with `ruff check` (py310).
-- **CI Matrix**: GitHub Actions multi-OS (`ubuntu-latest`, `windows-latest`, `macos-latest`) and Python 3.10-3.13.
+- **Code Hygiene**: 100% compliant with `ruff check` (py310) and `compileall`.
+- **CI Matrix & Workflows**: GitHub Actions multi-OS (`ubuntu-latest`, `windows-latest`, `macos-latest`), Python 3.10-3.13, `welcome.yml` and `stale.yml` triage automation.
 
 ## Key Files & Entrypoints
 - CLI Entrypoint: `automation-master` (`automation_master.cli:main` / `python -m automation_master`)
@@ -69,4 +69,4 @@ event-sourced automation receipts ledger
 ellmos-scheduler credit gate adapter
 ```
 
-## Last-checked: 2026-09-20
+## Last-checked: 2026-09-24 (Baseline: 2026-09-20)

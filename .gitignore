@@ -29,23 +29,42 @@ data/
 *-CONFLIT-*
 *-conflict-*
 *.sync-temp-*
+*conflicted copy*
+* (Kopie)*
+* (Copy)*
+*-ASUS*
 *-ASUS-GEI.*
-*-WORKSTATION-LG.*
+*-LAPTOP*
+*-Mac Studio*
+*-MacBook*
+*-WORKSTATION*
 *-WORKSTATION.*
+*-WORKSTATION-LG.*
 
 # Multi-agent lock coordination
 LOCK
 LOCK.*
 *.lock
 LOCK*.txt
+LOCK.user.*
+LOCK.until.*
+LOCK.condition.*
 LOCK.permissions.json
+.automation-lock
 uv.lock
+!package-lock.json
 
 # Test, coverage and packaging caches
 coverage/
 .coverage.*
 wheelhouse/
 .wheel-smoke/
+.pytest_temp/
+.pytest_tmp*/
+.hypothesis/
+.turbo/
+.nyc_output/
+.tox/
 
 # Type checking caches
 .mypy_cache/
@@ -54,9 +73,11 @@ dmypy.json
 .pyre/
 .pytype/
 
-# Temporary editor and log files
+# Temporary editor, patch and log files
 *.tmp
 *.bak
 *.swp
 *~
 *.log
+*.orig
+*.rej

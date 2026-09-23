@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased]
+
+- **CI Workflow Provisioning & Hardening**: Deployed `.github/workflows/welcome.yml` with `actions/first-interaction@v3` (5-minute timeout, concurrency `cancel-in-progress: true`, least-privilege `issues: write`, `pull-requests: write`) and `.github/workflows/stale.yml` with `actions/stale@v9` (10-minute timeout, concurrency `cancel-in-progress: true`, least-privilege permissions); hardened `.github/workflows/ci.yml` with least-privilege `permissions: contents: read`.
+- **Multi-Host Conflict, Lock & Cache Defense**: Expanded `.gitignore` with multi-host conflict patterns (`*-ASUS*`, `*-LAPTOP*`, `*-Mac Studio*`, `*-MacBook*`), canonical lock patterns (`LOCK.user.*`, `LOCK.until.*`, `LOCK.condition.*`, `.automation-lock`), package manager preservation (`!package-lock.json`), and test/build cache directories (`.pytest_temp/`, `.pytest_tmp*/`, `.hypothesis/`, `.turbo/`, `.nyc_output/`, `.tox/`, `*.orig`, `*.rej`).
+- **PEP 621 Metadata & Pytest Standardization**: Standardized `pyproject.toml` by configuring `Notice` URL in `[project.urls]` pointing to canonical root `NOTICE`, added `minversion = "7.0"` and `norecursedirs = [".git", ".pytest_cache", "__pycache__", "build", "dist", ".venv"]` to `[tool.pytest.ini_options]`; strictly preserved frozen release version per rule `T-20260920-167562623`.
+- **Level 1 SBOM & Third-Party License Re-Audit**: Re-audited `THIRD_PARTY_LICENSES.md` (Stand 2026-09-24) confirming pure Python standard library runtime (`dependencies = []`), RunAsInvoker non-elevation certification, and zero-copyleft permissive licensing.
+- **Synchronized Context & Discoverability**: Updated `llms.txt` Last-checked timestamp to 2026-09-24 and recorded verification baseline; updated `TODO.md` with completed Pfad A hygiene tasks.
+- **Contract Test Suite Expansion**: Expanded `tests/test_metadata.py` with automated contract tests verifying CI workflows (`welcome.yml`, `stale.yml`, `ci.yml` permissions), `.gitignore` multi-host and lock defenses, `pyproject.toml` Notice URL and pytest settings, and audit date recency.
+
 ## [0.1.6] - 2026-09-21
 
 - Added version-bound, immutable `AUTOMATION_DEFINITION_BOUND` declarations with explicit source, owner, provider, execution class and conditional execution pin. The content-free projection keeps declaration completeness separate from provider-native and runtime state.

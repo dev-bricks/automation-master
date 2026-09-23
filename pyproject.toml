@@ -51,6 +51,7 @@ Changelog = "https://github.com/dev-bricks/automation-master/blob/main/CHANGELOG
 Security = "https://github.com/dev-bricks/automation-master/blob/main/SECURITY.md"
 "Parent Organization" = "https://github.com/dev-bricks"
 Umbrella = "https://github.com/open-bricks"
+Notice = "https://github.com/dev-bricks/automation-master/blob/main/NOTICE"
 "Third-Party Licenses" = "https://github.com/dev-bricks/automation-master/blob/main/THIRD_PARTY_LICENSES.md"
 "Marketing-Log" = "https://github.com/dev-bricks/automation-master/blob/main/MARKETING-LOG.txt"
 "LLM-Ready" = "https://github.com/dev-bricks/automation-master/blob/main/llms.txt"
@@ -75,9 +76,11 @@ automation_master = ["py.typed"]
 where = ["src"]
 
 [tool.pytest.ini_options]
+minversion = "7.0"
 addopts = "-ra -v"
 pythonpath = ["src"]
 testpaths = ["tests"]
+norecursedirs = [".git", ".pytest_cache", "__pycache__", "build", "dist", ".venv"]
 
 [tool.ruff]
 line-length = 100
