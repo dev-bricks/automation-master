@@ -3,8 +3,9 @@
 **Project:** `automation-master`<br>
 **License:** [MIT License](LICENSE)<br>
 **Notice:** [NOTICE](NOTICE)<br>
-**Version:** 0.1.5<br>
-**Audit Date:** 2026-09-24 (Pfad A Re-Audit: 2026-09-24; Baseline: 2026-09-20)<br>
+**Version:** 0.1.6<br>
+**Audit Date:** 2026-09-28 (Pfad B Re-Audit: 2026-09-28; Pfad A Re-Audit: 2026-09-24; Baseline: 2026-09-20)<br>
+**Plain-Text Companion:** [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt)<br>
 **Status:** Invariant Confirmed — Zero External Runtime Dependencies (100% Permissive)
 
 ---
@@ -29,7 +30,7 @@ In compliance with local-first governance transparency standards, the complete i
 
 | Component | Scope | Version | License | Zero-Copyleft Status | Elev. Required | Purpose |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `automation_master` | Core Runtime | `0.1.5` | MIT | Permissive (Author) | No (`RunAsInvoker`) | Automation governance, credit envelopes, reward policy, event store |
+| `automation_master` | Core Runtime | `0.1.6` | MIT | Permissive (Author) | No (`RunAsInvoker`) | Automation governance, credit envelopes, reward policy, event store |
 | `python.stdlib.sqlite3` | Core Runtime | Standard | PSF-2.0 | Permissive | No (`RunAsInvoker`) | Local append-only event ledger & atomic `BEGIN IMMEDIATE` transactions |
 | `python.stdlib.hashlib` | Core Runtime | Standard | PSF-2.0 | Permissive | No (`RunAsInvoker`) | SHA-256 cryptographic payload hashing for immutable event integrity |
 | `pytest` | Test Runner | `>=8.0` | MIT | Permissive | No (`RunAsInvoker`) | Automated contract, invariant, regression, and metadata verification |

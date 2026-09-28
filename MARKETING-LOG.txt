@@ -2,11 +2,11 @@
 # ================================================================================
 # MARKETING & DISCOVERABILITY LOG: automation-master
 # ================================================================================
-Date: 2026-09-20
+Date: 2026-09-28
 Operator: Antigravity / Gemini (via GITHUBBOT Pfad B)
 Target Repo: dev-bricks/automation-master
 Canonical Path: C:\_Local_DEV\repos\automation-master
-Version: 0.1.5
+Version: 0.1.6
 Organization: dev-bricks
 Umbrella Collective: open-bricks
 
@@ -16,6 +16,7 @@ Umbrella Collective: open-bricks
 # [2026-09-12 04:45:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: dev-bricks/automation-master | SCOPE: 16-point quick navigation with 100% reciprocal anchor parity in README.md & README_de.md, enriched PEP 621 URLs (Third-Party Licenses, Marketing-Log, LLM-Ready), comprehensive THIRD_PARTY_LICENSES.md audit for pure Python stdlib zero-runtime dependencies, enriched MARKETING-LOG.txt (4 personas, bilingual search phrases, 5-way competitive matrix across 10 dimensions, 10 canonical governance invariants INV-LOCAL-01 to INV-ISOLAT-10, 21 partner tools), version bump to 0.1.3, and contract test expansion.
 # [2026-09-20 10:55:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: dev-bricks/automation-master | SCOPE: Bilingual 18-point Quick Navigation with dual reciprocal HTML anchors, Target Personas [PERSONA-01]..[PERSONA-04], 10-dimension comparative matrix vs 4 alternatives, Level 1 SBOM & Invariant Cross-Reference Matrix in THIRD_PARTY_LICENSES.md, root NOTICE attribution file, PEP 639 license-files synchronization, Section 18 statutory liability disclaimer (§ 521 BGB Gefälligkeitsrecht), live GitHub 20/20 topics & homepage URL, version bump to 0.1.5, and expanded contract tests in test_metadata.py.
 # [2026-09-24 00:20:00 CEST] [GITHUBBOT_ONE_REPO_CLEANER] ACTION: PFAD_A_HYGIENE | REPO: dev-bricks/automation-master | SCOPE: CI workflow deployment & hardening (welcome.yml with first-interaction@v3 and stale.yml with actions/stale@v9; timeout-minutes: 5/10, concurrency cancel-in-progress: true, least-privilege permissions issues/pull-requests: write; ci.yml least-privilege permissions contents: read), multi-host cloud-sync, lock and cache defense in .gitignore (*-LAPTOP*, *-Mac Studio*, *-MacBook*, LOCK.user.*, LOCK.until.*, LOCK.condition.*, .automation-lock, uv.lock, !package-lock.json, .pytest_temp/, .hypothesis/, .turbo/, .tox/, .nyc_output/), PEP 621 metadata standardization in pyproject.toml (Notice URL in [project.urls], pytest norecursedirs and minversion; strict version freeze discipline per T-20260920-167562623: version = "0.1.5" preserved unchanged), Level 1 SBOM Drittanbieter-Lizenzaudit re-audit Stand 2026-09-24, llms.txt Last-checked 2026-09-24 with test baseline, CHANGELOG.md release notes under ## [Unreleased], and automated contract test suite expansion in tests/test_metadata.py.
+# [2026-09-28 23:55:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: dev-bricks/automation-master | SCOPE: Bilingual 18-point Quick Navigation parity with reciprocal dual HTML anchors (<a id="sec-01"></a>..<a id="sec-18"></a>), ASCII Four-View Architectural Topology projection in Section 2 across README.md and README_de.md, root Level 1 SBOM plain-text companion THIRD_PARTY_LICENSES.txt with Invariant Cross-Reference Matrix table (INV-LOCAL-01..INV-ISOLAT-10 all verified), PEP 621 metadata enhancement with 20/20 topics & keywords saturation, license-files whitelist with THIRD_PARTY_LICENSES.txt, companion URLs in [project.urls], synchronized Shields.io badges, updated llms.txt context index (Stand 2026-09-28, 95+ verified tests baseline), and expanded automated contract test suite in tests/test_metadata.py.
 
 ================================================================================
 1. REPOSITORY AUDIT & DISCOVERABILITY BASELINE

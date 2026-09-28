@@ -9,21 +9,29 @@ description = "Local-first automation registry, reward policy, and event-sourced
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md"]
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md", "THIRD_PARTY_LICENSES.txt"]
 authors = [{ name = "Lukas Geiger", email = "lukas@open-bricks.org" }]
 keywords = [
+  "ai-agents",
+  "audit-trail",
   "automation",
-  "governance",
-  "event-sourcing",
-  "sqlite",
-  "local-first",
-  "reward-policy",
+  "cli",
   "credit-budget",
-  "zero-egress",
-  "fail-closed",
-  "multi-agent",
   "dev-bricks",
+  "event-sourcing",
+  "fail-closed",
+  "governance",
+  "local-first",
+  "multi-agent",
+  "offline-first",
   "open-bricks",
+  "python",
+  "rate-limiting",
+  "reward-policy",
+  "runasinvoker",
+  "sqlite",
+  "task-governance",
+  "zero-egress",
 ]
 dependencies = []
 classifiers = [
@@ -53,6 +61,9 @@ Security = "https://github.com/dev-bricks/automation-master/blob/main/SECURITY.m
 Umbrella = "https://github.com/open-bricks"
 Notice = "https://github.com/dev-bricks/automation-master/blob/main/NOTICE"
 "Third-Party Licenses" = "https://github.com/dev-bricks/automation-master/blob/main/THIRD_PARTY_LICENSES.md"
+"Third-Party Licenses (Text)" = "https://github.com/dev-bricks/automation-master/blob/main/THIRD_PARTY_LICENSES.txt"
+"Level 1 SBOM" = "https://github.com/dev-bricks/automation-master/blob/main/THIRD_PARTY_LICENSES.txt"
+"Plain-Text Licenses" = "https://github.com/dev-bricks/automation-master/blob/main/THIRD_PARTY_LICENSES.txt"
 "Marketing-Log" = "https://github.com/dev-bricks/automation-master/blob/main/MARKETING-LOG.txt"
 "LLM-Ready" = "https://github.com/dev-bricks/automation-master/blob/main/llms.txt"
 

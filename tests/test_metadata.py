@@ -83,11 +83,12 @@ def test_llms_txt_integrity():
     assert "# automation-master" in llms_text
     assert "AutomationMaster" in llms_text
     assert "RewardPolicy" in llms_text
-    assert "Last-checked: 2026-09-24" in llms_text
+    assert "Last-checked: 2026-09-28" in llms_text
     assert "0.1.6" in llms_text
 
     assert "INV-LOCAL-01" in llms_text
     assert "NOTICE" in llms_text
+    assert "THIRD_PARTY_LICENSES.txt" in llms_text
     assert "MARKETING-LOG.txt" in llms_text
 
 
@@ -420,7 +421,11 @@ def test_third_party_licenses_and_pep639():
     pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
     assert 'license = "MIT"' in pyproject
     assert 'License :: OSI Approved :: MIT License' not in pyproject
-    assert 'license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md"]' in pyproject
+    expected_lf = (
+        'license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_LICENSES.md", '
+        '"THIRD_PARTY_LICENSES.txt"]'
+    )
+    assert expected_lf in pyproject
 
 
 def test_todo_status_table_and_gate_readiness():
@@ -483,6 +488,7 @@ def test_third_party_licenses_audit_contract():
 
     assert "2026-09-20" in content
     assert "2026-09-24" in content
+    assert "2026-09-28" in content
     assert "Level 1 Software Bill of Materials (SBOM)" in content
     assert "Invariant Cross-Reference Matrix" in content
     assert "Zero External Runtime Dependencies" in content
@@ -701,3 +707,65 @@ def test_changelog_unreleased_section_contract():
     assert "## [Unreleased]" in changelog
     assert "CI Workflow Provisioning & Hardening" in changelog
     assert "Multi-Host Conflict, Lock & Cache Defense" in changelog
+
+
+def test_quick_navigation_dual_sec_anchors():
+    """Verify reciprocal dual HTML anchors sec-01 through sec-18 in READMEs."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    for i in range(1, 19):
+        anchor = f'<a id="sec-{i:02d}"></a>'
+        assert anchor in readme_en, f"Missing {anchor} in README.md"
+        assert anchor in readme_de, f"Missing {anchor} in README_de.md"
+
+
+def test_ascii_four_view_topology_projection():
+    """Verify ASCII four-view architectural topology projection in both READMEs."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+
+    en_views = [
+        "VIEW 1: CLIENT RUNTIMES & AGENT DRIVERS",
+        "VIEW 2: AUTOMATION-MASTER CORE GOVERNANCE ENGINE",
+        "VIEW 3: ATOMIC SQLite PERSISTENCE & CONCURRENCY",
+        "VIEW 4: GOVERNANCE, SECURITY & PERIMETER",
+    ]
+    for view in en_views:
+        assert view in readme_en, f"Missing {view} in README.md"
+
+    de_views = [
+        "SICHT 1: CLIENT-LAUFZEITEN & AGENTEN-TREIBER",
+        "SICHT 2: AUTOMATION-MASTER KERN-GOVERNANCE-MOTOR",
+        "SICHT 3: ATOMARE SQLite PERSISTENZ",
+        "SICHT 4: GOVERNANCE, SICHERHEIT & PERIMETER",
+    ]
+    for view in de_views:
+        assert view in readme_de, f"Missing {view} in README_de.md"
+
+
+def test_pyproject_keywords_saturation_twenty():
+    """Verify pyproject.toml defines exactly 20 saturated discoverability keywords."""
+    import re
+    pyproject_text = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    m = re.search(r"keywords\s*=\s*\[(.*?)\]", pyproject_text, re.DOTALL)
+    assert m is not None, "keywords list not found in pyproject.toml"
+    raw_keywords = [k.strip(' \t\n\r",\'') for k in m.group(1).split(",") if k.strip(' \t\n\r",\'')]
+    assert len(raw_keywords) == 20, (
+        f"Expected exactly 20 keywords, got {len(raw_keywords)}: {raw_keywords}"
+    )
+
+
+def test_third_party_licenses_text_companion():
+    """Verify plain-text Level 1 SBOM companion file THIRD_PARTY_LICENSES.txt."""
+    txt_path = REPO_ROOT / "THIRD_PARTY_LICENSES.txt"
+    assert txt_path.is_file(), "THIRD_PARTY_LICENSES.txt must exist in repo root"
+    content = txt_path.read_text(encoding="utf-8")
+    assert "automation-master" in content
+    assert "Level 1 SBOM" in content
+    assert "MIT License" in content
+    assert "PSF-2.0" in content
+    assert "INV-LOCAL-01" in content
+    assert "INV-ISOLAT-10" in content
+    assert "Zero-Copyleft Guarantee" in content
+    assert "RunAsInvoker" in content

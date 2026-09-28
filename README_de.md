@@ -14,7 +14,9 @@
 [![Sicherheits-SLA](https://img.shields.io/badge/Sicherheits--SLA-48h%20Reaktion-blue.svg)](SECURITY.md)
 [![Drittanbieter-Lizenzen](https://img.shields.io/badge/Drittanbieter--Lizenzen-100%25%20Frei-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
 [![SBOM](https://img.shields.io/badge/SBOM-Level%201%20Geprüft-brightgreen.svg)](THIRD_PARTY_LICENSES.md)
+[![Level 1 SBOM: Text](https://img.shields.io/badge/Level%201%20SBOM-Textbegleiter-brightgreen.svg)](THIRD_PARTY_LICENSES.txt)
 [![Attribution: NOTICE](https://img.shields.io/badge/Attribution-NOTICE-blue.svg)](NOTICE)
+[![Geprüft: 2026-09-28](https://img.shields.io/badge/Geprüft-2026--09--28-blue.svg)](MARKETING-LOG.txt)
 [![Marketing-Log](https://img.shields.io/badge/Marketing--Log-Aktiv-blue.svg)](MARKETING-LOG.txt)
 [![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-yellow.svg)](LICENSE)
 [![Ecosystem: dev-bricks](https://img.shields.io/badge/Ecosystem-dev--bricks-blue.svg)](https://github.com/dev-bricks)
@@ -28,27 +30,31 @@
 ---
 
 ### Schnellnavigation
-- [1. Übersicht & Management Summary](#1-uebersicht--management-summary)
-- [2. Visuelle Systemarchitektur & Topologie](#2-visuelle-systemarchitektur--topologie)
-- [3. End-to-End Governance- & Credit-Lebenszyklus](#3-end-to-end-governance--credit-lebenszyklus)
-- [4. Zielgruppen & High-Intent Suchbegriffe](#4-zielgruppen--high-intent-suchbegriffe)
-- [5. Vergleichsmatrix gegenüber Alternativen](#5-vergleichsmatrix-gegenueber-alternativen)
-- [6. Governance- & Laufzeit-Invarianten-Matrix](#6-governance--laufzeit-invarianten-matrix)
-- [7. Event-Sourcing- & Projektionslebenszyklus](#7-event-sourcing--projektionslebenszyklus)
-- [8. Installation & Voraussetzungen](#8-installation--voraussetzungen)
-- [9. CLI-Bedienung & Betrieb](#9-cli-bedienung--betrieb)
-- [10. Python-API-Integration & Erweiterungspunkte](#10-python-api-integration--erweiterungspunkte)
-- [11. Datenspeicher & Multi-OS-Pfade](#11-datenspeicher--multi-os-pfade)
-- [12. Architekturdokumente & Vertragsspezifikationen](#12-architekturdokumente--vertragsspezifikationen)
-- [13. Geschwisterwerkzeuge & Ökosystem-Matrix](#13-geschwisterwerkzeuge--oekosystem-matrix)
-- [14. Testen, Verifikation & Qualitäts-Gates](#14-testen-verifikation--qualitaets-gates)
-- [15. Sicherheitsrichtlinie & Meldewege (48h Antwort-SLA)](#15-sicherheitsrichtlinie--meldewege-48h-antwort-sla)
-- [16. Drittanbieter-Lizenzen & Level 1 SBOM](#16-drittanbieter-lizenzen--level-1-sbom)
-- [17. Entdeckungs-Schlüsselwörter & KI-Agenten-Index](#17-entdeckungs-schluesselwoerter--ki-agenten-index)
-- [18. Gesetzliche Hinweise, Haftungsbeschränkung & Lizenz (§ 521 BGB)](#18-gesetzliche-hinweise-haftungsbeschraenkung--lizenz--521-bgb)
+
+| # | Abschnitt | Navigationsanker | Funktionaler Bereich |
+|---|---|---|---|
+| 01 | [1. Übersicht & Management Summary](#sec-01) | [`#sec-01`](#sec-01) | Lokale Governance, Credit-Rahmen & Drosselungsentscheidungen |
+| 02 | [2. Visuelle Systemarchitektur & Topologie](#sec-02) | [`#sec-02`](#sec-02) | Vier-Sichten ASCII-Projektion & entkoppelte Mermaid-Architektur |
+| 03 | [3. End-to-End Governance- & Credit-Lebenszyklus](#sec-03) | [`#sec-03`](#sec-03) | Preflight-Prüfung, atomare Reservierung & Belohnungsanalyse |
+| 04 | [4. Zielgruppen & High-Intent Suchbegriffe](#sec-04) | [`#sec-04`](#sec-04) | Vier Zielgruppen `[PERSONA-01..04]` & zweisprachige Suchbegriffe |
+| 05 | [5. Vergleichsmatrix gegenüber Alternativen](#sec-05) | [`#sec-05`](#sec-05) | 10-dimensionale Matrix gegen Cron, Airflow, AWS Budgets & Skripte |
+| 06 | [6. Governance- & Laufzeit-Invarianten-Matrix](#sec-06) | [`#sec-06`](#sec-06) | Zehn strikte Laufzeit-Invarianten `INV-LOCAL-01` bis `INV-ISOLAT-10` |
+| 07 | [7. Event-Sourcing- & Projektionslebenszyklus](#sec-07) | [`#sec-07`](#sec-07) | Unveränderliches Ledger, deterministische Projektionen & 30-Tage-Tier |
+| 08 | [8. Installation & Voraussetzungen](#sec-08) | [`#sec-08`](#sec-08) | Voraussetzungen ab Python 3.10 & editierbare Pip-Installation |
+| 09 | [9. CLI-Bedienung & Betrieb](#sec-09) | [`#sec-09`](#sec-09) | CLI-Kommandos: init, register-family, allocate und status |
+| 10 | [10. Python-API-Integration & Erweiterungspunkte](#sec-10) | [`#sec-10`](#sec-10) | Service-Initialisierung, CreditGateAdapter & Policy-Konfiguration |
+| 11 | [11. Datenspeicher & Multi-OS-Pfade](#sec-11) | [`#sec-11`](#sec-11) | Sichere Speicherablage in LocalAppData / XDG außerhalb Cloud-Sync |
+| 12 | [12. Architekturdokumente & Vertragsspezifikationen](#sec-12) | [`#sec-12`](#sec-12) | Formale Schnittstellendokumente, Schemata und Verträge |
+| 13 | [13. Geschwisterwerkzeuge & Ökosystem-Matrix](#sec-13) | [`#sec-13`](#sec-13) | Interoperabilität im dev-bricks- und open-bricks-Verbund |
+| 14 | [14. Testen, Verifikation & Qualitäts-Gates](#sec-14) | [`#sec-14`](#sec-14) | Pytest, Vertragstests, Ruff AST-Validierung & Bytecode-Kompilierung |
+| 15 | [15. Sicherheitsrichtlinie & Meldewege (48h Antwort-SLA)](#sec-15) | [`#sec-15`](#sec-15) | Vertrauliche Meldewege, 48h Antwort-SLA & 5-Tage-Triage |
+| 16 | [16. Drittanbieter-Lizenzen & Level 1 SBOM](#sec-16) | [`#sec-16`](#sec-16) | Reine Standardbibliothek, Level 1 SBOM & Text-Begleiter |
+| 17 | [17. Entdeckungs-Schlüsselwörter & KI-Agenten-Index](#sec-17) | [`#sec-17`](#sec-17) | 20 gesättigte Schlüsselwörter, llms.txt & Modul-Manifest |
+| 18 | [18. Gesetzliche Hinweise, Haftungsbeschränkung & Lizenz (§ 521 BGB)](#sec-18) | [`#sec-18`](#sec-18) | Gefälligkeitsrecht nach § 521 BGB & Open-Source-Lizenz (MIT) |
 
 ---
 
+<a id="sec-01"></a>
 ## <a id="1-uebersicht--management-summary"></a><a id="uebersicht--management-summary"></a><a id="executive-summary--core-identity"></a><a id="executive-summary"></a>1. Übersicht & Management Summary
 
 `automation-master` ist ein standardmäßig privates, lokal betriebenes Control- und Governance-Modul für wiederkehrende Automatisierungsfamilien und Multi-Agenten-KI-Pipelines. Es erfasst Automatisierungsvarianten, berechnet erklärbare Belohnungswerte (Reward Scores), verwaltet epochenspezifische Credit-Rahmen, protokolliert unveränderliche Laufbelege und schlägt Drosselungsentscheidungen vor.
@@ -57,7 +63,48 @@ Das Modul plant oder startet **keine** Prozesse und ersetzt weder `task-master`,
 
 ---
 
+<a id="sec-02"></a>
 ## <a id="2-visuelle-systemarchitektur--topologie"></a><a id="visuelle-systemarchitektur--topologie"></a><a id="systemarchitektur"></a><a id="visual-architecture--system-topology"></a>2. Visuelle Systemarchitektur & Topologie
+
+### ASCII Vier-Sichten Architektur-Topologie-Projektion
+
+```text
+========================================================================================
+[SICHT 1: CLIENT-LAUFZEITEN & AGENTEN-TREIBER]
+----------------------------------------------------------------------------------------
+ +-------------------------+  +-------------------------+  +--------------------------+
+ | Scheduler (Cron/Systemd)|  | Multi-Agenten-Laufzeiten|  | System-Gap & Sync-Motoren|
+ | (ellmos-scheduler)      |  | (Claude Code, Antigrav) |  | (system-gap-master, sync)|
+ +------------+------------+  +------------+------------+  +------------+-------------+
+              |                            |                            |
+              +----------------------------+----------------------------+
+                                           |
+                                           v
+========================================================================================
+[SICHT 2: AUTOMATION-MASTER KERN-GOVERNANCE-MOTOR]
+----------------------------------------------------------------------------------------
+ +------------------------------------------------------------------------------------+
+ | AutomationMaster Service (`automation_master.service`)                             |
+ |                                                                                    |
+ |  [CreditGateAdapter] ──> [RewardPolicy]      ──> [CreditPolicy]    ──> [Retention] |
+ |   Preflight & Auth        Erklärbarer Score       SHADOW / ENFORCED     30-Tage-Log|
+ |   0-Kosten Leerläufe      Zerfall & Strafen       Epochen-Rahmen        Audit-Log  |
+ +-----------------------------------+------------------------------------------------+
+                                     |
+                         (BEGIN IMMEDIATE Transaktion)
+                                     v
+========================================================================================
+[SICHT 3: ATOMARE SQLite PERSISTENZ]           [SICHT 4: GOVERNANCE, SICHERHEIT & PERIMETER]
+---------------------------------------------- ------------------------------------------
+ Lokales SQLite Event-Ledger                   Governance, Compliance & Zero-Egress
+ +------------------------------------------+  +---------------------------------------+
+ | Local AppData / XDG State (~/.ellmos/)   |  | Kein Netzwerk-Egress / 100% Offline   |
+ | Unveränderliche Tabelle `events` (SHA256)|  | Rechtefreie Ausführung (RunAsInvoker) |
+ | PRAGMA journal_mode = WAL & Busy-Retries |  | 0% Copyleft / rein permissive Lizenzen|
+ | Deterministische Budget-Projektionen     |  | Level 1 SBOM Textbegleiter & 48h SLA  |
+ +------------------------------------------+  +---------------------------------------+
+========================================================================================
+```
 
 Das nachfolgende Diagramm veranschaulicht die entkoppelten Architekturschichten von externen Aufrufern über Adapterschnittstellen, Governance-Kerne bis zur lokalen Persistenz:
 
@@ -106,6 +153,7 @@ flowchart TD
 
 ---
 
+<a id="sec-03"></a>
 ## <a id="3-end-to-end-governance--credit-lebenszyklus"></a><a id="end-to-end-governance--credit-lebenszyklus"></a><a id="reservierungs--credit-governance-ablauf"></a><a id="end-to-end-governance--credit-lifecycle"></a>3. End-to-End Governance- & Credit-Lebenszyklus
 
 ```mermaid
@@ -141,6 +189,7 @@ sequenceDiagram
 
 ---
 
+<a id="sec-04"></a>
 ## <a id="4-zielgruppen--high-intent-suchbegriffe"></a><a id="zielgruppen--high-intent-suchbegriffe"></a><a id="zielgruppen--auffindbarkeit"></a><a id="target-personas--high-intent-seo-queries"></a>4. Zielgruppen & High-Intent Suchbegriffe
 
 `automation-master` ist auf vier primäre Zielgruppen und Betriebsszenarien zugeschnitten:
@@ -167,6 +216,7 @@ sequenceDiagram
 
 ---
 
+<a id="sec-05"></a>
 ## <a id="5-vergleichsmatrix-gegenueber-alternativen"></a><a id="vergleichsmatrix-gegenueber-alternativen"></a><a id="comparative-matrix-vs-alternatives"></a>5. Vergleichsmatrix gegenüber Alternativen
 
 Die folgende Matrix vergleicht `automation-master` über 10 architektonische und governance-spezifische Dimensionen mit 4 verbreiteten Alternativen:
@@ -186,6 +236,7 @@ Die folgende Matrix vergleicht `automation-master` über 10 architektonische und
 
 ---
 
+<a id="sec-06"></a>
 ## <a id="6-governance--laufzeit-invarianten-matrix"></a><a id="governance--laufzeit-invarianten-matrix"></a><a id="sicherheitsmodell--governance-invarianten"></a><a id="governance--runtime-invariants-matrix"></a>6. Governance- & Laufzeit-Invarianten-Matrix
 
 Das Sicherheits- und Architekturmodell von `automation-master` basiert auf zehn überprüfbaren Invarianten:
@@ -205,6 +256,7 @@ Das Sicherheits- und Architekturmodell von `automation-master` basiert auf zehn 
 
 ---
 
+<a id="sec-07"></a>
 ## <a id="7-event-sourcing--projektionslebenszyklus"></a><a id="event-sourcing--projektionslebenszyklus"></a><a id="event-sourcing--projection-lifecycle"></a>7. Event-Sourcing- & Projektionslebenszyklus
 
 ```mermaid
@@ -240,6 +292,7 @@ graph LR
 
 ---
 
+<a id="sec-08"></a>
 ## <a id="8-installation--voraussetzungen"></a><a id="installation--voraussetzungen"></a><a id="installation--prerequisites"></a>8. Installation & Voraussetzungen
 
 ### Voraussetzungen
@@ -255,6 +308,7 @@ python -m pip install -e ".[dev]"
 
 ---
 
+<a id="sec-09"></a>
 ## <a id="9-cli-bedienung--betrieb"></a><a id="cli-bedienung--betrieb"></a><a id="cli-usage--operations"></a>9. CLI-Bedienung & Betrieb
 
 ```powershell
@@ -277,6 +331,7 @@ automation-master --db .\pilot.db --node workstation status --epoch 2026-W34 --s
 
 ---
 
+<a id="sec-10"></a>
 ## <a id="10-python-api-integration--erweiterungspunkte"></a><a id="python-api-integration--erweiterungspunkte"></a><a id="python-api-integration"></a><a id="python-api-integration--extension-points"></a>10. Python-API-Integration & Erweiterungspunkte
 
 ```python
@@ -315,6 +370,7 @@ decision = gate.authorize(
 
 ---
 
+<a id="sec-11"></a>
 ## <a id="11-datenspeicher--multi-os-pfade"></a><a id="datenspeicher--multi-os-pfade"></a><a id="data-storage--multi-os-layout"></a>11. Datenspeicher & Multi-OS-Pfade
 
 > [!TIP]
@@ -324,6 +380,7 @@ decision = gate.authorize(
 
 ---
 
+<a id="sec-12"></a>
 ## <a id="12-architekturdokumente--vertragsspezifikationen"></a><a id="architekturdokumente--vertragsspezifikationen"></a><a id="architectural-contracts--schema-specifications"></a>12. Architekturdokumente & Vertragsspezifikationen
 
 - [ARCHITECTURE.md](ARCHITECTURE.md): Detaillierte Architekturschichten, Event-Schema und Reservierungsmechanik.
@@ -338,6 +395,7 @@ decision = gate.authorize(
 
 ---
 
+<a id="sec-13"></a>
 ## <a id="13-geschwisterwerkzeuge--oekosystem-matrix"></a><a id="geschwisterwerkzeuge--oekosystem-matrix"></a><a id="geschwisterwerkzeuge--ökosystem-matrix"></a><a id="sibling-tools--ecosystem-matrix"></a>13. Geschwisterwerkzeuge & Ökosystem-Matrix
 
 `automation-master` ist Teil des **dev-bricks**-Ökosystems und der **open-bricks** Open-Source-Suite:
@@ -371,6 +429,7 @@ decision = gate.authorize(
 
 ---
 
+<a id="sec-14"></a>
 ## <a id="14-testen-verifikation--qualitaets-gates"></a><a id="testen-verifikation--qualitaets-gates"></a><a id="testing-verification--quality-gates"></a>14. Testen, Verifikation & Qualitäts-Gates
 
 Die Testsuite stellt vollständige Vertragsintegrität, Metadaten-Parität und fehlerfreie AST-Kompilierung sicher:
@@ -388,6 +447,7 @@ python -m compileall -q src tests
 
 ---
 
+<a id="sec-15"></a>
 ## <a id="15-sicherheitsrichtlinie--meldewege-48h-antwort-sla"></a><a id="sicherheitsrichtlinie--meldewege-48h-antwort-sla"></a><a id="sicherheitsrichtlinie--meldewege"></a><a id="security-policy--vulnerability-slas-48h-response-sla"></a>15. Sicherheitsrichtlinie & Meldewege (48h Antwort-SLA)
 
 Für sicherheitsbezogene Anfragen und vertrauliche Meldungen:
@@ -403,6 +463,7 @@ Für sicherheitsbezogene Anfragen und vertrauliche Meldungen:
 
 ---
 
+<a id="sec-16"></a>
 ## <a id="16-drittanbieter-lizenzen--level-1-sbom"></a><a id="drittanbieter-lizenzen--level-1-sbom"></a><a id="drittanbieter-lizenzen--transparenz"></a><a id="third-party-licenses--level-1-sbom"></a>16. Drittanbieter-Lizenzen & Level 1 SBOM
 
 `automation-master` erzwingt eine strikte **Zero-Runtime-Dependency**-Richtlinie (`dependencies = []`). Das Kernpaket läuft ausschließlich auf der Python-Standardbibliothek, was vollständige Immunität gegen Supply-Chain-Kompromittierungen und Copyleft-Kontamination garantiert.
@@ -414,19 +475,22 @@ Für sicherheitsbezogene Anfragen und vertrauliche Meldungen:
 | **ruff** | Entwicklung / Linter | `>=0.9` | MIT OR Apache-2.0 | [github.com/astral-sh/ruff](https://github.com/astral-sh/ruff) |
 | **setuptools** | Build-System | `>=68.0` | MIT License | [github.com/pypa/setuptools](https://github.com/pypa/setuptools) |
 
-Ausführliche Lizenztexte, Audit-Zertifizierungen, die Level 1 SBOM und Invarianten-Tabellen finden Sie in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md).
+Ausführliche Lizenztexte, Audit-Zertifizierungen, die Level 1 SBOM und Invarianten-Tabellen finden Sie in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) sowie dem Textbegleiter [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt).
 
 ---
 
+<a id="sec-17"></a>
 ## <a id="17-entdeckungs-schluesselwoerter--ki-agenten-index"></a><a id="entdeckungs-schluesselwoerter--ki-agenten-index"></a><a id="discovery-keywords--ai-agent-index"></a>17. Entdeckungs-Schlüsselwörter & KI-Agenten-Index
 
 Für autonome Indexierung und Such-Disambiguierung:
-- **Schlüsselwörter**: `automation`, `governance`, `event-sourcing`, `sqlite`, `local-first`, `reward-policy`, `credit-budget`, `zero-egress`, `fail-closed`, `multi-agent`, `dev-bricks`, `open-bricks`
+- **Schlüsselwörter**: `ai-agents`, `audit-trail`, `automation`, `cli`, `credit-budget`, `dev-bricks`, `event-sourcing`, `fail-closed`, `governance`, `local-first`, `multi-agent`, `offline-first`, `open-bricks`, `python`, `rate-limiting`, `reward-policy`, `runasinvoker`, `sqlite`, `task-governance`, `zero-egress`
 - **Maschinenlesbare Spezifikation**: [llms.txt](llms.txt)
 - **Modul-Manifest**: [ellmos-module.v2.json](ellmos-module.v2.json)
+- **Level 1 SBOM Textbegleiter**: [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt)
 
 ---
 
+<a id="sec-18"></a>
 ## <a id="18-gesetzliche-hinweise-haftungsbeschraenkung--lizenz--521-bgb"></a><a id="gesetzliche-hinweise-haftungsbeschraenkung--lizenz--521-bgb"></a><a id="lizenz"></a><a id="statutory-notice-liability-limitation--license--521-bgb"></a>18. Gesetzliche Hinweise, Haftungsbeschränkung & Lizenz (§ 521 BGB)
 
 ### Gesetzlicher Haftungsausschluss (§ 521 BGB Gefälligkeitsrecht)
@@ -437,7 +501,7 @@ Der Autor und die Betreuer übernehmen keine Gewährleistung oder Haftung für d
 
 ### Open-Source-Lizenz
 
-`automation-master` ist lizenziert unter der [MIT-Lizenz](LICENSE). Formale Urheberrechtshinweise und Drittanbieter-Deklarationen sind in [NOTICE](NOTICE) sowie [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) dokumentiert.
+`automation-master` ist lizenziert unter der [MIT-Lizenz](LICENSE). Formale Urheberrechtshinweise und Drittanbieter-Deklarationen sind in [NOTICE](NOTICE), [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) und [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt) dokumentiert.
 
 ## Versionsgebundene Definitionsbindungen
 

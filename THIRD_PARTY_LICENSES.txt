@@ -1,0 +1,54 @@
+# Third-Party Licenses & Software Inventory
+
+Project: automation-master
+Audited: 2026-09-28 against Level 1 SBOM and runtime invariants.
+License: MIT License (see LICENSE and NOTICE)
+Repository: https://github.com/dev-bricks/automation-master
+Parent Organization: dev-bricks (https://github.com/dev-bricks)
+Umbrella Collective: open-bricks (https://github.com/open-bricks)
+
+## Project License
+
+automation-master is licensed under the MIT License. See `LICENSE` and `NOTICE`.
+
+## Core Runtime
+
+The base package declares zero external runtime dependencies (`dependencies = []`).
+The entire runtime execution relies strictly on the official Python Standard Library.
+
+| Package / Module | Scope | Version Spec | License | Purpose |
+|---|---|---|---|---|
+| Python Standard Library | Runtime | >=3.10 | PSF-2.0 | Core runtime: argparse, dataclasses, datetime, hashlib, json, os, pathlib, sqlite3, sys, typing |
+
+All state persistence is handled entirely via Python's built-in `sqlite3` driver with `BEGIN IMMEDIATE` transactions.
+Zero third-party telemetry, analytics, cloud synchronization, or remote networking services are packaged or contacted.
+
+## Direct Build and Development Dependencies
+
+The following tools are utilized exclusively for offline automated testing, code quality auditing, packaging, and linting:
+
+| Package | Declared Use | Constraint | License | Source |
+|---|---|---|---|---|
+| pytest | Development test runner | >=8.0 | MIT | https://pytest.org/ |
+| ruff | Development linter | >=0.9 | MIT / Apache-2.0 | https://github.com/astral-sh/ruff |
+| setuptools | Build backend | >=68.0 | MIT | https://github.com/pypa/setuptools |
+| wheel | Packaging format | >=0.40 | MIT | https://github.com/pypa/wheel |
+
+## Zero-Copyleft Guarantee & Unprivileged Execution
+
+- Zero-Copyleft Guarantee: All runtime code and development dependencies are governed strictly by permissive, business-friendly open-source licenses (MIT, Apache-2.0, PSF-2.0). The codebase contains zero GPL, AGPL, or viral copyleft components.
+- Unprivileged User-Mode Operation (RunAsInvoker): All CLI commands, ledger operations, SQLite transactions, and state queries execute purely within unprivileged user space. No administrative rights, root elevation, sudo, or UAC prompts are ever required.
+
+## Governance & Runtime Invariants
+
+automation-master strictly enforces ten foundational governance and runtime invariants:
+- INV-LOCAL-01: 100% Local-First & Zero-Egress (100% offline-ready; local SQLite; zero network telemetry)
+- INV-PRIV-02: Non-Elevation (RunAsInvoker; executes strictly in unprivileged user space)
+- INV-IMMUT-03: Immutable Event Ledger (append-only SQLite events table with SHA-256 payload hashing)
+- INV-ATOMIC-04: Atomic Reservation Integrity (SQLite BEGIN IMMEDIATE transaction boundaries prevent races)
+- INV-GATE-05: Fail-Closed Credit Gating (default SHADOW or DISABLED mode; explicit activation required)
+- INV-NOWORK-06: Zero Cost for Inactive Runs (NO_WORK preflight skips release holds with 0 credit deduction)
+- INV-EXEMPT-07: Guaranteed Critical Exemption (safety-critical baseline allowance protects health probes)
+- INV-RETENT-08: 30-Day Receipt Retention (deterministic 30-day rich diagnostic projections, immutable summaries)
+- INV-PARITY-09: Multi-OS Operating Parity (POSIX/NT standard library path normalization and UTF-8 encoding)
+- INV-ISOLAT-10: Cloud Sync Directory Isolation & 48h SLA (database placed outside OneDrive/Dropbox; 48h SLA)

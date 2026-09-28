@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+- **Pfad B Discoverability, 18-Point Dual Anchors & Level 1 SBOM Text Companion (2026-09-28)**:
+  - Upgraded `README.md` and `README_de.md` quick navigation to standardized 18-point dual reciprocal HTML anchors (`<a id="sec-01"></a>` through `<a id="sec-18"></a>`) with explicit operational scope descriptions.
+  - Added ASCII Four-View Architectural Topology projection in Section 2 across both English and German documentation, mapping View 1 (Client Runtimes & Agent Drivers), View 2 (Core Governance Engine), View 3 (Atomic SQLite Persistence & Concurrency), and View 4 (Governance, Security & Perimeter).
+  - Created root plain-text Level 1 SBOM companion file `THIRD_PARTY_LICENSES.txt` with complete inventory, zero-copyleft certification, RunAsInvoker non-elevation attestation, and Invariant Cross-Reference Matrix table (INV-LOCAL-01..INV-ISOLAT-10 all verified).
+  - Saturated `pyproject.toml` keywords to exactly 20/20 items and added `Third-Party Licenses (Text)`, `Level 1 SBOM`, and `Plain-Text Licenses` companion URLs in `[project.urls]`.
+  - Registered `THIRD_PARTY_LICENSES.txt` in `pyproject.toml` `license-files` whitelist and synchronized `THIRD_PARTY_LICENSES.md` audit recency (Stand 2026-09-28).
+  - Synchronized Shields.io badges across `README.md` and `README_de.md` (`Level 1 SBOM: Text Companion`, `Verified: 2026-09-28` / `Geprüft: 2026-09-28`).
+  - Updated `llms.txt` context index with 2026-09-28 recency, verified test suite baseline, and plain-text companion links.
+  - Expanded contract test suite in `tests/test_metadata.py` verifying reciprocal dual anchors, ASCII topology projection, 20 saturated keywords, and SBOM companion integrity.
 - **CI Workflow Provisioning & Hardening**: Deployed `.github/workflows/welcome.yml` with `actions/first-interaction@v3` (5-minute timeout, concurrency `cancel-in-progress: true`, least-privilege `issues: write`, `pull-requests: write`) and `.github/workflows/stale.yml` with `actions/stale@v9` (10-minute timeout, concurrency `cancel-in-progress: true`, least-privilege permissions); hardened `.github/workflows/ci.yml` with least-privilege `permissions: contents: read`.
 - **Multi-Host Conflict, Lock & Cache Defense**: Expanded `.gitignore` with multi-host conflict patterns (`*-ASUS*`, `*-LAPTOP*`, `*-Mac Studio*`, `*-MacBook*`), canonical lock patterns (`LOCK.user.*`, `LOCK.until.*`, `LOCK.condition.*`, `.automation-lock`), package manager preservation (`!package-lock.json`), and test/build cache directories (`.pytest_temp/`, `.pytest_tmp*/`, `.hypothesis/`, `.turbo/`, `.nyc_output/`, `.tox/`, `*.orig`, `*.rej`).
 - **PEP 621 Metadata & Pytest Standardization**: Standardized `pyproject.toml` by configuring `Notice` URL in `[project.urls]` pointing to canonical root `NOTICE`, added `minversion = "7.0"` and `norecursedirs = [".git", ".pytest_cache", "__pycache__", "build", "dist", ".venv"]` to `[tool.pytest.ini_options]`; strictly preserved frozen release version per rule `T-20260920-167562623`.
