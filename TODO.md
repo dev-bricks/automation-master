@@ -1,8 +1,8 @@
 # TODO.md — Active work
 
-**Version:** 0.1.5<br>
-**Updated:** 2026-09-24<br>
-**Reason:** Pfad A Hygiene, CI Hardening (welcome.yml & stale.yml), Multi-Host Lock/Cache Defense & Contract Tests<br>
+**Version:** 0.1.6<br>
+**Updated:** 2026-10-01<br>
+**Reason:** Pfad A Hygiene, CI Lifecycle Workflows, Multi-Host Lock-Schutz & Vertragstests<br>
 **Purpose:** Track only work that remains open and provide status visibility.
 
 ## STATUS
@@ -41,6 +41,9 @@
 
 - [x] **TASK-AM-07: Pfad A Hygiene, CI-Workflow-Bereitstellung & Multi-Host-Härtung** (`effort=low`, `scope=hygiene`, priority `high`).
   - **Ergebnis:** Bereitstellung von `welcome.yml` (first-interaction@v3) und `stale.yml` (actions/stale@v9) mit Timeouts und Concurrency cancel-in-progress, least-privilege `contents: read` in `ci.yml`, `.gitignore` Härtung für Multi-Host-Konflikte (`*-LAPTOP*`, `*-Mac Studio*`, `*-MacBook*`) und Lock-System (`LOCK.user.*`, `LOCK.until.*`, `LOCK.condition.*`), PEP 621 Standardisierung in `pyproject.toml` (`Notice` URL, `norecursedirs`, `minversion`), Drittanbieter-Lizenz-Re-Audit Stand 2026-09-24, Version freeze bei 0.1.5 (T-20260920-167562623), und Vertragstest-Erweiterung.
+
+- [x] **TASK-AM-08: Pfad A Hygiene, CI Lifecycle Workflows, Multi-Host Lock-Schutz & Vertragstest-Erweiterung (v0.1.6)** (`effort=low`, `scope=hygiene`, priority `high`).
+  - **Ergebnis:** Bereitstellung von `.github/workflows/auto-assign.yml` (actions/github-script@v7) und `.github/workflows/label-sync.yml` (EndBug/label-sync@v2) mit 5m Timeouts und Concurrency cancel-in-progress, Bereitstellung kanonischer `.github/labels.yml` mit 11 Standard-Labels nach GOVERNANCE.md §4.2, Erstellung zweisprachiger `CONTRIBUTING.md` mit Invarianten INV-LOCAL-01..INV-ISOLAT-10 und RunAsInvoker Non-Elevation (INV-PRIV-02), `.gitignore`-Härtung (*-IDEAPAD*, *-IDEAPAD-GEI*, *_WORKSTATION*, *_WORKSTATION-LG*, *.swo, Desktop.ini, ehthumbs.db, LOCK.dev.*, LOCK.antigravity.*, LOCK.bugsearch.*, TASKPLAN_*.md), PEP 621 Standardisierung in `pyproject.toml` (Contributing URL, pytest basetemp und erweiterte norecursedirs), Re-Audit von `THIRD_PARTY_LICENSES.md` und `THIRD_PARTY_LICENSES.txt` (Stand 2026-10-01), Version 0.1.6 strikt eingefroren (T-20260920-167562623), und Vertragstestsuite in `tests/test_metadata.py` erweitert.
 
 ---
 <!-- REMEMBER: ENDUSERTEXTE BEKOMMEN ECHTE UMLAUTE Ü Ö Ä ß -->

@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+- **Pfad A Repository-Hygiene, CI Lifecycle Workflows, Multi-Host Lock-Schutz & Vertragstest-Erweiterung (2026-10-01)**:
+  - Deployed `.github/workflows/auto-assign.yml` with `actions/github-script@v7` (5-minute timeout, concurrency `cancel-in-progress: true`, least-privilege `pull-requests: write`, `issues: write`) for unprivileged PR assignment.
+  - Deployed `.github/workflows/label-sync.yml` with `EndBug/label-sync@v2` (5-minute timeout, concurrency `cancel-in-progress: true`, least-privilege `issues: write`) and canonical `.github/labels.yml` with 11 standard governance labels according to GOVERNANCE.md §4.2.
+  - Created bilingual `CONTRIBUTING.md` (DE/EN) establishing governance invariants `INV-LOCAL-01` through `INV-ISOLAT-10`, unprivileged RunAsInvoker execution (`INV-PRIV-02`), Plan D clone workflow, and pre-commit quality gates.
+  - Hardened `.gitignore` against multi-host conflict tokens (`*-IDEAPAD*`, `*-IDEAPAD-GEI*`, `*_WORKSTATION*`, `*_WORKSTATION-LG*`), canonical locks (`LOCK.dev.*`, `LOCK.antigravity.*`, `LOCK.bugsearch.*`), OS/editor metadata (`*.swo`, `Desktop.ini`, `ehthumbs.db`), and task tracking patterns (`TASKPLAN_*.md`).
+  - Standardized PEP 621 `pyproject.toml` by registering `Contributing` URL under `[project.urls]`, setting `addopts = "-ra -v --basetemp=.pytest_temp"`, and expanding `norecursedirs` with `.pytest_temp`, `.pytest_tmp*`, `.hypothesis`, `.turbo`, `.nyc_output`, and `.tox`.
+  - Re-audited Level 1 SBOM in `THIRD_PARTY_LICENSES.md` and plain-text companion `THIRD_PARTY_LICENSES.txt` (Stand 2026-10-01) confirming pure Python standard library runtime purity (`dependencies = []`), zero copyleft, and unprivileged RunAsInvoker execution.
+  - Synchronized verification badges across `README.md` and `README_de.md` (`Verified: 2026-10-01` / `Geprüft: 2026-10-01`, `Contributing: Welcome` / `Mitwirken: Willkommen`) while strictly preserving all 18 bilateral reciprocal HTML anchors (`<a id="sec-01"></a>` through `<a id="sec-18"></a>`).
+  - Updated `llms.txt` context index (Stand 2026-10-01) and recorded Section 7 in `MARKETING-LOG.txt`.
+  - Expanded automated contract test suite in `tests/test_metadata.py` with 6 new contract tests for CI lifecycle workflows, governance labels, contributing documentation, ignore patterns, and SBOM audit recency.
+  - Strictly preserved frozen version `0.1.6` pursuant to governance invariant `T-20260920-167562623`.
+
 - **Pfad B Discoverability, 18-Point Dual Anchors & Level 1 SBOM Text Companion (2026-09-28)**:
   - Upgraded `README.md` and `README_de.md` quick navigation to standardized 18-point dual reciprocal HTML anchors (`<a id="sec-01"></a>` through `<a id="sec-18"></a>`) with explicit operational scope descriptions.
   - Added ASCII Four-View Architectural Topology projection in Section 2 across both English and German documentation, mapping View 1 (Client Runtimes & Agent Drivers), View 2 (Core Governance Engine), View 3 (Atomic SQLite Persistence & Concurrency), and View 4 (Governance, Security & Perimeter).

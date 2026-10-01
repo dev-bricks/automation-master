@@ -37,9 +37,13 @@ data/
 *-LAPTOP*
 *-Mac Studio*
 *-MacBook*
+*-IDEAPAD*
+*-IDEAPAD-GEI*
 *-WORKSTATION*
 *-WORKSTATION.*
 *-WORKSTATION-LG.*
+*_WORKSTATION*
+*_WORKSTATION-LG*
 
 # Multi-agent lock coordination
 LOCK
@@ -49,6 +53,9 @@ LOCK*.txt
 LOCK.user.*
 LOCK.until.*
 LOCK.condition.*
+LOCK.dev.*
+LOCK.antigravity.*
+LOCK.bugsearch.*
 LOCK.permissions.json
 .automation-lock
 uv.lock
@@ -77,7 +84,11 @@ dmypy.json
 *.tmp
 *.bak
 *.swp
+*.swo
 *~
 *.log
 *.orig
 *.rej
+Desktop.ini
+ehthumbs.db
+TASKPLAN_*.md

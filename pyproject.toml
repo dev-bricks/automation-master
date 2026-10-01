@@ -59,6 +59,7 @@ Changelog = "https://github.com/dev-bricks/automation-master/blob/main/CHANGELOG
 Security = "https://github.com/dev-bricks/automation-master/blob/main/SECURITY.md"
 "Parent Organization" = "https://github.com/dev-bricks"
 Umbrella = "https://github.com/open-bricks"
+Contributing = "https://github.com/dev-bricks/automation-master/blob/main/CONTRIBUTING.md"
 Notice = "https://github.com/dev-bricks/automation-master/blob/main/NOTICE"
 "Third-Party Licenses" = "https://github.com/dev-bricks/automation-master/blob/main/THIRD_PARTY_LICENSES.md"
 "Third-Party Licenses (Text)" = "https://github.com/dev-bricks/automation-master/blob/main/THIRD_PARTY_LICENSES.txt"
@@ -88,10 +89,10 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"
-addopts = "-ra -v"
+addopts = "-ra -v --basetemp=.pytest_temp"
 pythonpath = ["src"]
 testpaths = ["tests"]
-norecursedirs = [".git", ".pytest_cache", "__pycache__", "build", "dist", ".venv"]
+norecursedirs = [".git", ".pytest_cache", ".pytest_temp", ".pytest_tmp*", "__pycache__", "build", "dist", ".venv", ".hypothesis", ".turbo", ".nyc_output", ".tox"]
 
 [tool.ruff]
 line-length = 100

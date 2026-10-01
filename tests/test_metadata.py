@@ -83,11 +83,12 @@ def test_llms_txt_integrity():
     assert "# automation-master" in llms_text
     assert "AutomationMaster" in llms_text
     assert "RewardPolicy" in llms_text
-    assert "Last-checked: 2026-09-28" in llms_text
+    assert "Last-checked: 2026-10-01" in llms_text
     assert "0.1.6" in llms_text
 
     assert "INV-LOCAL-01" in llms_text
     assert "NOTICE" in llms_text
+    assert "CONTRIBUTING.md" in llms_text
     assert "THIRD_PARTY_LICENSES.txt" in llms_text
     assert "MARKETING-LOG.txt" in llms_text
 
@@ -379,9 +380,9 @@ def test_gitignore_hygiene_patterns():
 
 
 def test_pytest_configuration_and_flags():
-    """Verify pyproject.toml standardizes pytest options to -ra -v."""
+    """Verify pyproject.toml standardizes pytest options to -ra -v and basetemp."""
     pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
-    assert 'addopts = "-ra -v"' in pyproject
+    assert 'addopts = "-ra -v --basetemp=.pytest_temp"' in pyproject
     assert 'pythonpath = ["src"]' in pyproject
     assert 'testpaths = ["tests"]' in pyproject
 
@@ -489,6 +490,7 @@ def test_third_party_licenses_audit_contract():
     assert "2026-09-20" in content
     assert "2026-09-24" in content
     assert "2026-09-28" in content
+    assert "2026-10-01" in content
     assert "Level 1 Software Bill of Materials (SBOM)" in content
     assert "Invariant Cross-Reference Matrix" in content
     assert "Zero External Runtime Dependencies" in content
@@ -769,3 +771,110 @@ def test_third_party_licenses_text_companion():
     assert "INV-ISOLAT-10" in content
     assert "Zero-Copyleft Guarantee" in content
     assert "RunAsInvoker" in content
+
+
+def test_auto_assign_and_label_sync_workflows_contract():
+    """Verify auto-assign.yml and label-sync.yml exist with timeouts and permissions."""
+    assign_file = REPO_ROOT / ".github" / "workflows" / "auto-assign.yml"
+    assert assign_file.is_file(), "auto-assign.yml must exist"
+    assign_text = assign_file.read_text(encoding="utf-8")
+    assert "actions/github-script@v7" in assign_text
+    assert "timeout-minutes: 5" in assign_text
+    assert "cancel-in-progress: true" in assign_text
+    assert "pull-requests: write" in assign_text
+    assert "issues: write" in assign_text
+
+    sync_file = REPO_ROOT / ".github" / "workflows" / "label-sync.yml"
+    assert sync_file.is_file(), "label-sync.yml must exist"
+    sync_text = sync_file.read_text(encoding="utf-8")
+    assert "EndBug/label-sync@v2" in sync_text
+    assert "timeout-minutes: 5" in sync_text
+    assert "cancel-in-progress: true" in sync_text
+    assert "issues: write" in sync_text
+    assert ".github/labels.yml" in sync_text
+
+
+def test_labels_yml_governance_contract():
+    """Verify .github/labels.yml declares canonical 11 governance labels per GOVERNANCE.md §4.2."""
+    labels_file = REPO_ROOT / ".github" / "labels.yml"
+    assert labels_file.is_file(), ".github/labels.yml must exist"
+    labels_text = labels_file.read_text(encoding="utf-8")
+    expected_labels = [
+        "bug",
+        "enhancement",
+        "good first issue",
+        "help wanted",
+        "documentation",
+        "duplicate",
+        "wontfix",
+        "priority: high",
+        "priority: low",
+        "needs-triage",
+        "stale",
+    ]
+    for label in expected_labels:
+        assert f"name: {label}" in labels_text or f"name: '{label}'" in labels_text, (
+            f"Missing canonical label: {label}"
+        )
+
+
+def test_contributing_bilingual_contract():
+    """Verify CONTRIBUTING.md exists with bilingual sections, invariants, and quality gates."""
+    contrib_file = REPO_ROOT / "CONTRIBUTING.md"
+    assert contrib_file.is_file(), "CONTRIBUTING.md must exist in root"
+    contrib_text = contrib_file.read_text(encoding="utf-8")
+    assert "Contributing to automation-master" in contrib_text
+    assert "#english" in contrib_text
+    assert "#deutsch" in contrib_text
+    assert "INV-LOCAL-01" in contrib_text
+    assert "INV-PRIV-02" in contrib_text
+    assert "INV-ISOLAT-10" in contrib_text
+    assert "RunAsInvoker" in contrib_text
+    assert "Plan D" in contrib_text
+    assert "python -m compileall" in contrib_text
+    assert "ruff check" in contrib_text
+    assert "pytest -ra -v" in contrib_text
+
+
+def test_pyproject_contributing_url_and_pytest_basetemp():
+    """Verify pyproject.toml registers Contributing URL and pytest basetemp/norecursedirs."""
+    pyproject = (REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    expected_url = (
+        'Contributing = "https://github.com/dev-bricks/automation-master/blob/main/CONTRIBUTING.md"'
+    )
+    assert expected_url in pyproject
+    assert '--basetemp=.pytest_temp' in pyproject
+    assert '".pytest_temp"' in pyproject
+    assert '".pytest_tmp*"' in pyproject
+    assert '".hypothesis"' in pyproject
+    assert '".tox"' in pyproject
+
+
+def test_gitignore_extended_multi_host_and_lock_tokens():
+    """Verify .gitignore includes multi-host tokens, canonical locks, and system artifacts."""
+    gitignore = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
+    tokens = [
+        "*-IDEAPAD*",
+        "*-IDEAPAD-GEI*",
+        "*_WORKSTATION*",
+        "*_WORKSTATION-LG*",
+        "LOCK.dev.*",
+        "LOCK.antigravity.*",
+        "LOCK.bugsearch.*",
+        "*.swo",
+        "Desktop.ini",
+        "ehthumbs.db",
+        "TASKPLAN_*.md",
+    ]
+    for token in tokens:
+        assert token in gitignore, f"Missing token in .gitignore: {token}"
+
+
+def test_third_party_licenses_audit_recency_20261001():
+    """Verify THIRD_PARTY_LICENSES.md and text companion record 2026-10-01 audit recency."""
+    md_content = (REPO_ROOT / "THIRD_PARTY_LICENSES.md").read_text(encoding="utf-8")
+    assert "2026-10-01" in md_content
+
+    txt_content = (REPO_ROOT / "THIRD_PARTY_LICENSES.txt").read_text(encoding="utf-8")
+    assert "2026-10-01" in txt_content
+    assert "Pfad A Re-Audit: 2026-10-01" in txt_content

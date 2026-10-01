@@ -45,6 +45,7 @@ Part of the dev-bricks ecosystem and open-bricks umbrella. Version 0.1.6, Python
 - [SECURITY.md](https://github.com/dev-bricks/automation-master/blob/main/SECURITY.md): Security policy, local-first storage invariants, and confidential reporting contacts (`security@open-bricks.org`, `security@ellmos.ai`, `support@lukasgeiger.com`, `lukas@open-bricks.org`).
 - [NOTICE](https://github.com/dev-bricks/automation-master/blob/main/NOTICE): Formal copyright and attribution notices.
 - [CHANGELOG.md](https://github.com/dev-bricks/automation-master/blob/main/CHANGELOG.md): Version history.
+- [CONTRIBUTING.md](https://github.com/dev-bricks/automation-master/blob/main/CONTRIBUTING.md): Contributing guidelines, foundational invariants, and quality gates.
 - [THIRD_PARTY_LICENSES.md](https://github.com/dev-bricks/automation-master/blob/main/THIRD_PARTY_LICENSES.md): Third-party software inventory, Level 1 SBOM, and zero-runtime-dependency verification.
 - [THIRD_PARTY_LICENSES.txt](https://github.com/dev-bricks/automation-master/blob/main/THIRD_PARTY_LICENSES.txt): Level 1 SBOM plain-text companion file.
 - [MARKETING-LOG.txt](https://github.com/dev-bricks/automation-master/blob/main/MARKETING-LOG.txt): Discoverability, personas, competitive matrix, and governance audit log.
@@ -70,4 +71,4 @@ event-sourced automation receipts ledger
 ellmos-scheduler credit gate adapter
 ```
 
-## Last-checked: 2026-09-28 (Baseline: 2026-09-20)
+## Last-checked: 2026-10-01 (Baseline: 2026-09-20)
