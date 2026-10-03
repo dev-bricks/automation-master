@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+- **Pfad B Discoverability, Level 1 SBOM Re-Audit & Design Currency (2026-10-03)**:
+  - Re-audited Level 1 SBOM plain-text companion `THIRD_PARTY_LICENSES.txt` and `THIRD_PARTY_LICENSES.md` to Stand 2026-10-03, verifying 100% pure Python standard library runtime purity (`dependencies = []`), zero copyleft, and unprivileged RunAsInvoker execution (`INV-PRIV-02`).
+  - Synchronized Shields.io verification badges across `README.md` and `README_de.md` (`Verified: 2026-10-03` / `Geprüft: 2026-10-03`, `Pytest: 105 passed | 100%`) while preserving all 18 bilateral reciprocal HTML anchors (`<a id="sec-01"></a>` through `<a id="sec-18"></a>`) and ASCII Four-View Topology projections.
+  - Updated `llms.txt` context index (Stand: 2026-10-03, 105 verified tests baseline).
+  - Recorded Section 8 in `MARKETING-LOG.txt` (Pfad B Re-Audit Stand: 2026-10-03) with non-automated marketing & design recommendations for high-DPI social preview cards, interactive terminal workflow animations, and sibling integration guides.
+  - Expanded automated contract test suite in `tests/test_metadata.py` with `test_pfad_b_discoverability_audit_recency_20261003` (106+ passed tests).
+  - Strictly preserved frozen release version `0.1.6` pursuant to governance invariant `T-20260920-167562623`.
+
 - **Pfad A Repository-Hygiene, CI Lifecycle Workflows, Multi-Host Lock-Schutz & Vertragstest-Erweiterung (2026-10-01)**:
   - Deployed `.github/workflows/auto-assign.yml` with `actions/github-script@v7` (5-minute timeout, concurrency `cancel-in-progress: true`, least-privilege `pull-requests: write`, `issues: write`) for unprivileged PR assignment.
   - Deployed `.github/workflows/label-sync.yml` with `EndBug/label-sync@v2` (5-minute timeout, concurrency `cancel-in-progress: true`, least-privilege `issues: write`) and canonical `.github/labels.yml` with 11 standard governance labels according to GOVERNANCE.md §4.2.

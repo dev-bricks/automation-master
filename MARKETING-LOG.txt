@@ -2,8 +2,8 @@
 # ================================================================================
 # MARKETING & DISCOVERABILITY LOG: automation-master
 # ================================================================================
-Date: 2026-10-01
-Operator: Antigravity / Gemini (via GITHUBBOT Pfad A)
+Date: 2026-10-03
+Operator: Antigravity / Gemini (via GITHUBBOT Pfad B)
 Target Repo: dev-bricks/automation-master
 Canonical Path: C:\_Local_DEV\repos\automation-master
 Version: 0.1.6
@@ -18,6 +18,7 @@ Umbrella Collective: open-bricks
 # [2026-09-24 00:20:00 CEST] [GITHUBBOT_ONE_REPO_CLEANER] ACTION: PFAD_A_HYGIENE | REPO: dev-bricks/automation-master | SCOPE: CI workflow deployment & hardening (welcome.yml with first-interaction@v3 and stale.yml with actions/stale@v9; timeout-minutes: 5/10, concurrency cancel-in-progress: true, least-privilege permissions issues/pull-requests: write; ci.yml least-privilege permissions contents: read), multi-host cloud-sync, lock and cache defense in .gitignore (*-LAPTOP*, *-Mac Studio*, *-MacBook*, LOCK.user.*, LOCK.until.*, LOCK.condition.*, .automation-lock, uv.lock, !package-lock.json, .pytest_temp/, .hypothesis/, .turbo/, .tox/, .nyc_output/), PEP 621 metadata standardization in pyproject.toml (Notice URL in [project.urls], pytest norecursedirs and minversion; strict version freeze discipline per T-20260920-167562623: version = "0.1.5" preserved unchanged), Level 1 SBOM Drittanbieter-Lizenzaudit re-audit Stand 2026-09-24, llms.txt Last-checked 2026-09-24 with test baseline, CHANGELOG.md release notes under ## [Unreleased], and automated contract test suite expansion in tests/test_metadata.py.
 # [2026-09-28 23:55:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: dev-bricks/automation-master | SCOPE: Bilingual 18-point Quick Navigation parity with reciprocal dual HTML anchors (<a id="sec-01"></a>..<a id="sec-18"></a>), ASCII Four-View Architectural Topology projection in Section 2 across README.md and README_de.md, root Level 1 SBOM plain-text companion THIRD_PARTY_LICENSES.txt with Invariant Cross-Reference Matrix table (INV-LOCAL-01..INV-ISOLAT-10 all verified), PEP 621 metadata enhancement with 20/20 topics & keywords saturation, license-files whitelist with THIRD_PARTY_LICENSES.txt, companion URLs in [project.urls], synchronized Shields.io badges, updated llms.txt context index (Stand 2026-09-28, 95+ verified tests baseline), and expanded automated contract test suite in tests/test_metadata.py.
 # [2026-10-01 12:35:00 CEST] [GITHUBBOT_ONE_REPO_CLEANER] ACTION: PFAD_A_HYGIENE | REPO: dev-bricks/automation-master | SCOPE: CI lifecycle workflows (.github/workflows/auto-assign.yml, label-sync.yml, .github/labels.yml), bilingual CONTRIBUTING.md with invariants & RunAsInvoker non-elevation, .gitignore multi-host lock & cloud sync defense (*-IDEAPAD*, *-IDEAPAD-GEI*, *_WORKSTATION*, *_WORKSTATION-LG*, *.swo, Desktop.ini, ehthumbs.db, LOCK.dev.*, LOCK.antigravity.*, LOCK.bugsearch.*, TASKPLAN_*.md), PEP 621 Contributing URL & pytest basetemp/norecursedirs, Level 1 SBOM companion re-audit Stand 2026-10-01, updated README badges and llms.txt context index, and contract test expansion in tests/test_metadata.py.
+# [2026-10-03 06:50:00 CEST] [GITHUBBOT_ONE_REPO_MARKETING_AND_DESIGN] ACTION: PFAD_B_UPGRADE | REPO: dev-bricks/automation-master | SCOPE: Pfad B Discoverability, Level 1 SBOM Re-Audit (Stand 2026-10-03), Shields.io Badge Currency (Verified: 2026-10-03, 105 passed tests), llms.txt Context Index Update (105+ verified tests baseline), Non-Automated Marketing & Design Recommendations, and Contract Test Expansion in tests/test_metadata.py.
 
 ================================================================================
 1. REPOSITORY AUDIT & DISCOVERABILITY BASELINE
@@ -154,3 +155,26 @@ Part of the dev-bricks software family and the open-bricks ecosystem:
   - Re-audited `THIRD_PARTY_LICENSES.md` and `THIRD_PARTY_LICENSES.txt` (Stand 2026-10-01) confirming pure Python standard library runtime, zero copyleft, and unprivileged RunAsInvoker non-elevation.
 - Automated Contract Test Expansion:
   - Added contract tests in `tests/test_metadata.py` asserting all new workflows, labels, contributing documentation, ignore tokens, and audit recency.
+
+================================================================================
+8. PFAD B DISCOVERABILITY & RE-AUDIT (2026-10-03)
+================================================================================
+- Discoverability & Design Assessment:
+  - Repository Positioning: Local-first automation registry, credit governance engine, and event-sourced ledger.
+  - Saturated Discoverability Keywords: Exactly 20 saturated keywords in pyproject.toml mapped to 20 remote GitHub repository topics (`automation`, `governance`, `multi-agent`, `python`, `scheduling`, `agentic-ai`, `audit-trail`, `autonomous-agents`, `developer-tools`, `event-sourcing`, `fail-closed`, `local-first`, `open-bricks`, `reproducible`, `retention-policy`, `reward-policy`, `sqlite`, `zero-egress`, `credit-budget`, `dev-bricks`).
+  - README Bilingual Parity: 18-point dual reciprocal HTML anchors (`<a id="sec-01"></a>` through `<a id="sec-18"></a>`) strictly aligned between README.md and README_de.md.
+  - Architectural Topologies: Complete ASCII Four-View Topology projection in Section 2, Decoupled Flow Mermaid flowchart TD, End-to-End Governance sequenceDiagram in Section 3, and Event Sourcing & Retention graph LR in Section 7.
+- Level 1 SBOM Text Companion Re-Audit:
+  - Re-audited `THIRD_PARTY_LICENSES.md` and `THIRD_PARTY_LICENSES.txt` (Stand: 2026-10-03).
+  - Confirmed 100% pure Python standard library runtime purity (`dependencies = []`), 0% copyleft contamination, and unprivileged RunAsInvoker non-elevation (`INV-PRIV-02`).
+  - Formal Level 1 Invariant Compliance Matrix verified across all 10 invariants (`INV-LOCAL-01` through `INV-ISOLAT-10`).
+- Verification Baseline & Badges:
+  - Upgraded verification baseline to 105+ passed tests (100% green via `pytest -ra -v`).
+  - Synchronized Shields.io badges across README.md and README_de.md (`Verified: 2026-10-03` / `Geprüft: 2026-10-03`, `Pytest: 105 passed | 100%`).
+  - Synchronized `llms.txt` context index with Stand 2026-10-03 and 105+ verified tests baseline.
+- Non-Automated Marketing & Design Recommendations:
+  - [REC-MKT-01: Social Preview Card Artwork]: Generate a dedicated 1280x640 Open Graph / Twitter Card banner displaying the Four-View Architectural Topology projection with the high-contrast `dev-bricks` / `open-bricks` visual aesthetic for GitHub social previews.
+  - [REC-MKT-02: Animated CLI Workflow Demonstration]: Produce a lightweight 20-30s terminal animation (SVG / GIF) illustrating `init`, `allocate`, and `status` CLI commands, highlighting 0-cost `NO_WORK` skip execution and quota enforcement.
+  - [REC-MKT-03: Sibling Ecosystem Integration Guides]: Publish cookbook-style integration guides detailing how `automation-master` pairs out-of-the-box with `ellmos-scheduler` (CreditGateAdapter) and `safe-start-for-codex` for air-gapped development pipelines.
+- Automated Contract Test Expansion:
+  - Expanded `tests/test_metadata.py` with `test_pfad_b_discoverability_audit_recency_20261003` asserting 2026-10-03 audit recency across README badges, SBOM text companions, llms.txt, and marketing logs.

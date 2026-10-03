@@ -1,7 +1,7 @@
 # Third-Party Licenses & Software Inventory
 
 Project: automation-master
-Audited: 2026-10-01 against Level 1 SBOM and runtime invariants (Pfad A Re-Audit: 2026-10-01; Pfad B: 2026-09-28).
+Audited: 2026-10-03 against Level 1 SBOM and runtime invariants (Pfad B Re-Audit: 2026-10-03; Pfad A Re-Audit: 2026-10-01; Pfad B: 2026-09-28).
 License: MIT License (see LICENSE and NOTICE)
 Repository: https://github.com/dev-bricks/automation-master
 Parent Organization: dev-bricks (https://github.com/dev-bricks)
