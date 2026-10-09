@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+- **Pfad B Discoverability, Level 1 SBOM Re-Audit & Design Currency (2026-10-09)**:
+  - Re-audited Level 1 SBOM plain-text companion `THIRD_PARTY_LICENSES.txt` and `THIRD_PARTY_LICENSES.md` to Stand 2026-10-09, verifying 100% pure Python standard library runtime purity (`dependencies = []`), zero copyleft, and unprivileged RunAsInvoker execution (`INV-PRIV-02`).
+  - Recorded live traffic baseline via GitHub API (36 clones / 1 unique in 14 days, 0 views).
+  - Synchronized Shields.io verification and statutory badges across `README.md` and `README_de.md` (`Verified: 2026-10-09` / `Geprüft: 2026-10-09`, `Statutory Notice: § 521 BGB` / `Gesetzlicher Hinweis: § 521 BGB`, `Pytest: 107 passed | 100%`) while preserving all 18 bilateral reciprocal HTML anchors (`<a id="sec-01"></a>` through `<a id="sec-18"></a>`) and ASCII Four-View Topology projections.
+  - Updated `llms.txt` context index (Stand: 2026-10-09, 107+ verified tests baseline).
+  - Recorded Section 9 in `MARKETING-LOG.txt` (Pfad B Re-Audit Stand: 2026-10-09) with live traffic telemetry and 3 actionable discoverability & design recommendations (`REC-MKT-20261009-01..03`).
+  - Expanded automated contract test suite in `tests/test_metadata.py` with `test_pfad_b_discoverability_audit_recency_20261009` (107 passed tests).
+  - Strictly preserved frozen release version `0.1.6` pursuant to governance invariant `T-20260920-167562623`.
+
 - **Pfad B Discoverability, Level 1 SBOM Re-Audit & Design Currency (2026-10-03)**:
   - Re-audited Level 1 SBOM plain-text companion `THIRD_PARTY_LICENSES.txt` and `THIRD_PARTY_LICENSES.md` to Stand 2026-10-03, verifying 100% pure Python standard library runtime purity (`dependencies = []`), zero copyleft, and unprivileged RunAsInvoker execution (`INV-PRIV-02`).
   - Synchronized Shields.io verification badges across `README.md` and `README_de.md` (`Verified: 2026-10-03` / `Geprüft: 2026-10-03`, `Pytest: 105 passed | 100%`) while preserving all 18 bilateral reciprocal HTML anchors (`<a id="sec-01"></a>` through `<a id="sec-18"></a>`) and ASCII Four-View Topology projections.

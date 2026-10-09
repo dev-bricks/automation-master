@@ -32,7 +32,7 @@ Part of the dev-bricks ecosystem and open-bricks umbrella. Version 0.1.6, Python
 - Zero network egress; operates 100% offline in standard user mode without administrative elevation.
 
 ## Verification & Status
-- **Test Suite**: Fully automated test suite (105+ verified tests, 100% green via `pytest -ra -v`).
+- **Test Suite**: Fully automated test suite (107+ verified tests, 100% green via `pytest -ra -v`).
 - **Code Hygiene**: 100% compliant with `ruff check` (py310) and `compileall`.
 - **CI Matrix & Workflows**: GitHub Actions multi-OS (`ubuntu-latest`, `windows-latest`, `macos-latest`), Python 3.10-3.13, `welcome.yml` and `stale.yml` triage automation.
 
@@ -71,4 +71,4 @@ event-sourced automation receipts ledger
 ellmos-scheduler credit gate adapter
 ```
 
-## Last-checked: 2026-10-03 (Pfad B Re-Audit: 2026-10-03; Last-checked: 2026-10-01; Baseline: 2026-09-20)
+## Last-checked: 2026-10-09 (Pfad B Re-Audit: 2026-10-09; Pfad B Re-Audit: 2026-10-03; Last-checked: 2026-10-01; Baseline: 2026-09-20)

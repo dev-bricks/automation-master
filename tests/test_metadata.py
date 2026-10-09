@@ -890,24 +890,52 @@ def test_pfad_b_discoverability_audit_recency_20261003():
     assert "2026-10-03" in txt_content
     assert "Pfad B Re-Audit: 2026-10-03" in txt_content
 
-    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
-    assert "Verified: 2026-10-03" in readme_en
-    assert "105%20passed" in readme_en
-
-    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
-    assert "Geprüft: 2026-10-03" in readme_de
-    assert "105%20passed" in readme_de
-
     llms_txt = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
-    assert "Last-checked: 2026-10-03" in llms_txt
-    assert "105+ verified tests" in llms_txt
+    assert "2026-10-03" in llms_txt
 
     m_log = (REPO_ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
     assert "8. PFAD B DISCOVERABILITY & RE-AUDIT (2026-10-03)" in m_log
-    assert "Date: 2026-10-03" in m_log
 
     changelog = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
     expected_entry = (
         "Pfad B Discoverability, Level 1 SBOM Re-Audit & Design Currency (2026-10-03)"
+    )
+    assert expected_entry in changelog
+
+
+def test_pfad_b_discoverability_audit_recency_20261009():
+    """Verify 2026-10-09 Pfad B discoverability audit recency across docs and notice."""
+    md_content = (REPO_ROOT / "THIRD_PARTY_LICENSES.md").read_text(encoding="utf-8")
+    assert "2026-10-09" in md_content
+    assert "Pfad B Re-Audit: 2026-10-09" in md_content
+
+    txt_content = (REPO_ROOT / "THIRD_PARTY_LICENSES.txt").read_text(encoding="utf-8")
+    assert "2026-10-09" in txt_content
+    assert "Pfad B Re-Audit: 2026-10-09" in txt_content
+
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    assert "Verified: 2026-10-09" in readme_en
+    assert "Statutory Notice: § 521 BGB" in readme_en
+    assert "107%20passed" in readme_en
+
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+    assert "Geprüft: 2026-10-09" in readme_de
+    assert "Gesetzlicher Hinweis: § 521 BGB" in readme_de
+    assert "107%20passed" in readme_de
+
+    llms_txt = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
+    assert "Last-checked: 2026-10-09" in llms_txt
+    assert "107+ verified tests" in llms_txt
+
+    m_log = (REPO_ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
+    assert "9. PFAD B DISCOVERABILITY & RE-AUDIT (2026-10-09)" in m_log
+    assert "Date: 2026-10-09" in m_log
+    assert "REC-MKT-20261009-01" in m_log
+    assert "REC-MKT-20261009-02" in m_log
+    assert "REC-MKT-20261009-03" in m_log
+
+    changelog = (REPO_ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+    expected_entry = (
+        "Pfad B Discoverability, Level 1 SBOM Re-Audit & Design Currency (2026-10-09)"
     )
     assert expected_entry in changelog
