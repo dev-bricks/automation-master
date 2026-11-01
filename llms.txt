@@ -71,4 +71,4 @@ event-sourced automation receipts ledger
 ellmos-scheduler credit gate adapter
 ```
 
-## Last-checked: 2026-10-09 (Pfad B Re-Audit: 2026-10-09; Pfad B Re-Audit: 2026-10-03; Last-checked: 2026-10-01; Baseline: 2026-09-20)
+## Last-checked: 2026-11-01 (Pfad A Re-Audit: 2026-11-01; Pfad B Re-Audit: 2026-10-09; Pfad B Re-Audit: 2026-10-03; Last-checked: 2026-10-01; Baseline: 2026-09-20)

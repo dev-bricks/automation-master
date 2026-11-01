@@ -32,6 +32,8 @@ data/
 *conflicted copy*
 * (Kopie)*
 * (Copy)*
+* (kopie)*
+* (copy)*
 *-ASUS*
 *-ASUS-GEI.*
 *-LAPTOP*
@@ -91,4 +93,6 @@ dmypy.json
 *.rej
 Desktop.ini
 ehthumbs.db
+Thumbs.db
+.DS_Store
 TASKPLAN_*.md
