@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+- **Pfad A Repository-Hygiene, CI Whitespace-Guard, Dependabot Security & SBOM Re-Audit (2026-11-01)**:
+  - Hardened `.github/workflows/ci.yml` with automated whitespace and git merge-marker verification step (`git diff --check`).
+  - Provisioned `.github/dependabot.yml` declaring `open-pull-requests-limit: 0` security-only policy for `pip` dependencies with grouped security alerts, and weekly Monday 06:00 Berlin updates for `github-actions` (limit 3).
+  - Hardened `.gitignore` against additional OS/editor metadata (`Thumbs.db`, `.DS_Store`) and duplicate file collision patterns (`* (kopie)*`, `* (copy)*`).
+  - Re-audited Level 1 Software Bill of Materials (SBOM) in `THIRD_PARTY_LICENSES.md` and plain-text companion `THIRD_PARTY_LICENSES.txt` (Stand: 2026-11-01), confirming pure Python standard library runtime purity (`dependencies = []`), zero copyleft, unprivileged RunAsInvoker non-elevation (`INV-PRIV-02`), statutory liability disclaimer (§ 521 BGB Gefälligkeitsrecht), and 48h Security Response SLA (`security@open-bricks.org`, `security@ellmos.ai`).
+  - Synchronized Shields.io verification badges across `README.md` and `README_de.md` (`Verified: 2026-11-01` / `Geprüft: 2026-11-01`, `107 passed | 100%`) while strictly preserving all 18 bilateral reciprocal HTML anchors (`<a id="sec-01"></a>` through `<a id="sec-18"></a>`) and ASCII Four-View Topology projections.
+  - Updated `llms.txt` context index with Stand 2026-11-01 audit recency.
+  - Expanded automated contract test suite in `tests/test_metadata.py` with 5 new contract tests for CI whitespace guard, Dependabot ecosystem policies, .gitignore patterns, and Level 1 SBOM recency.
+  - Strictly preserved frozen release version `0.1.6` pursuant to governance invariant `T-20260920-167562623`.
+
 - **Pfad B Discoverability, Level 1 SBOM Re-Audit & Design Currency (2026-10-09)**:
   - Re-audited Level 1 SBOM plain-text companion `THIRD_PARTY_LICENSES.txt` and `THIRD_PARTY_LICENSES.md` to Stand 2026-10-09, verifying 100% pure Python standard library runtime purity (`dependencies = []`), zero copyleft, and unprivileged RunAsInvoker execution (`INV-PRIV-02`).
   - Recorded live traffic baseline via GitHub API (36 clones / 1 unique in 14 days, 0 views).

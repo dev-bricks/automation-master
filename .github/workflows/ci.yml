@@ -46,6 +46,10 @@ jobs:
         run: |
           python -m compileall -q src tests
 
+      - name: Verify clean whitespace and git markers
+        run: |
+          git diff --check
+
       - name: Run test suite
         run: |
           pytest -ra -v

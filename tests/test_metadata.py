@@ -914,17 +914,17 @@ def test_pfad_b_discoverability_audit_recency_20261009():
     assert "Pfad B Re-Audit: 2026-10-09" in txt_content
 
     readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
-    assert "Verified: 2026-10-09" in readme_en
+    assert "Verified: 2026-10-09" in readme_en or "Verified: 2026-11-01" in readme_en
     assert "Statutory Notice: § 521 BGB" in readme_en
     assert "107%20passed" in readme_en
 
     readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
-    assert "Geprüft: 2026-10-09" in readme_de
+    assert "Geprüft: 2026-10-09" in readme_de or "Geprüft: 2026-11-01" in readme_de
     assert "Gesetzlicher Hinweis: § 521 BGB" in readme_de
     assert "107%20passed" in readme_de
 
     llms_txt = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
-    assert "Last-checked: 2026-10-09" in llms_txt
+    assert "Last-checked: 2026-10-09" in llms_txt or "Last-checked: 2026-11-01" in llms_txt
     assert "107+ verified tests" in llms_txt
 
     m_log = (REPO_ROOT / "MARKETING-LOG.txt").read_text(encoding="utf-8")
@@ -939,3 +939,59 @@ def test_pfad_b_discoverability_audit_recency_20261009():
         "Pfad B Discoverability, Level 1 SBOM Re-Audit & Design Currency (2026-10-09)"
     )
     assert expected_entry in changelog
+
+
+def test_ci_whitespace_and_git_markers_guard():
+    """Verify CI workflow includes git diff --check step for whitespace and merge marker guard."""
+    ci_text = (REPO_ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    assert "Verify clean whitespace and git markers" in ci_text
+    assert "git diff --check" in ci_text
+
+
+def test_dependabot_configuration_contract():
+    """Verify .github/dependabot.yml enforces security-only pip policy and actions schedule."""
+    dep_file = REPO_ROOT / ".github" / "dependabot.yml"
+    assert dep_file.is_file(), ".github/dependabot.yml must exist"
+    content = dep_file.read_text(encoding="utf-8")
+
+    assert 'package-ecosystem: "pip"' in content
+    assert "open-pull-requests-limit: 0" in content
+    assert "applies-to: security-updates" in content
+
+    assert 'package-ecosystem: "github-actions"' in content
+    assert "open-pull-requests-limit: 3" in content
+    assert "Europe/Berlin" in content
+
+
+def test_gitignore_os_and_copy_patterns_contract():
+    """Verify .gitignore contains extended OS metadata and case-insensitive copy tokens."""
+    gi_text = (REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
+    assert "* (kopie)*" in gi_text
+    assert "* (copy)*" in gi_text
+    assert "Thumbs.db" in gi_text
+    assert ".DS_Store" in gi_text
+
+
+def test_third_party_licenses_audit_recency_20261101():
+    """Verify Level 1 SBOM in markdown and plain-text companion records
+    2026-11-01 Pfad A re-audit.
+    """
+    md_content = (REPO_ROOT / "THIRD_PARTY_LICENSES.md").read_text(encoding="utf-8")
+    assert "2026-11-01" in md_content
+    assert "Pfad A Re-Audit: 2026-11-01" in md_content
+
+    txt_content = (REPO_ROOT / "THIRD_PARTY_LICENSES.txt").read_text(encoding="utf-8")
+    assert "2026-11-01" in txt_content
+    assert "Pfad A Re-Audit: 2026-11-01" in txt_content
+
+
+def test_badges_and_llms_recency_20261101():
+    """Verify Shields.io verification badges and llms.txt recency for 2026-11-01."""
+    readme_en = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+    assert "Verified: 2026-11-01" in readme_en
+
+    readme_de = (REPO_ROOT / "README_de.md").read_text(encoding="utf-8")
+    assert "Geprüft: 2026-11-01" in readme_de
+
+    llms_txt = (REPO_ROOT / "llms.txt").read_text(encoding="utf-8")
+    assert "Last-checked: 2026-11-01" in llms_txt
