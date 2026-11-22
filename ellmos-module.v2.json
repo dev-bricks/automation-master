@@ -6,7 +6,7 @@
   "category": "control",
   "kind": "library",
   "status": "experimental",
-  "visibility": "private",
+  "visibility": "public",
   "description": "Local-first registry, reward policy, budget, credit, receipt, and override governance for scheduled automations.",
   "package": "automation-master",
   "entrypoints": {
